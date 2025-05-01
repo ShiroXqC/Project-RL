@@ -5,14 +5,18 @@
 
 class Entity
 {
-    private:
-    int hp, attackpower;
+    protected:
+    int hp; 
+    int attackpower;
     int exp;
     int x, y;
 
+    virtual ~Entity() = default; // Default constructor
+    
     public:
     //Constructor overload
-    Entity(int hp, int attackpower, int exp, int x, int y)
+    Entity(int hp, int attackpower, int exp, int startX, int startY)
+    
     {
         this->hp=hp;
         this->attackpower=attackpower;
@@ -20,7 +24,7 @@ class Entity
         this->x=x;
         this->y=y;
     }
-
+    
     //Default Constructor 
     Entity()
     {
@@ -44,5 +48,8 @@ class Entity
     void setExp() const;
     void setX() const;
     void setY() const;
+    void setPosition (int newX, int newY);
+    void isAlive() const;
+    void takeDamage(int amount);
 
 };

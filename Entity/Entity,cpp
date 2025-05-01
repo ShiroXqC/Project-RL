@@ -1,5 +1,60 @@
 #include"Entity.h"
+int Entity::getHp() const
+{
+    return hp;
+}
 int Entity::getAttackpower() const
 {
-    return 
+    return attackpower;
+}
+int Entity::getExp() const
+{
+    return exp;
+}   
+
+int Entity::getX() const
+{
+    return x;
+}
+int Entity::getY() const
+{
+    return y;
+}           
+void Entity::setHp(int hp)
+{
+    this->hp=hp;
+}
+void Entity::setAttackpower() const
+{
+    this->attackpower=attackpower;
+}   
+void Entity::setExp() const
+{
+    this->exp=exp;
+}
+void Entity::setX() const
+{
+    this->x=x;
+}
+void Entity::setY() const
+{
+    this->y=y;
+}
+void Entity::setPosition (int newX, int newY)
+{
+    this->x=newX;
+    this->y=newY;
+}
+bool Entity::isAlive() const
+{
+    return hp > 0;
+}
+void Entity::getExp(int amount)
+{
+    this->exp+=amount;
+}
+void Entity::takeDamage(int amount)
+{
+    this->hp-=amount;
+    if (hp < 0) hp = 0; // Ensure hp doesn't go negative
 }

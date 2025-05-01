@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(int startX, int startY)
-    : Entity(startX, startY, 10, 3) {}
+    : Entity(10, 3, 0, startX, startY) {}
 
 void Player::move(char direction, const std::vector<std::string>& map) {
     int newX = x, newY = y;
