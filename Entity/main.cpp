@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "item.h"
+#include "Entity.h"
+#include "player.h"
 
 int main (){
     // Create a player object

@@ -49,10 +49,7 @@ bool Entity::getIsAlive() const
 {
     return hp>0;
 }
-void Entity::setExp(int exp) 
-{
-    this->exp=exp;
-}
+
 void Entity::takeDamage(int amount)
 {
     this->hp-=amount;
