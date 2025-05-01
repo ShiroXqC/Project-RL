@@ -10,23 +10,23 @@ class Entity
     int attackpower;
     int exp;
     int x, y;
-
-    virtual ~Entity() = default; // Default constructor
+    const bool isAlive = true;
     
+
     public:
     //Constructor overload
-    Entity(int hp, int attackpower, int exp, int startX, int startY)
+     Entity(int hp, int attackpower, int exp, int startX, int startY)
     
     {
         this->hp=hp;
         this->attackpower=attackpower;
         this->exp=exp;
-        this->x=x;
-        this->y=y;
+        this->x=startX;
+        this->y=startY;
     }
     
     //Default Constructor 
-    Entity()
+     Entity()
     {
         this->hp=0;
         this->attackpower=0;
@@ -41,15 +41,13 @@ class Entity
     int getExp() const;
     int getX() const;
     int getY() const;
-
+    bool getIsAlive() const;
     //Setters
     void setHp(int hp);
-    void setAttackpower() const;
-    void setExp() const;
-    void setX() const;
-    void setY() const;
+    void setAttackpower(int attackpower);
+    void setExp(int exp);
+    void setY(int y);
+    void setX(int y);
     void setPosition (int newX, int newY);
-    void isAlive() const;
     void takeDamage(int amount);
-
 };
