@@ -1,3 +1,79 @@
+int main() {
+    Map gameMap(20, 15);
+    gameMap.startNewTurn();
+    
+    while (true) {
+        // Display map
+        gameMap.display();
+        
+        // Show turn info
+        std::cout << "Turn: " << gameMap.getCurrentTurn() << "\n";
+        std::cout << "Move with WASD, Space to wait, Q to quit\n";
+        
+        // Get input
+        char input;
+        std::cin >> input;
+        
+        if (tolower(input) == 'q') {
+            break;
+        }
+        
+        // Process movement
+        if (!gameMap.handlePlayerMove(input)) {
+            std::cout << "Invalid move!\n";
+        }
+    }
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Map::spawnRandomEnemies (int count) {
+    std::vector<std::string> enemyTypes = {"Goblin", "Slime", "Succubus", "Incubus", "Outcubus", "Binhcubus"};
+    
+    for (int i = 0; i < count; ++i) {
+        auto [x, y] = getRandomEmptyPosition();
+        if (x == -1) break; // No space left
+
+        // Choose a random enemy type
+        std::string type = enemyTypes[rand() % enemyTypes.size()];
+        Enemy* enemy = new Enemy(x, y, type);
+        enemies.push_back(enemy);
+        grid[y][x] = enemy->getSymbol();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include"Item.h"
 #include"Enemy.h"
 #include"Entity.h"
@@ -35,7 +111,7 @@ class Map
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < width - 1; x++) {
                 if (grid[y][x] == '.' && 
-                    !(player && x == player->getX() && y == player->getY())) {
+                    !(x == player->getX() && y == player->getY())) {
                     emptyPositions.emplace_back(x, y);
                 }
             }
@@ -48,11 +124,13 @@ class Map
         return {-1, -1}; // No empty positions
     }
 
+
+
     public:
     //Default Constructor
-    // Default constructor - creates a small empty map
-    Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
-    {
+     // Default constructor - creates a small empty map
+     Map() : width(10), height(10) 
+     {
         // Initialize grid with '.' (empty spaces) by setting the number of rows and column and filling them with _
         grid.resize(height, std::vector<char>(width, '.'));
         
@@ -65,16 +143,9 @@ class Map
             grid[0][j] = '#';        // Top wall
             grid[height-1][j] = '#'; // Bottom wall
         }
-        
-        // Create player in the middle of the map
-        int centerX = width / 2;
-        int centerY = height / 2;
-        player = new Player(centerX, centerY);
-        grid[centerY][centerX] = player->getSymbol();
     }
-    
-    // Parameterized constructor - creates map with specified dimensions
-    Map(int x, int y) : width(x), height(y), currentTurn(0), PlayerTurn(true), player(nullptr) {
+     // Parameterized constructor - creates map with specified dimensions
+     Map(int x, int y) : width(x), height(y) {
         // Basic validation (minimum size 3x3)
         if (x < 3) width = 3;
         if (y < 3) height = 3;
@@ -93,17 +164,17 @@ class Map
         }
 
         //Generate player in the middle of the map 
-        int centerX = width / 2;
-        int centerY = height / 2;
-        player = new Player(centerX, centerY);
-        grid[centerY][centerX] = player->getSymbol();
+        int CenterX = width / 2;
+        int CenterY = height / 2;
+        player = new Player(CenterX, CenterY);
+        grid[CenterY][CenterX] = player -> getSymbol();
         
-        // Remove this line - don't delete the player here!
-        // delete player;
+        //Clean up player
+        delete player;
     }
 
-    // Add method to get player
-    Player* getPlayer() const { return player; }
+     // Add method to get player
+     Player* getPlayer() const { return player; }
 
     // Add method to update player position on grid
     void updatePlayerPosition(int oldX, int oldY, int newX, int newY); 
@@ -118,12 +189,14 @@ class Map
     //Enemy turn handling (placeholder)
     void processEnemyTurns();
 
+
     //Handle item spawning
     void spawnRandomItems(int count);
     void display() const;
 
     //To spawn random enemies
     void spawnRandomEnemies(int count);
+
 
     //Destructor
     ~Map() {

@@ -47,7 +47,9 @@ class Entity
     void setAttackpower(int attackpower);
     void setExp(int exp);
     void setY(int y);
-    void setX(int y);
-    void setPosition (int newX, int newY);
+    void setX(int x); // Fixed: Changed parameter name from y to x
+    void setPosition(int newX, int newY);
     void takeDamage(int amount);
+    //Virtual function
+    virtual void attack(Entity &Target);
 };

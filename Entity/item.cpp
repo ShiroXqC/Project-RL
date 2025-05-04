@@ -1,6 +1,2 @@
-#include "item.h"
+#include "Item.h"
 
-std::string item::getName() const
-{
-    return name;
-}

@@ -1,18 +1,27 @@
-#include <iostream>
+
 #include <string>
 #include "item.h"
 #include "Entity.h"
 #include "player.h"
+#include "Map.h"
+#include <ctime>   // for time()
+#include <cstdlib> // for rand() and srand()
 
-int main (){
-    // Create a player object
-   
-    // Create an item object
-    item healthPotion("Health Potion", 2, 3, true); // Example item
+int main() {
+    srand(static_cast<unsigned int>(time(0))); // Seed random generator
 
-    // Display player and item information
+    // Create a 15x10 map
+    Map gameMap(15, 10);
 
-    std::cout << "Item Name: " << healthPotion.getName() << std::endl;
+    // Spawn some items
+    gameMap.spawnRandomItems(6); // Alternates Sword (S) and HealthPotion (H)
 
+    // Spawn some enemies
+    gameMap.spawnRandomEnemies(8); // Goblins, Slimes, Succubi, etc.
+
+    // Display the map
+    gameMap.display();
+
+    // Just end here for now (no gameplay loop)
     return 0;
 }
