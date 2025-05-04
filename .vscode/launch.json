@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/hiamg/OneDrive/Tài liệu/GitHub/Project-RL",
-      "program": "c:/Users/hiamg/OneDrive/Tài liệu/GitHub/Project-RL/build/Debug/outDebug",
+      "cwd": "c:/Users/hiamg/OneDrive/Tài liệu/GitHub/Project-RL/Entity",
+      "program": "c:/Users/hiamg/OneDrive/Tài liệu/GitHub/Project-RL/Entity/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

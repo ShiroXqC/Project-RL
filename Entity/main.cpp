@@ -9,6 +9,7 @@
 #include "player.h"
 #include "Map.h"
 #include "Enemy.h"
+#include "Inventory.h"
 
 // Function to display the main menu
 void displayMenu() {
