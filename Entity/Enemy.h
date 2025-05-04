@@ -1,9 +1,10 @@
+#pragma once
 #include"Entity.h"
-class Enemy :public Entity
+class Enemy : public Entity
 {
-    private:
+private:
     std::string type; // e.g., Goblin, Slime,Succubus,Incubus,Outcubus,Binhcubus
-    public:
+public:
     //Constructor
     Enemy(int x, int y, std::string type = "Goblin")
     {

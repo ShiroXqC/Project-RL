@@ -21,7 +21,8 @@ public:
     
     // Getters
     char getSymbol() const { return symbol; }
-    std::string getName() const { return name; }
+    const std::string& getName() const { return name; } // Changed to return by const reference
+
     int getX() const { return x; }
     int getY() const { return y; }
     bool isConsumable() const { return isConsumedOnUse; }

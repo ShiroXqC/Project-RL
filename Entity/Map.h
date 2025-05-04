@@ -97,10 +97,89 @@ class Map
         int centerY = height / 2;
         player = new Player(centerX, centerY);
         grid[centerY][centerX] = player->getSymbol();
-        
-        // Remove this line - don't delete the player here!
-        // delete player;
     }
+    
+    // Copy constructor
+    Map(const Map& other) : 
+        grid(other.grid),
+        width(other.width),
+        height(other.height),
+        currentTurn(other.currentTurn),
+        PlayerTurn(other.PlayerTurn)
+    {
+        // Deep copy player
+        if (other.player) {
+            player = new Player(*(other.player));
+        } else {
+            player = nullptr;
+        }
+        
+        // Deep copy enemies
+        enemies.reserve(other.enemies.size());
+        for (const Enemy* e : other.enemies) {
+            if (e) {
+                enemies.push_back(new Enemy(*e)); // Assuming Enemy has a copy constructor
+            }
+        }
+        
+        // Deep copy items
+        items.reserve(other.items.size());
+        for (const Item* i : other.items) {
+            if (i) {
+                items.push_back(new Item(*i)); // Using Item's copy constructor
+            }
+        }
+    }
+    
+    // Assignment operator
+    Map& operator=(const Map& other) {
+        if (this != &other) {
+            // Clean up existing resources
+            for (Enemy* e : enemies) delete e;
+            for (Item* i : items) delete i;
+            delete player;
+            
+            // Copy simple members
+            grid = other.grid;
+            width = other.width;
+            height = other.height;
+            currentTurn = other.currentTurn;
+            PlayerTurn = other.PlayerTurn;
+            
+            // Deep copy player
+            if (other.player) {
+                player = new Player(*(other.player));
+            } else {
+                player = nullptr;
+            }
+            
+            // Deep copy enemies
+            enemies.clear();
+            enemies.reserve(other.enemies.size());
+            for (const Enemy* e : other.enemies) {
+                if (e) {
+                    enemies.push_back(new Enemy(*e));
+                }
+            }
+            
+            // Deep copy items
+            items.clear();
+            items.reserve(other.items.size());
+            for (const Item* i : other.items) {
+                if (i) {
+                    items.push_back(new Item(*i));
+                }
+            }
+        }
+        return *this;
+    }
+
+    // Item and entity interaction
+    Item* getItemAt(int x, int y) const;
+    Enemy* getEnemyAt(int x, int y) const;
+    bool hasItemAt(int x, int y) const;
+    bool hasEnemyAt(int x, int y) const;
+    void removeItem(Item* item);
 
     // Add method to get player
     Player* getPlayer() const { return player; }
