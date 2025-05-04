@@ -10,7 +10,7 @@ class Map
 {
     private:
     //Map variable
-    std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char
+    std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
     std::vector<Enemy*> enemies; //Vector containing Enemy pointer
     std::vector<Item*> items; //Vector containing Item pointer 
     int width;
