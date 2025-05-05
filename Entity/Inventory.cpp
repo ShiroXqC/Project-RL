@@ -17,7 +17,7 @@ void Inventory::listItems() const {
         std::cout << i + 1 << ". " << items[i]->getName() << std::endl;
     }
 }
-void Inventory::useItem(int index) {
+void Inventory::useItem(int index, Player& player) {
     if (index < 0 || index >= items.size()) {
         std::cout << "Invalid item index!" << std::endl;
         return; // Invalid index

@@ -1,27 +1,17 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(int x, int y, int inventoryCapacity) 
-    : Entity(x, y, '@', 100, 10),  // Example: symbol '@', 100 HP, 10 damage
-      inventory(inventoryCapacity),
-      maxHealth(100),
-      currentHealth(100),
-      attackDamage(10) {}
-
-Inventory& Player::getInventory() {
-    return inventory;
-}
 
 bool Player::useItem(int index) {
     if (index < 0 || index >= inventory.getItemCount()) {
         std::cout << "Invalid item index!\n";
         return false;
     }
-    return inventory.useItem(index, *this);
+    return true;
 }
 
 void Player::heal(int amount) {
-    currentHealth += amount;
+    currentHealth += amount; 
     if (currentHealth > maxHealth) {
         currentHealth = maxHealth;
     }
@@ -47,11 +37,6 @@ int Player::getMaxHealth() const {
 int Player::getAttackDamage() const {
     return attackDamage;
 }
-
-bool Player::isAlive() const {
-    return currentHealth > 0;
-}
-
 void Player::addToInventory(std::unique_ptr<Item> item) {
     if (!inventory.addItem(std::move(item))) {
         std::cout << "Couldn't add item to inventory - full!\n";
@@ -61,7 +46,7 @@ void Player::addToInventory(std::unique_ptr<Item> item) {
 void Player::listInventory() const {
     inventory.listItems();
 }
-
+/*
 bool Player::hasItem(const std::string& itemName) const {
     for (int i = 0; i < inventory.getItemCount(); ++i) {
         if (inventory.getItem(i)->getName() == itemName) {
@@ -71,7 +56,7 @@ bool Player::hasItem(const std::string& itemName) const {
     return false;
 }
 
-// Equipment-related methods (if you want to expand to equipment system)
+ //Equipment-related methods (if you want to expand to equipment system)
 void Player::equipWeapon(std::unique_ptr<Item> weapon) {
     if (weapon->getType() == ItemType::WEAPON) {
         equippedWeapon = std::move(weapon);
@@ -84,3 +69,4 @@ void Player::unequipWeapon() {
         attackDamage = 10; // Reset to base damage
     }
 }
+    */

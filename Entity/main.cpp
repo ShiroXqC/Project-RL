@@ -56,7 +56,7 @@ void displayHUD(const Map& gameMap) {
     // std::cout << "HP: " << player->getHp() << "\n";
     
     std::cout << "Position: (" << player->getX() << ", " << player->getY() << ")\n";
-    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit\n";
+    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit [I]Inventory\n";
 }
 void showInventoryScreen(Player& player) {
     system("cls");
@@ -88,38 +88,47 @@ void runGame() {
     gameMap.startNewTurn();
     
     bool running = true;
+    while (running) {
+        system("cls"); // Clear screen yes
+        gameMap.display();
+        displayHUD(gameMap); // Display THEHUB
         // Get player input (without requiring Enter key)
-        char input = _getch();
-        
-        // Process input
+        char input = _getch();               
+          // Process input
         switch (tolower(input)) {
             case 'q': // Quit game
                 running = false;
                 break;
-                
+
             case 'w': // Up
             case 'a': // Left
             case 's': // Down
             case 'd': // Right
             case ' ': // Wait/skip turn
                 if (!gameMap.handlePlayerMove(input)) {
-                    std::cout << "\nInvalid move! Press any key to continue...";
-                    _getch();
+                    // If handlePlayerMove returns false, either the move was invalid
+                    // or the player died during the move
+                    if (!gameMap.getPlayer()->getIsAlive()) {
+                        continue; // This will trigger the game over check next loop
+                    } else {
+                        std::cout << "\nInvalid move! Press any key to continue...";
+                        _getch();
+                    }
                 }
                 break;
-                
-                case 'i': // Open inventory
-                showInventoryScreen(*gameMap.getPlayer()); // Pass player reference
-                break;
-                
+
+            case 'i': // Open inventory
+            showInventoryScreen(*gameMap.getPlayer()); // Pass player reference
+            break;
+
             default:
                 std::cout << "\nUnknown command. Press any key to continue...";
                 _getch();
                 break;
-           
         }
     }
-
+                
+}
 int main() {
     int choice;
     bool exit = false;

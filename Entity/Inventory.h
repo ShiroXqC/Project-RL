@@ -20,7 +20,8 @@ class Inventory {
 
     bool addItem(std::unique_ptr<Item> item); // Add an item to the inventory
     void listItems() const; // List all items in the inventory
-    bool useItem(int index, Player& player); // Use an item from the inventory
+    void useItem(int index, Player& player); // Use an item from the inventory
+
 
 
     // Getters
