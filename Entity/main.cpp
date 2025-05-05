@@ -30,7 +30,7 @@ void displayInstructions() {
     std::cout << "  S - Move down\n";
     std::cout << "  D - Move right\n";
     std::cout << "  Space - Wait a turn\n";
-    std::cout << "  I - Open Inventory (not implemented yet)\n";
+    std::cout << "  I - Open Inventory\n";
     std::cout << "  Q - Quit game\n\n";
     
     std::cout << "Symbols:\n";
@@ -58,6 +58,21 @@ void displayHUD(const Map& gameMap) {
     std::cout << "Position: (" << player->getX() << ", " << player->getY() << ")\n";
     std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit\n";
 }
+void showInventoryScreen(Player& player) {
+    system("cls");
+    player.getInventory().listItems();
+    std::cout << "\nSelect item to use (1-" << player.getInventory().getItemCount() 
+              << "), [E] to equip, or any other key to return: ";
+    
+    char input = _getch();
+    if (isdigit(input)) {
+        int index = input - '1'; // Convert to 0-based index
+        if (index >= 0 && index < player.getInventory().getItemCount()) {
+            player.useItem(index);
+        }
+    }
+    // Add equipment handling here if needed
+}
 
 // Function to run the game loop
 void runGame() {
@@ -73,18 +88,6 @@ void runGame() {
     gameMap.startNewTurn();
     
     bool running = true;
-    
-    // Game loop
-    while (running) {
-        // Clear screen (Windows specific - replace with appropriate command for other OS)
-        system("cls");
-        
-        // Display the map
-        gameMap.display();
-        
-        // Display HUD
-        displayHUD(gameMap);
-        
         // Get player input (without requiring Enter key)
         char input = _getch();
         
@@ -105,18 +108,17 @@ void runGame() {
                 }
                 break;
                 
-            case 'i': // Inventory (placeholder)
-                std::cout << "\nInventory not implemented yet. Press any key to continue...";
-                _getch();
+                case 'i': // Open inventory
+                showInventoryScreen(*gameMap.getPlayer()); // Pass player reference
                 break;
                 
             default:
                 std::cout << "\nUnknown command. Press any key to continue...";
                 _getch();
                 break;
+           
         }
     }
-}
 
 int main() {
     int choice;

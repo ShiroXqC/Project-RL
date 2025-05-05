@@ -280,4 +280,4 @@ void Map::display() const {
         }
         std::cout << std::endl;
     }
-}
+};
