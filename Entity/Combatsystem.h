@@ -1,17 +1,15 @@
 #pragma once
 #include "Entity.h"
 #include "Player.h"
-#include"Enemy.h"
+#include "Enemy.h"
+
 class CombatSystem {
-    private:
+private:
     bool playerTurn;
 
-    public:
-    CombatSystem() :playerTurn(true) {}
+public:
+    CombatSystem() : playerTurn(true) {}
 
-    void startCombat(*Player player, Enemy *enemy);
-
-    bool processTurn(Player *player, Enemy*enemy)
-
-    
-}
+    void startCombat(Player* player, Enemy* enemy);
+    bool processTurn(Player* player, Enemy* enemy);
+};
