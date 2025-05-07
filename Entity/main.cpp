@@ -9,7 +9,6 @@
 #include "player.h"
 #include "Map.h"
 #include "Enemy.h"
-#include "Inventory.h"
 
 // Function to display the main menu
 void displayMenu() {
@@ -30,7 +29,7 @@ void displayInstructions() {
     std::cout << "  S - Move down\n";
     std::cout << "  D - Move right\n";
     std::cout << "  Space - Wait a turn\n";
-    std::cout << "  I - Open Inventory\n";
+    std::cout << "  I - Open Inventory (not implemented yet)\n";
     std::cout << "  Q - Quit game\n\n";
     
     std::cout << "Symbols:\n";
@@ -48,30 +47,20 @@ void displayInstructions() {
 }
 
 // Function to display gameplay HUD
-void displayHUD(const Map& gameMap) {
+ void displayHUD(const Map& gameMap) {
     Player* player = gameMap.getPlayer();
     
     std::cout << "Turn: " << gameMap.getCurrentTurn() << "\n";
-    // If you add health and other stats to player later:
-    // std::cout << "HP: " << player->getHp() << "\n";
+    
+    // Display player health with health bar
+    std::cout << "HP: " << player->getHealthBar() << " " 
+              << player->getHp() << "/" << player->getMaxHp() << "\n";
+    
+    // Attack power
+    std::cout << "Attack: " << player->getAttackpower() << "\n";
     
     std::cout << "Position: (" << player->getX() << ", " << player->getY() << ")\n";
-    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit [I]Inventory\n";
-}
-void showInventoryScreen(Player& player) {
-    system("cls");
-    player.getInventory().listItems();
-    std::cout << "\nSelect item to use (1-" << player.getInventory().getItemCount() 
-              << "), [E] to equip, or any other key to return: ";
-    
-    char input = _getch();
-    if (isdigit(input)) {
-        int index = input - '1'; // Convert to 0-based index
-        if (index >= 0 && index < player.getInventory().getItemCount()) {
-            player.useItem(index);
-        }
-    }
-    // Add equipment handling here if needed
+    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit\n";
 }
 
 // Function to run the game loop
@@ -88,18 +77,36 @@ void runGame() {
     gameMap.startNewTurn();
     
     bool running = true;
+    
+    // Game loop
     while (running) {
-        system("cls"); // Clear screen yes
+        // Clear screen (Windows specific - replace with appropriate command for other OS)
+        system("cls");
+        
+        // Display the map
         gameMap.display();
-        displayHUD(gameMap); // Display THEHUB
+        
+        // Display HUD
+        displayHUD(gameMap);
+        
+        // Check if player is dead
+        if (!gameMap.getPlayer()->getIsAlive()) {
+            std::cout << "\n===== GAME OVER =====\n";
+            std::cout << "You have been defeated!\n";
+            std::cout << "Press any key to return to main menu...\n";
+            _getch();
+            return;
+        }
+        
         // Get player input (without requiring Enter key)
-        char input = _getch();               
-          // Process input
+        char input = _getch();
+        
+        // Process input
         switch (tolower(input)) {
             case 'q': // Quit game
                 running = false;
                 break;
-
+                
             case 'w': // Up
             case 'a': // Left
             case 's': // Down
@@ -116,18 +123,18 @@ void runGame() {
                     }
                 }
                 break;
-
-            case 'i': // Open inventory
-            showInventoryScreen(*gameMap.getPlayer()); // Pass player reference
-            break;
-
+                
+            case 'i': // Inventory (placeholder)
+                std::cout << "\nInventory not implemented yet. Press any key to continue...";
+                _getch();
+                break;
+                
             default:
                 std::cout << "\nUnknown command. Press any key to continue...";
                 _getch();
                 break;
         }
     }
-                
 }
 int main() {
     int choice;

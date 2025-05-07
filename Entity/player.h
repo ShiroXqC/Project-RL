@@ -7,53 +7,49 @@
 
 class Player: public Entity
 {
-    protected:
+    private:
     Inventory inventory;
-    int x; // Position X
-    int y; // Position Y
-    int Health;
-    int maxHealth;
-    int attackpower;
-    int currentHealth;
-    int attackDamage;
     char player_symbol = '@';
-
-   
-    // std::vector<Item*> inventory;
+    int maxHealth;
+    int currentHealth;
 
     public:
-    // Constructor
-    Player(int startX, int startY, int inventoryCapacity = 10) : x(startX), y(startY), inventory(inventoryCapacity){}
+    // Constructor that properly initializes the base class
+    Player(int startX, int startY, int inventoryCapacity = 10) 
+        : Entity(20, 5, 0, startX, startY), // hp=20, attackpower=5, exp=0
+          inventory(inventoryCapacity),
+          maxHealth(20),
+          currentHealth(20)
+    {
+        // Any additional Player-specific initialization
+    }
     
-    // Copy constructor
-    Player(const Player& other) : x(other.x), y(other.y), player_symbol(other.player_symbol) {}
+    // Copy constructor - calls base class constructor
+    Player(const Player& other) 
+        : Entity(other),
+          inventory(other.inventory),
+          player_symbol(other.player_symbol),
+          maxHealth(other.maxHealth),
+          currentHealth(other.currentHealth)
+    {
+    }
     
     // Getters
-    int getHealth() const;
-    int getMaxHealth() const;
-    int getAttackPower() const;
-    int getX() const { return x; }
-    int getY() const { return y; }
     char getSymbol() const { return player_symbol; }
     Inventory& getInventory() { return inventory; }
     bool useItem(int index);
-    bool IsAlive() const;
-    int getCurrentHealth() const { return Health; }
-    int getAttackDamage() const;
-    bool getIsAlive() const { return true; } 
-
-    //Item 
+    int getMaxHealth() const;
+    int getHealth() const;
+    
+    // Override virtual methods from Entity
+    void attack(Entity& target) override;
+    
+    // Item management
     void addToInventory(std::unique_ptr<Item> item);
     void listInventory() const;
     bool hasItem(const std::string& itemName) const;
-    void equipWeapon(std::unique_ptr<Item> weapon);
-
-
-    // Setters (for movement)
-    void SetPosition(int newX, int newY) { x = newX; y = newY; }
-    void SetPlayerX(int startX) { x = startX; }
-    void SetPlayerY(int startY) { y = startY; }
-    // Setters for health and attack
+    
+    // Health management
     void heal(int amount);
-    void takeDamage(int amount);
+    void takeDamage(int amount) override;
 };
