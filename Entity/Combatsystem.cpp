@@ -1,9 +1,14 @@
-void Combatsystem::startCombat(Player* player, Enemy* enemy) {
+#include "CombatSystem.h"
+#include <iostream>
+
+void CombatSystem::startCombat(Player* player, Enemy* enemy) {
     playerTurn = true; // Player goes first
     std::cout << "\n=== Combat Started ===" << std::endl;
 }
 
-bool processTurn(Player* player, Enemy* enemy) {
+bool CombatSystem::processTurn(Player* player, Enemy* enemy) {
+    if (!player || !enemy) return true; // End combat if either is null
+    
     if (playerTurn) {
         // Player's turn
         std::cout << "\nYour turn:" << std::endl;
@@ -21,7 +26,14 @@ bool processTurn(Player* player, Enemy* enemy) {
                           << " damage to the enemy!" << std::endl;
                 break;
             case 2:
-                // Implement item usage
+                // Show inventory and let player choose item
+                player->listInventory();
+                std::cout << "Choose item (0 to cancel): ";
+                int itemIndex;
+                std::cin >> itemIndex;
+                if (itemIndex > 0) {
+                    player->useItem(itemIndex - 1);
+                }
                 break;
             default:
                 std::cout << "Invalid choice!" << std::endl;

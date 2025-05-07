@@ -3,7 +3,23 @@
 #include "Sword.h"
 #include <cstdlib>
 
-//To update player position 
+// Add the missing removeEnemy function
+void Map::removeEnemy(const Enemy* enemy) {
+    if (!enemy) return;
+    
+    // Find and remove from grid
+    grid[enemy->getY()][enemy->getX()] = '.';
+    
+    // Find and remove from enemies vector
+    for (auto it = enemies.begin(); it != enemies.end(); ++it) {
+        if (*it == enemy) {
+            delete *it;  // Free memory
+            enemies.erase(it);  // Remove from vector
+            break;
+        }
+    }
+}
+
 void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY) 
 {
     if (isInBounds(oldX, oldY)) 
@@ -16,7 +32,6 @@ void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY)
     }
 }
 
-//To start a new turn 
 void Map::startNewTurn() 
 {
     currentTurn++;
@@ -24,12 +39,10 @@ void Map::startNewTurn()
     std::cout << "===Turn "<< currentTurn <<" ===\n";
 }
 
-//To get current turn
 int Map::getCurrentTurn() const {
     return currentTurn;
 }
 
-// Check if there's an item at a location
 bool Map::hasItemAt(int x, int y) const {
     for (const Item* item : items) {
         if (item && item->getX() == x && item->getY() == y) {
@@ -39,7 +52,6 @@ bool Map::hasItemAt(int x, int y) const {
     return false;
 }
 
-// Check if there's an enemy at a location
 bool Map::hasEnemyAt(int x, int y) const {
     for (const Enemy* enemy : enemies) {
         if (enemy && enemy->getX() == x && enemy->getY() == y) {
@@ -49,7 +61,6 @@ bool Map::hasEnemyAt(int x, int y) const {
     return false;
 }
 
-// Get item at the given position
 Item* Map::getItemAt(int x, int y) const {
     for (Item* item : items) {
         if (item && item->getX() == x && item->getY() == y) {
@@ -59,7 +70,6 @@ Item* Map::getItemAt(int x, int y) const {
     return nullptr;
 }
 
-// Get enemy at the given position
 Enemy* Map::getEnemyAt(int x, int y) const {
     for (Enemy* enemy : enemies) {
         if (enemy && enemy->getX() == x && enemy->getY() == y) {
@@ -69,8 +79,7 @@ Enemy* Map::getEnemyAt(int x, int y) const {
     return nullptr;
 }
 
-// Remove item from game
-void Map::removeItem(Item* item) {
+void Map::removeItem(const Item* item) {
     if (!item) return;
     
     // Find and remove from grid
@@ -86,7 +95,6 @@ void Map::removeItem(Item* item) {
     }
 }
 
-//To handle player movement
 bool Map::handlePlayerMove(char input) {
     if (!PlayerTurn) return false;
 
@@ -126,27 +134,52 @@ bool Map::handlePlayerMove(char input) {
             if (item->isConsumable()) {
                 // In a more complete game, apply item effects here
                 std::cout << "You used the " << item->getName() << "!\n";
+                
+                // Health potion logic
+                if (item->getName() == "Health Potion") {
+                    player->heal(5); // Heal by 5 points
+                }
+                
                 removeItem(item);
             }
             
             // Update player position
             grid[player->getY()][player->getX()] = '.';
-            player->SetPosition(newX, newY);
+            player->setPosition(newX, newY);
             grid[newY][newX] = player->getSymbol();
             moved = true;
         }
         // Check for enemy at destination
         else if (hasEnemyAt(newX, newY)) {
             Enemy* enemy = getEnemyAt(newX, newY);
-            std::cout << "You attack the " << enemy->getSymbol() << "!\n";
-            // Combat logic would go here in a more complete game
+            std::cout << "You attack the enemy!\n";
+            
+            // Implement combat logic
+            player->attack(*enemy);
+            std::cout << "You dealt " << player->getAttackpower() << " damage!\n";
+            
+            // Check if enemy died
+            if (!enemy->getIsAlive()) {
+                std::cout << "You defeated the enemy!\n";
+                removeEnemy(enemy);
+                
+                // Move to the position
+                grid[player->getY()][player->getX()] = '.';
+                player->setPosition(newX, newY);
+                grid[newY][newX] = player->getSymbol();
+            } else {
+                // Enemy survives and counter-attacks
+                enemy->attack(*player);
+                std::cout << "The enemy counter-attacks for " << enemy->getAttackpower() << " damage!\n";
+            }
+            
             moved = true;
         }
         // Empty space, just move there
         else if (grid[newY][newX] == '.') {
             // Update player position on grid
             grid[player->getY()][player->getX()] = '.';
-            player->SetPosition(newX, newY);
+            player->setPosition(newX, newY);
             grid[newY][newX] = player->getSymbol();
             moved = true;
         }
@@ -165,10 +198,12 @@ bool Map::handlePlayerMove(char input) {
     return moved;
 }
 
-//To process enemy turn 
 void Map::processEnemyTurns() {
     // Simple enemy movement - random walk
     for (Enemy* enemy : enemies) {
+        // Skip if enemy no longer exists
+        if (!enemy || !enemy->getIsAlive()) continue;
+        
         // Get current position
         int oldX = enemy->getX();
         int oldY = enemy->getY();
@@ -181,7 +216,7 @@ void Map::processEnemyTurns() {
         int newY = oldY + dy;
         
         // Check if moving toward player for a basic "AI"
-        if (player) {
+        if (player && player->getIsAlive()) {
             // Calculate distance to player
             int currentDist = abs(oldX - player->getX()) + abs(oldY - player->getY());
             int newDist = abs(newX - player->getX()) + abs(newY - player->getY());
@@ -204,11 +239,14 @@ void Map::processEnemyTurns() {
         }
         
         // Check if can attack player (adjacent)
-        if (player && 
+        if (player && player->getIsAlive() && 
             abs(newX - player->getX()) <= 1 && 
             abs(newY - player->getY()) <= 1) {
-            // Attack player logic would go here
-            std::cout << "Enemy attacks you!\n";
+            
+            // Attack player
+            enemy->attack(*player);
+            std::cout << "Enemy attacks you for " << enemy->getAttackpower() << " damage!\n";
+            
             continue; // Skip movement after attack
         }
         
@@ -221,7 +259,6 @@ void Map::processEnemyTurns() {
     }
 }
 
-// Handle items spawning
 void Map::spawnRandomItems(int count) {
     for (int i = 0; i < count; ++i) {
         // Get random empty location
@@ -240,7 +277,6 @@ void Map::spawnRandomItems(int count) {
     }
 }
 
-// Implement spawnRandomEnemies
 void Map::spawnRandomEnemies(int count) {
     std::vector<std::string> enemyTypes = {"Goblin", "Slime", "Succubus", "Incubus", "Outcubus", "Binhcubus"};
     
@@ -282,9 +318,23 @@ void Map::display() const {
     }
 }
 
-// In Map.cpp
+// Combat system functions
+void Map::startCombat(Enemy* enemy) {
+    if (!enemy || !player) return;
+    
+    inCombat = true;
+    currentEnemy = enemy;
+    std::cout << "\n=== Combat Started ===" << std::endl;
+}
+
+void Map::endCombat() {
+    inCombat = false;
+    currentEnemy = nullptr;
+    std::cout << "\n=== Combat Ended ===" << std::endl;
+}
+
 void Map::processCombatTurn(int playerChoice) {
-    if (!inCombat || !currentEnemy) return;
+    if (!inCombat || !currentEnemy || !player) return;
     
     static bool playerTurn = true;
     
@@ -312,15 +362,13 @@ void Map::processCombatTurn(int playerChoice) {
     if (!currentEnemy->getIsAlive()) {
         std::cout << "Enemy defeated!" << std::endl;
         removeEnemy(currentEnemy);
-        inCombat = false;
-        currentEnemy = nullptr;
+        endCombat();
         return;
     }
     if (!player->getIsAlive()) {
         std::cout << "You were defeated!" << std::endl;
         // Handle game over
-        inCombat = false;
-        currentEnemy = nullptr;
+        endCombat();
         return;
     }
     
