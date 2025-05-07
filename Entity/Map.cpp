@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 // Add the missing removeEnemy function
-void Map::removeEnemy(Enemy* enemy) {
+void Map::removeEnemy(const Enemy* enemy) {
     if (!enemy) return;
     
     // Find and remove from grid
@@ -79,7 +79,7 @@ Enemy* Map::getEnemyAt(int x, int y) const {
     return nullptr;
 }
 
-void Map::removeItem(Item* item) {
+void Map::removeItem(const Item* item) {
     if (!item) return;
     
     // Find and remove from grid
