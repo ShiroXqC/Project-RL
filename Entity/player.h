@@ -5,7 +5,7 @@
 #include "Inventory.h"
 #include "Item.h"
 
-class Player
+class Player: public Entity
 {
     protected:
     Inventory inventory;

@@ -4,6 +4,9 @@ class Enemy : public Entity
 {
 private:
     std::string type; // e.g., Goblin, Slime,Succubus,Incubus,Outcubus,Binhcubus
+    bool inCombat;
+    Enemy* currentEnemy;
+
 public:
     //Constructor
     Enemy(int x, int y, std::string type = "Goblin")
@@ -32,4 +35,6 @@ public:
         else if (type == "Binhcubus") return 'B';
         else return 'E'; // Default Enemy
     }
+    bool isInCombat() const { return inCombat; }
+    void processCombatTurn(int playerChoice); // Implement in Map.cpp
 };

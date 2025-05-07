@@ -281,3 +281,55 @@ void Map::display() const {
         std::cout << std::endl;
     }
 }
+
+// In Map.cpp
+void Map::processCombatTurn(int playerChoice) {
+    if (!inCombat || !currentEnemy) return;
+    
+    static bool playerTurn = true;
+    
+    if (playerTurn) {
+        switch(playerChoice) {
+            case 1: // Attack
+                player->attack(*currentEnemy);
+                std::cout << "You dealt " << player->getAttackpower() 
+                          << " damage!" << std::endl;
+                break;
+            case 2: // Use Item
+                // Implement item usage from inventory
+                break;
+            default:
+                return;
+        }
+    } else {
+        // Enemy's turn
+        currentEnemy->attack(*player);
+        std::cout << "The enemy dealt " << currentEnemy->getAttackpower() 
+                  << " damage!" << std::endl;
+    }
+    
+    // Check if combat ended
+    if (!currentEnemy->getIsAlive()) {
+        std::cout << "Enemy defeated!" << std::endl;
+        removeEnemy(currentEnemy);
+        inCombat = false;
+        currentEnemy = nullptr;
+        return;
+    }
+    if (!player->getIsAlive()) {
+        std::cout << "You were defeated!" << std::endl;
+        // Handle game over
+        inCombat = false;
+        currentEnemy = nullptr;
+        return;
+    }
+    
+    // Switch turns
+    playerTurn = !playerTurn;
+    
+    if (playerTurn) {
+        std::cout << "\nYour turn. Choose action:\n";
+        std::cout << "1. Attack\n";
+        std::cout << "2. Use Item\n";
+    }
+}
