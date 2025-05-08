@@ -51,5 +51,5 @@ class Player: public Entity
     
     // Health management
     void heal(int amount);
-    void takeDamage(int amount) override;
+    void takeDamage(int amount);
 };

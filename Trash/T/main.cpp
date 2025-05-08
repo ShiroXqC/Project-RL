@@ -53,8 +53,8 @@ void displayInstructions() {
     std::cout << "Turn: " << gameMap.getCurrentTurn() << "\n";
     
     // Display player health with health bar
-    std::cout << "HP: " << player->getHealthBar() << " " 
-              << player->getHp() << "/" << player->getMaxHp() << "\n";
+    std::cout << "HP: " << player->getHealth() << " " 
+              << player->getHp() << "/" << player->getHp() << "\n";
     
     // Attack power
     std::cout << "Attack: " << player->getAttackpower() << "\n";
