@@ -21,6 +21,11 @@ bool Player::useItem(int index) {
     inventory.useItem(index, *this);
     return true;
 }
+// Gain experience and level up 
+void Player::gainExperience(int exp) {
+    experience += exp;
+}
+
 
 void Player::heal(int amount) {
     int oldHp = getHp();

@@ -9,6 +9,25 @@
 #include "player.h"
 #include "Map.h"
 #include "Enemy.h"
+#include "Combat.h"
+
+void handleInventory(Player* player);
+void handleInventory(Player* player) {
+    std::cout << "\n==== INVENTORY ====\n";
+    player->getInventory().listItems();
+    
+    std::cout << "\nEnter item number to use (or 0 to exit): ";
+    int choice;
+    std::cin >> choice;
+    
+    if (choice > 0 && choice <= player->getInventory().getItemCount()) {
+        player->getInventory().useItem(choice - 1, *player);
+    } else if (choice == 0) {
+        return; // Exit inventory
+    } else {
+        std::cout << "Invalid choice!\n";
+    }
+}
 
 // Function to display the main menu
 void displayMenu() {
@@ -60,7 +79,7 @@ void displayInstructions() {
     std::cout << "Attack: " << player->getAttackpower() << "\n";
     
     std::cout << "Position: (" << player->getX() << ", " << player->getY() << ")\n";
-    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [Q]Quit\n";
+    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [I]Inventory [Q]Quit\n";
 }
 
 // Function to run the game loop
@@ -123,11 +142,10 @@ void runGame() {
                     }
                 }
                 break;
-                
-            case 'i': // Inventory (placeholder)
-                std::cout << "\nInventory not implemented yet. Press any key to continue...";
-                _getch();
-                break;
+            
+            case 'i': // Inventory
+            handleInventory(gameMap.getPlayer());
+            break;
                 
             default:
                 std::cout << "\nUnknown command. Press any key to continue...";
