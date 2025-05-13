@@ -40,10 +40,12 @@ class Player: public Entity
     // Getters
     char getSymbol() const { return player_symbol; }
     Inventory& getInventory() { return inventory; }
+    const Inventory& getInventory() const { return inventory; }
     bool useItem(int index);
     int getMaxHealth() const;
     int getHealth() const;
     void gainExperience(int exp);
+    void showInventory() const;
 
     // Override virtual methods from Entity
     void attack(Entity& target) override;

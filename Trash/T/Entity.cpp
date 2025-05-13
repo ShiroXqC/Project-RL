@@ -17,7 +17,7 @@ bool Entity::getIsAlive() const{ return hp>0;}
 void Entity::takeDamage(int amount)
 {
     this->hp-=amount;
-    if (hp < 0) hp = 0; // Ensure hp doesn't go negative
+    if (hp < 0) hp = 0;   // Ensure hp doesn't go negative
 }
 //Virtual function 
 void Entity::attack(Entity &target)

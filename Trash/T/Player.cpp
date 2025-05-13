@@ -71,3 +71,18 @@ void Player::addToInventory(std::unique_ptr<Item> item) {
 void Player::listInventory() const {
     inventory.listItems();
 }
+// Inventory management
+#include <iostream> // Required for std::cout
+
+void Player::showInventory() const {
+    const Inventory& inv = getInventory();  
+
+    if (inv.size() == 0) {
+        std::cout << "Inventory is empty.\n";
+        return;
+    }
+
+    for (size_t i = 0; i < inv.size(); ++i) {
+        std::cout << i << ": " << inv[i].getName() << "\n";
+    }
+}

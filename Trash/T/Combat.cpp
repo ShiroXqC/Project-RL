@@ -2,27 +2,52 @@
 #include <iostream>
 
 void Combat::startCombat(Player& player, Enemy& enemy) {
-    std::cout << "Combat started between " << player.getSymbol()
-              << " and " << enemy.getSymbol() << "!\n";
+    std::cout << "A wild " << enemy.getSymbol() << " appears!\n";
 
     while (player.isAlive() && enemy.isAlive()) {
-        // Player attacks
-        int playerDamage = player.getAttackpower();
-        enemy.takeDamage(playerDamage);
-        std::cout << "You dealt " << playerDamage << " damage to the enemy.\n";
+        std::cout << "\nPlayer HP: " << player.getHp() << " | Enemy HP: " << enemy.getHp() << "\n";
+        std::cout << "Choose an action:\n1. Attack\n2. Use Item\n3. Run\n> ";
 
-        if (!enemy.isAlive()) {
-            std::cout << "Enemy defeated!\n";
-            player.gainExperience(enemy.getExperience()); // if implemented
-            break; // ✅ this is inside the while loop
+        int choice;
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                enemy.takeDamage(player.getAttackpower());
+                std::cout << "You dealt " << player.getAttackpower() << " damage!\n";
+                break;
+            }
+           case 2: {
+                player.showInventory();  // Optional: Display inventory to player
+                std::cout << "Enter item index to use: ";
+                int itemIndex;
+                std::cin >> itemIndex;
+
+                 if (!player.useItem(itemIndex)) {
+                std::cout << "Failed to use item!\n";
+                }
+            break;
+            }
+ 
+            case 3: {
+                std::cout << "You ran away!\n";
+                return;
+            }
+            default:
+                std::cout << "Invalid choice.\n";
+                continue;
         }
 
-        // Enemy attacks
-        int enemyDamage = enemy.getAttackpower();
-        player.takeDamage(enemyDamage);
-        std::cout << "Enemy dealt " << enemyDamage << " damage to you.\n";
+        if (enemy.isAlive()) {
+            player.takeDamage(enemy.getAttackpower());
+            std::cout << "Enemy dealt " << enemy.getAttackpower() << " damage!\n";
+        }
+    }
 
-        std::cout << "Player HP: " << player.getHp()
-                  << " | Enemy HP: " << enemy.getHp() << "\n";
+    if (!player.isAlive()) {
+        std::cout << "You have been defeated.\n";
+    } else if (!enemy.isAlive()) {
+        std::cout << "Enemy has been defeated!\n";
+        player.gainExperience(enemy.getExperience());
     }
 }

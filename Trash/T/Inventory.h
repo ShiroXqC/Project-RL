@@ -17,13 +17,15 @@ class Inventory {
     public:
     Inventory() : capacity(10) {} // Default constructor 
     Inventory(int capacity);
+    const Item& operator[](size_t index) const { return *items.at(index); }
+    Item& operator[](size_t index) { return *items.at(index); }
     // Deep copy constructor
     Inventory(const Inventory& other) : capacity(other.capacity) {
         for (const auto& item : other.items) {
             items.push_back(item->clone());
         }
     }
-
+    
     Inventory& operator=(const Inventory& other) {
         if (this != &other) {
             capacity = other.capacity;
@@ -38,6 +40,7 @@ class Inventory {
     bool addItem(std::unique_ptr<Item> item); // Add an item to the inventory
     void listItems() const; // List all items in the inventory
     void useItem(int index, Player& player); // Use an item from the inventory
+    size_t size() const { return items.size(); } 
 
 
 
