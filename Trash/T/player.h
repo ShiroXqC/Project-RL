@@ -2,8 +2,9 @@
 #include "entity.h"
 #include <vector>
 #include <string>
-#include "Inventory.h"
 #include "Item.h"
+#include "Inventory.h"
+
 
 class Player: public Entity
 {
@@ -12,6 +13,8 @@ class Player: public Entity
     char player_symbol = '@';
     int maxHealth;
     int currentHealth;
+    int experience = 0;
+
 
     public:
     // Constructor that properly initializes the base class
@@ -37,10 +40,13 @@ class Player: public Entity
     // Getters
     char getSymbol() const { return player_symbol; }
     Inventory& getInventory() { return inventory; }
+    const Inventory& getInventory() const { return inventory; }
     bool useItem(int index);
     int getMaxHealth() const;
     int getHealth() const;
-    
+    void gainExperience(int exp);
+    void showInventory() const;
+
     // Override virtual methods from Entity
     void attack(Entity& target) override;
     
@@ -51,5 +57,5 @@ class Player: public Entity
     
     // Health management
     void heal(int amount);
-    void takeDamage(int amount) override;
+    void takeDamage(int amount);
 };

@@ -6,6 +6,8 @@ private:
     std::string type; // e.g., Goblin, Slime,Succubus,Incubus,Outcubus,Binhcubus
     bool inCombat;
     Enemy* currentEnemy;
+    int experience;
+    
 
 public:
     //Constructor
@@ -17,8 +19,10 @@ public:
         // Initialize base class attributes with reasonable defaults
         this->hp = 10;
         this->attackpower = 2;
-        this->exp = 5;
     }
+    int getExperience() const; //getter for experience
+    void setExperience(int exp) { experience = exp; } //setter for experience
+
     
     //Default Constructor
     Enemy() : Entity(), type("Goblin") {}
@@ -32,7 +36,7 @@ public:
         else if (type == "Succubus") return 'U';
         else if (type == "Incubus") return 'I';
         else if (type == "Outcubus") return 'O';
-        else if (type == "Binhcubus") return 'B';
+        else if (type == "Binhcubus") return 'B'; // Suck khodai
         else return 'E'; // Default Enemy
     }
     bool isInCombat() const { return inCombat; }

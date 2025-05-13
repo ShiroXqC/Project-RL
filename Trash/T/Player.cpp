@@ -21,6 +21,11 @@ bool Player::useItem(int index) {
     inventory.useItem(index, *this);
     return true;
 }
+// Gain experience and level up 
+void Player::gainExperience(int exp) {
+    experience += exp;
+}
+
 
 void Player::heal(int amount) {
     int oldHp = getHp();
@@ -65,4 +70,19 @@ void Player::addToInventory(std::unique_ptr<Item> item) {
 
 void Player::listInventory() const {
     inventory.listItems();
+}
+// Inventory management
+#include <iostream> // Required for std::cout
+
+void Player::showInventory() const {
+    const Inventory& inv = getInventory();  
+
+    if (inv.size() == 0) {
+        std::cout << "Inventory is empty.\n";
+        return;
+    }
+
+    for (size_t i = 0; i < inv.size(); ++i) {
+        std::cout << i << ": " << inv[i].getName() << "\n";
+    }
 }
