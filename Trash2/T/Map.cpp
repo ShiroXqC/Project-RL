@@ -78,16 +78,23 @@
             [&](Enemy* e) {
                 return e == enemy;
             }), enemies.end());
+}
     int Map::getWidth() const { return width; }
     int Map::getHeight() const { return height; }
 
-        char Map::getTile(int x, int y) const {
-    return grid[y][x];  // assuming grid is 2D vector or array of tiles
+  char Map::getTile(int x, int y) const {
+    // First, check if any enemy is at (x, y)
+    for (const Enemy* enemy : enemies) {
+        if (enemy->getX() == x && enemy->getY() == y) {
+            return '!';  // Enemy symbol
+        }
+    }
+
+    return grid[y][x];  
 }
-        
-    
+
         // Also clear the enemy from the map grid
-        if (enemy) {
+        if (Enemy) {
             int x = enemy->getX();
             int y = enemy->getY();
             if (isInBounds(x, y)) {
@@ -96,7 +103,6 @@
         }
     
         delete enemy;  // Important: clean up memory if you're using raw pointers!
-    }
     // Remove item from game
     void Map::removeItem(Item* item) {
         if (!item) return;
