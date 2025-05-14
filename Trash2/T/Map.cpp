@@ -93,16 +93,6 @@
     return grid[y][x];  
 }
 
-        // Also clear the enemy from the map grid
-        if (Enemy) {
-            int x = enemy->getX();
-            int y = enemy->getY();
-            if (isInBounds(x, y)) {
-                grid[y][x] = '.';
-            }
-        }
-    
-        delete enemy;  // Important: clean up memory if you're using raw pointers!
     // Remove item from game
     void Map::removeItem(Item* item) {
         if (!item) return;
