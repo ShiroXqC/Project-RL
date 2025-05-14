@@ -1,11 +1,11 @@
 #pragma once
 #include "Entity.h"
-#include <string>
 
 class Enemy : public Entity
 {
 private:
     std::string type;
+    int expDrop, goldDrop;
 public:
     // Constructor with type-based stats
     Enemy(int x, int y, std::string type)
@@ -45,13 +45,6 @@ public:
         }
     }
     
-        // Default constructor
-        Enemy() : Entity(), type("Goblin") {
-            // Default to Goblin stats
-            hp = 14;
-            attackpower = 5;
-            exp = 10;
-        }
     
     // Override attack
     void attack(Entity& target) override;
@@ -63,6 +56,5 @@ public:
         else if (type == "Vampire")  return 'V';
         else if (type == "Death Knight") return 'K';
         else if (type == "Zombie")   return 'Z';
-        return 'E'; // Fallback symbol
     }
 };

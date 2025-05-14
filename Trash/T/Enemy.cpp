@@ -16,8 +16,3 @@ void Enemy::attack(Entity& target) {
         std::cout << "The goblin cackles maniacally!" << std::endl;
     }
 }
-
-// Exp 
-int Enemy::getExperience() const {
-    return experience; // or whatever field you're using
-}

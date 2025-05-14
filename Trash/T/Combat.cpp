@@ -22,13 +22,11 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
                 std::cout << "Enter item index to use: ";
                 int itemIndex;
                 std::cin >> itemIndex;
-
-                 if (!player.useItem(itemIndex)) {
+                if (!player.useItem(itemIndex)) {
                 std::cout << "Failed to use item!\n";
                 }
-            break;
+                break;
             }
- 
             case 3: {
                 std::cout << "You ran away!\n";
                 return;
@@ -44,9 +42,9 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         }
     }
 
-    if (!player.isAlive()) {
+    if (!player.isAlive()) 
         std::cout << "You have been defeated.\n";
-    } else if (!enemy.isAlive()) {
+    else {
         std::cout << "Enemy has been defeated!\n";
         player.gainExperience(enemy.getExperience());
     }

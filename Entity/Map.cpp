@@ -16,28 +16,8 @@ void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY)
     }
 }
 
-//To start a new turn 
-void Map::startNewTurn() 
-{
-    currentTurn++;
-    PlayerTurn = true;
-    std::cout << "===Turn "<< currentTurn <<" ===\n";
-}
 
-//To get current turn
-int Map::getCurrentTurn() const {
-    return currentTurn;
-}
 
-// Check if there's an item at a location
-bool Map::hasItemAt(int x, int y) const {
-    for (const Item* item : items) {
-        if (item && item->getX() == x && item->getY() == y) {
-            return true;
-        }
-    }
-    return false;
-}
 
 // Check if there's an enemy at a location
 bool Map::hasEnemyAt(int x, int y) const {
@@ -49,15 +29,6 @@ bool Map::hasEnemyAt(int x, int y) const {
     return false;
 }
 
-// Get item at the given position
-Item* Map::getItemAt(int x, int y) const {
-    for (Item* item : items) {
-        if (item && item->getX() == x && item->getY() == y) {
-            return item;
-        }
-    }
-    return nullptr;
-}
 
 // Get enemy at the given position
 Enemy* Map::getEnemyAt(int x, int y) const {
@@ -67,23 +38,6 @@ Enemy* Map::getEnemyAt(int x, int y) const {
         }
     }
     return nullptr;
-}
-
-// Remove item from game
-void Map::removeItem(Item* item) {
-    if (!item) return;
-    
-    // Find and remove from grid
-    grid[item->getY()][item->getX()] = '.';
-    
-    // Find and remove from items vector
-    for (auto it = items.begin(); it != items.end(); ++it) {
-        if (*it == item) {
-            delete *it;  // Free memory
-            items.erase(it);  // Remove from vector
-            break;
-        }
-    }
 }
 
 //To handle player movement
@@ -286,11 +240,6 @@ void Map::handleCombat(Enemy* enemy) {
                 break;
         }
     }
-}
-
-// Handle items spawning
-void Map::spawnRandomItems(int count) {
-    **REMOVED**
 }
 
 // Implement spawnRandomEnemies

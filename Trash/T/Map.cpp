@@ -255,18 +255,6 @@
         }
     }
 
-    // Handle items spawning
-    void Map::spawnRandomItems(int count) {
-        for (int i = 0; i < count; ++i) {
-            auto pos = getRandomEmptyPosition();
-            if (pos.first == -1) break; // no space left
-    
-            Item* item = Item::createRandomItem(pos.first, pos.second);
-            items.push_back(std::unique_ptr<Item>(item));
-            grid[pos.second][pos.first] = item->getDisplayChar();
-        }
-    }
-    
     // Implement spawnRandomEnemies
     void Map::spawnRandomEnemies(int count) {
         std::vector<std::string> enemyTypes = {"Goblin", "Slime", "Succubus", "Incubus", "Outcubus", "Binhcubus"};

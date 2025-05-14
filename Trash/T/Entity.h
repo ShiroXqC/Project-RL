@@ -10,7 +10,7 @@ class Entity
     int attackpower;
     int exp;
     int x, y;
-    bool alive = true;
+    bool isAlive = true;
     
 
     public:
@@ -41,8 +41,8 @@ class Entity
     int getExp() const;
     int getX() const;
     int getY() const;
+    
     bool getIsAlive() const;
-    bool isAlive () const {return alive;}
     //Setters
     void setHp(int hp);
     void setAttackpower(int attackpower);
@@ -50,9 +50,8 @@ class Entity
     void setY(int y);
     void setX(int x); // Fixed: Changed parameter name from y to x
     void setPosition(int newX, int newY);
+    
     void takeDamage(int amount);
-    void setAlive(bool status) { alive = status; }
-    //Virtual function
-    virtual void attack(Entity &Target);
+    virtual void attack(Entity &target);
 
 };

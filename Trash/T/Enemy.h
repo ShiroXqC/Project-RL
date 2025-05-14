@@ -1,13 +1,12 @@
 #pragma once
 #include"Entity.h"
+
 class Enemy : public Entity
 {
 private:
-    std::string type; // e.g., Goblin, Slime,Succubus,Incubus,Outcubus,Binhcubus
-    bool inCombat;
+    std::string type;
     Enemy* currentEnemy;
-    int experience;
-    
+    int experience = 0;
 
 public:
     //Constructor
@@ -16,29 +15,25 @@ public:
         this->x = x;
         this->y = y;
         this->type = type;
-        // Initialize base class attributes with reasonable defaults
-        this->hp = 10;
-        this->attackpower = 2;
+        if      (type == "Goblin")       { hp=14; attackpower=5;  experience=10; }
+        else if (type == "Slime")        { hp=10; attackpower=3;   experience=5; }
+        else if (type == "Vampire")      { hp=20; attackpower=5;  experience=20; }
+        else if (type == "Death Knight") { hp=30; attackpower=8;  experience=30; }
+        else if (type == "Zombie")       { hp=18; attackpower=6;  experience=15; }
     }
-    int getExperience() const; //getter for experience
-    void setExperience(int exp) { experience = exp; } //setter for experience
+    Enemy() : Enemy(0,0,"Goblin") {}
 
-    
-    //Default Constructor
-    Enemy() : Entity(), type("Goblin") {}
+    int getExperience() const  { return experience; } //getter for experience
     
     //Attack functions
     void attack(Entity& target) override;
 
     char getSymbol() const {
-        if (type == "Goblin") return 'G';
-        else if (type == "Slime") return 'S';
-        else if (type == "Succubus") return 'U';
-        else if (type == "Incubus") return 'I';
-        else if (type == "Outcubus") return 'O';
-        else if (type == "Binhcubus") return 'B'; // Suck khodai
-        else return 'E'; // Default Enemy
+        if      (type == "Goblin")       return 'G';
+        else if (type == "Slime")        return 'S';
+        else if (type == "Vampire")      return 'V';
+        else if (type == "Death Knight") return 'K';
+        else if (type == "Zombie")       return 'Z';
+        else                              return '?';
     }
-    bool isInCombat() const { return inCombat; }
-    void processCombatTurn(int playerChoice); // Implement in Map.cpp
 };

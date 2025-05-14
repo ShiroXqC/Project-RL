@@ -1,7 +1,5 @@
 #pragma once
-#include"Item.h"
 #include"Enemy.h"
-#include"Entity.h"
 #include"Player.h"
 #include <iostream>
 #include <string>
@@ -42,15 +40,13 @@ class Map
             }
         }
         
-        if (!emptyPositions.empty()) {
-            int index = rand() % emptyPositions.size();
-            return emptyPositions[index];
+        if (emptyPositions.empty()) {
+            return emptyPositions{-1;-1};
         }
-        return {-1, -1}; // No empty positions
+        return emptyPositions[rand()%emptyPositions.size()]; // No empty positions
     }
 
     public:
-    //Default Constructor
     // Default constructor - creates a small empty map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
     {
@@ -202,8 +198,6 @@ class Map
     void processEnemyTurns();
     void removeEnemy(Enemy* enemy);
 
-    //Handle item spawning
-    void spawnRandomItems(int count);
     void display() const;
 
     //To spawn random enemies

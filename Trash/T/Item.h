@@ -12,25 +12,15 @@ protected:
     char symbol;
     
 public:
-    //Default constructor
-    Item () {}
-
-    //Parameterized constructor 
-    Item(std::string name, int x, int y, bool isConsumed, char symbol)
-        : name(name), x(x), y(y), isConsumedOnUse(isConsumed), symbol(symbol) {}
-    
-    // Getters
-    char getSymbol() const { return symbol; }
-    const std::string& getName() const { return name; } // Changed to return by const reference
-
+    Item(const std::string& n, int xx, int yy, bool c, char s)
+        : name(n), x(xx), y(yy), isConsumedOnUse(c), symbol(s) {}
+    virtual ~Item() = default;
+    const std::string& getName() const { return name; }
     int getX() const { return x; }
     int getY() const { return y; }
     bool isConsumable() const { return isConsumedOnUse; }
-static Item* createRandomItem(int x, int y);
-    // For rendering
-    virtual ~Item() = default;
-    virtual std::unique_ptr<Item> clone() const = 0;
     virtual void use(Player& player) = 0;
+    virtual std::unique_ptr<Item> clone() const = 0;
     virtual char getDisplayChar() const = 0;
     
 };

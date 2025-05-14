@@ -1,12 +1,9 @@
-#include <string>
 #include <ctime>
 #include <cstdlib>
-#include <iostream>
-#include <vector>
 #include <conio.h> // For _getch() keyboard input
 #include "Item.h"
 #include "Entity.h"
-#include "player.h"
+#include "Player.h"
 #include "Map.h"
 #include "Enemy.h"
 #include "Combat.h"
@@ -72,8 +69,7 @@ void displayInstructions() {
     std::cout << "Turn: " << gameMap.getCurrentTurn() << "\n";
     
     // Display player health with health bar
-    std::cout << "HP: " << player->getHealth() << " " 
-              << player->getHp() << "/" << player->getHp() << "\n";
+    std::cout << "HP: " << player->getHealth() << "/" << player->getMaxHealth() << "\n";
     
     // Attack power
     std::cout << "Attack: " << player->getAttackpower() << "\n";
@@ -89,7 +85,6 @@ void runGame() {
     Map gameMap(20, 15); // Create a 20x15 map
     
     // Spawn items and enemies
-    gameMap.spawnRandomItems(8);
     gameMap.spawnRandomEnemies(6);
     
     // Start the game's turn counter

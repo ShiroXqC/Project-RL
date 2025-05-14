@@ -134,8 +134,6 @@ public:
 
     void processEnemyTurns();
 
-    // Items disabled for now
-    void spawnRandomItems(int count);
 
     void spawnRandomEnemies(int count);
     void display() const;
