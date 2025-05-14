@@ -2,7 +2,7 @@
 #include <iostream>
 
 void UI::drawMainUI(const Map& map) {
-    const Player& player = map.getPlayer();  // Already provided by your Map class
+    const Player& player = *map.getPlayer();
 
     std::cout << "+-----------------+       +-----------------------+\n";
     std::cout << "|      MENU       |       |        INFO          |\n";
@@ -21,8 +21,8 @@ void UI::drawMainUI(const Map& map) {
     std::cout << "+-----------------+       +-----------------------+\n";
     std::cout << "|   CHARACTER     |       |         MAP           |\n";
     std::cout << "|-----------------|       |-----------------------|\n";
-    std::cout << "| NAME: " << player.getName() << "\n";
-    std::cout << "| HP: " << player.getHP() << "/" << player.getMaxHP() << "\n";
+    std::cout << "| NAME: " << player.getSymbol() << "\n";
+    std::cout << "| HP: " << player.getHp() << "/" << player.getMaxHealth() << "\n";
     std::cout << "| LEVEL: " << player.getLevel() << "\n";
     std::cout << "| CURR XP: " << player.getXP() << "\n";
     std::cout << "| REQ. XP: " << player.getXPToNextLevel() << "\n";

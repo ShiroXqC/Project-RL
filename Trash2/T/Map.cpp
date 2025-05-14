@@ -78,6 +78,13 @@
             [&](Enemy* e) {
                 return e == enemy;
             }), enemies.end());
+    int Map::getWidth() const { return width; }
+    int Map::getHeight() const { return height; }
+
+        char Map::getTile(int x, int y) const {
+    return grid[y][x];  // assuming grid is 2D vector or array of tiles
+}
+        
     
         // Also clear the enemy from the map grid
         if (enemy) {

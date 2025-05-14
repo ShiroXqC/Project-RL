@@ -10,6 +10,8 @@
 #include "Map.h"
 #include "Enemy.h"
 #include "Combat.h"
+#include "UI.h"
+#include "Inventory.h"
 
 void handleInventory(Player* player);
 void handleInventory(Player* player) {
