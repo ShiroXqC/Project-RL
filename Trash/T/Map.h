@@ -41,7 +41,7 @@ class Map
         }
         
         if (emptyPositions.empty()) {
-            return emptyPositions{-1;-1};
+            return emptyPositions{-1,-1};
         }
         return emptyPositions[rand()%emptyPositions.size()]; // No empty positions
     }
