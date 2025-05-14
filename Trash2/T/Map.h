@@ -9,7 +9,7 @@
 
 class Map
 {
-    private:
+    protected:
     //Map variable
     std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
     std::vector<Enemy*> enemies; //Vector containing Enemy pointer
@@ -50,6 +50,9 @@ class Map
     }
 
     public:
+    int getWidth() const;
+    int getHeight() const;
+    char getTile(int x, int y) const;
     //Default Constructor
     // Default constructor - creates a small empty map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)

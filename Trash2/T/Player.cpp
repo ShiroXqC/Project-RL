@@ -54,6 +54,38 @@ void Player::takeDamage(int amount) {
     }
 }
 
+int Player::getLevel() const {
+    return level;
+}
+
+int Player::getXP() const {
+    return experience;
+}
+
+int Player::getXPToNextLevel() const {
+    return xpToNextLevel;
+}
+
+int Player::getDefense() const {
+    return defense;
+}
+
+int Player::getBlock() const {
+    return block;
+}
+
+int Player::getMinAtk() const {
+    return minAttack;
+}
+
+int Player::getMaxAtk() const {
+    return maxAttack;
+}
+
+int Player::getGold() const {
+    return gold;
+}
+
 int Player::getHealth() const {
     return getHp(); // Use the base class getter
 }

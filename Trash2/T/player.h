@@ -14,6 +14,14 @@ class Player: public Entity
     int maxHealth;
     int currentHealth;
     int experience = 0;
+    int level;
+    int xp;
+    int xpToNextLevel;
+    int defense;
+    int block;
+    int minAttack;
+    int maxAttack;
+    int gold;
 
 
     public:
@@ -44,8 +52,17 @@ class Player: public Entity
     bool useItem(int index);
     int getMaxHealth() const;
     int getHealth() const;
+    int getLevel() const;
+    int getXP() const;
+    int getXPToNextLevel() const;
+    int getDefense() const;
+    int getBlock() const;
+    int getMinAtk() const;
+    int getMaxAtk() const;
+    int getGold() const;
     void gainExperience(int exp);
     void showInventory() const;
+
 
     // Override virtual methods from Entity
     void attack(Entity& target) override;
