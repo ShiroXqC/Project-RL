@@ -8,18 +8,19 @@ class Entity
     protected:
     int hp; 
     int attackpower;
-    int def;
+    int exp;
     int x, y;
-    bool isAlive = true;
+    bool alive = true;
     
+
     public:
     //Constructor overload
-     Entity(int hp, int attackpower, int def, int startX, int startY)
+     Entity(int hp, int attackpower, int exp, int startX, int startY)
     
     {
         this->hp=hp;
         this->attackpower=attackpower;
-        this->def=def
+        this->exp=exp;
         this->x=startX;
         this->y=startY;
     }
@@ -29,7 +30,7 @@ class Entity
     {
         this->hp=0;
         this->attackpower=0;
-        this->def=0;
+        this->exp=0;
         this->x=0;
         this->y=0;
     }
@@ -37,21 +38,21 @@ class Entity
     //Getters
     int getHp() const;
     int getAttackpower() const;
-    int getDef() const;
+    int getExp() const;
     int getX() const;
     int getY() const;
     bool getIsAlive() const;
-
+    bool isAlive () const {return alive;}
     //Setters
     void setHp(int hp);
     void setAttackpower(int attackpower);
-    void setDef(int def);
+    void setExp(int exp);
     void setY(int y);
     void setX(int x); // Fixed: Changed parameter name from y to x
     void setPosition(int newX, int newY);
     void takeDamage(int amount);
-    
+    void setAlive(bool status) { alive = status; }
     //Virtual function
-    virtual void takeDamage(int amount);
-    virtual void attack(Entity &target);
+    virtual void attack(Entity &Target);
+
 };

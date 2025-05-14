@@ -1,3 +1,4 @@
+#pragma once
 #include"Item.h"
 #include"Enemy.h"
 #include"Entity.h"
@@ -8,11 +9,11 @@
 
 class Map
 {
-    private:
+    protected:
     //Map variable
     std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
     std::vector<Enemy*> enemies; //Vector containing Enemy pointer
-    std::vector<Item*> items; //Vector containing Item pointer 
+    std::vector<std::unique_ptr<Item>> items; //Vector containing Item pointer 
     int width;
     int height;
     Player *player;
@@ -49,6 +50,9 @@ class Map
     }
 
     public:
+    int getWidth() const;
+    int getHeight() const;
+    char getTile(int x, int y) const;
     //Default Constructor
     // Default constructor - creates a small empty map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
@@ -124,9 +128,10 @@ class Map
         
         // Deep copy items
         items.reserve(other.items.size());
-        for (const Item* i : other.items) {
+        for (const auto& ptr: other.items) {
+            const Item* i = ptr.get();
             if (i) {
-                items.push_back(new Item(*i)); // Using Item's copy constructor
+                items.push_back(i->clone()); // Using Item's copy constructor
             }
         }
     }
@@ -136,7 +141,8 @@ class Map
         if (this != &other) {
             // Clean up existing resources
             for (Enemy* e : enemies) delete e;
-            for (Item* i : items) delete i;
+            enemies.clear();
+            items.clear();
             delete player;
             
             // Copy simple members
@@ -165,9 +171,10 @@ class Map
             // Deep copy items
             items.clear();
             items.reserve(other.items.size());
-            for (const Item* i : other.items) {
+            for (const auto& ptr : other.items) {
+                const Item* i = ptr.get();
                 if (i) {
-                    items.push_back(new Item(*i));
+                    items.push_back(i->clone());
                 }
             }
         }
@@ -196,6 +203,7 @@ class Map
 
     //Enemy turn handling (placeholder)
     void processEnemyTurns();
+    void removeEnemy(Enemy* enemy);
 
     //Handle item spawning
     void spawnRandomItems(int count);
@@ -208,8 +216,8 @@ class Map
     ~Map() {
         for (Enemy* e : enemies)
             delete e;
-        for (Item* i : items)
-            delete i;
+            enemies.clear();
+            items.clear();
         delete player;
     }
 };
