@@ -1,55 +1,76 @@
 #pragma once
-#include "entity.h"
+#include "Inventory.h"
+#include "Entity.h"
 #include <vector>
 #include <string>
-#include "Inventory.h"
-#include "Item.h"
+#include <memory>
 
-class Player: public Entity
-{
-    private:
+class Player {
+protected:
     Inventory inventory;
-    char player_symbol = '@';
+    int x, y;
     int maxHealth;
     int currentHealth;
+    int attackDamage;
+    int defense;
+    int gold;
+    int exp;                // Total experience
+    int level;              // Player level (0-5)
+    char player_symbol = '@';
 
-    public:
-    // Constructor that properly initializes the base class
-    Player(int startX, int startY, int inventoryCapacity = 10) 
-        : Entity(20, 5, 0, startX, startY), // hp=20, attackpower=5, exp=0
-          inventory(inventoryCapacity),
-          maxHealth(20),
-          currentHealth(20)
-    {
-        // Any additional Player-specific initialization
-    }
-    
-    // Copy constructor - calls base class constructor
-    Player(const Player& other) 
-        : Entity(other),
-          inventory(other.inventory),
-          player_symbol(other.player_symbol),
-          maxHealth(other.maxHealth),
-          currentHealth(other.currentHealth)
-    {
-    }
-    
+public:
+    // Constructor
+    Player(int startX, int startY, int inventoryCapacity = 10)
+      : x(startX), y(startY), inventory(inventoryCapacity),
+        maxHealth(20), currentHealth(20), attackDamage(7),
+        defense(0), gold(0), exp(0), level(0) {}
+
+    // Copy constructor
+    Player(const Player& other)
+      : x(other.x), y(other.y), inventory(other.inventory),
+        maxHealth(other.maxHealth), currentHealth(other.currentHealth),
+        attackDamage(other.attackDamage), defense(other.defense),
+        gold(other.gold), exp(other.exp), level(other.level),
+        player_symbol(other.player_symbol) {}
+
     // Getters
+    int getLevel() const { return level; }
+    int getExp() const { return exp; }
+    int getHealth() const { return currentHealth; }
+    int getMaxHealth() const { return maxHealth; }
+    int getAttackDamage() const { return attackDamage; }
+    int getDefense() const { return defense; }
+    int getGold() const { return gold; }
+    int getX() const { return x; }
+    int getY() const { return y; }
     char getSymbol() const { return player_symbol; }
     Inventory& getInventory() { return inventory; }
+
+    bool getIsAlive() const { return currentHealth > 0; }
+
+    // Setters (for movement)
+    void SetPosition(int newX, int newY) { x = newX; y = newY; }
+    void SetPlayerX(int startX) { x = startX; }
+    void SetPlayerY(int startY) { y = startY; }
+
+    // Combat and stats
+    void heal(int amount);
+    void takeDamage(int amount);
+    void attack(Entity& target);
+
+    // Gold management
+    void addGold(int amount);
+    bool spendGold(int amount);
+
+    // Stat bonuses
+    void addAttackDamage(int bonus);
+    void addDefense(int bonus);
+
+    // Inventory
     bool useItem(int index);
-    int getMaxHealth() const;
-    int getHealth() const;
-    
-    // Override virtual methods from Entity
-    void attack(Entity& target) override;
-    
-    // Item management
     void addToInventory(std::unique_ptr<Item> item);
     void listInventory() const;
-    bool hasItem(const std::string& itemName) const;
-    
-    // Health management
-    void heal(int amount);
-    void takeDamage(int amount) override;
+
+    // Experience and leveling
+    void addExp(int amount);
 };
