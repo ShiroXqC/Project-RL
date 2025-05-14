@@ -1,40 +1,68 @@
 #pragma once
-#include"Entity.h"
+#include "Entity.h"
+#include <string>
+
 class Enemy : public Entity
 {
 private:
-    std::string type; // e.g., Goblin, Slime,Succubus,Incubus,Outcubus,Binhcubus
-    bool inCombat;
-    Enemy* currentEnemy;
-
+    std::string type;
 public:
-    //Constructor
-    Enemy(int x, int y, std::string type = "Goblin")
+    // Constructor with type-based stats
+    Enemy(int x, int y, std::string type)
     {
         this->x = x;
         this->y = y;
         this->type = type;
-        // Initialize base class attributes with reasonable defaults
-        this->hp = 10;
-        this->attackpower = 2;
-        this->exp = 5;
+        this->hp = hp;
+        this->attackpower = attackpower;
+        this->exp = exp;
+        // Set stats based on type
+        if (type == "Goblin") {
+            hp = 14;
+            attackpower = 5;
+            exp = 10;
+        } else if (type == "Slime") {
+            hp = 10;
+            attackpower = 3;
+            exp = 5;
+        } else if (type == "Vampire") {
+            hp = 20;
+            attackpower = 5;
+            exp = 20;
+        } else if (type == "Death Knight") {
+            hp = 30;
+            attackpower = 8;
+            exp = 30;
+        } else if (type == "Zombie") {
+            hp = 18;
+            attackpower = 6;
+            exp = 15;
+        } else {
+            // Default stats
+            hp = 10;
+            attackpower = 2;
+            exp = 5;
+        }
     }
     
-    //Default Constructor
-    Enemy() : Entity(), type("Goblin") {}
+        // Default constructor
+        Enemy() : Entity(), type("Goblin") {
+            // Default to Goblin stats
+            hp = 14;
+            attackpower = 5;
+            exp = 10;
+        }
     
-    //Attack functions
+    // Override attack
     void attack(Entity& target) override;
 
+    // Symbol for rendering
     char getSymbol() const {
-        if (type == "Goblin") return 'G';
-        else if (type == "Slime") return 'S';
-        else if (type == "Succubus") return 'U';
-        else if (type == "Incubus") return 'I';
-        else if (type == "Outcubus") return 'O';
-        else if (type == "Binhcubus") return 'B';
-        else return 'E'; // Default Enemy
+        if (type == "Goblin")       return 'G';
+        else if (type == "Slime")    return 'S';
+        else if (type == "Vampire")  return 'V';
+        else if (type == "Death Knight") return 'K';
+        else if (type == "Zombie")   return 'Z';
+        return 'E'; // Fallback symbol
     }
-    bool isInCombat() const { return inCombat; }
-    void processCombatTurn(int playerChoice); // Implement in Map.cpp
 };

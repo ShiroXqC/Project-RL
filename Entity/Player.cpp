@@ -1,68 +1,76 @@
 #include "Player.h"
+#include "Entity.h"
+#include <algorithm>
 #include <iostream>
 
-// Attack override that can add special player effects
-void Player::attack(Entity& target) {
-    std::cout << "Player attacks!" << std::endl;
-    
-    // Call the base class implementation
-    Entity::attack(target);
-    
-    // Could add special player attack effects here
-}
-
-bool Player::useItem(int index) {
-    if (index < 0 || index >= inventory.getItemCount()) {
-        std::cout << "Invalid item index!\n";
-        return false;
-    }
-    
-    // Implement item usage logic
-    inventory.useItem(index, *this);
-    return true;
-}
-
+// Actions
 void Player::heal(int amount) {
-    int oldHp = getHp();
-    int newHp = oldHp + amount;
-    
-    // Cap at maximum health
-    if (newHp > maxHealth) {
-        newHp = maxHealth;
-    }
-    
-    setHp(newHp);
-    std::cout << "Healed for " << (newHp - oldHp) << " HP. Current health: " 
-              << getHp() << "/" << maxHealth << "\n";
+    currentHealth = std::min(currentHealth + amount, maxHealth);
+    std::cout << "Healed for " << amount << " HP. "
+              << "Current health: " << currentHealth << "/" << maxHealth << "\n";
 }
 
-// Override takeDamage to include player-specific logic
 void Player::takeDamage(int amount) {
-    // Call base class implementation
-    Entity::takeDamage(amount);
-    
-    // Add player-specific damage handling
-    std::cout << "Player took " << amount << " damage! Remaining HP: " << getHp() << "\n";
-    
-    if (!getIsAlive()) {
+    int damage = std::max(0, amount - defense);
+    currentHealth -= damage;
+    std::cout << "Took " << damage << " damage. "
+              << "HP: " << currentHealth << "/" << maxHealth << "\n";
+    if (currentHealth <= 0) {
         std::cout << "Player has been defeated!\n";
     }
 }
 
-int Player::getHealth() const {
-    return getHp(); // Use the base class getter
+void Player::attack(Entity& target) {
+    target.takeDamage(attackDamage);
 }
 
-int Player::getMaxHealth() const {
-    return maxHealth;
+// Gold management
+void Player::addGold(int amount) { gold += amount; }
+bool Player::spendGold(int amount) {
+    if (gold >= amount) { gold -= amount; return true; }
+    std::cout << "Not enough gold!\n";
+    return false;
+}
+
+// Stat bonuses
+void Player::addAttackDamage(int bonus) {
+    attackDamage += bonus;
+    std::cout << "Attack increased by " << bonus
+              << ". New attack: " << attackDamage << "\n";
+}
+
+void Player::addDefense(int bonus) {
+    defense += bonus;
+    std::cout << "Defense increased by " << bonus
+              << ". New defense: " << defense << "\n";
+}
+
+// Inventory
+bool Player::useItem(int index) {
+    if (index < 0 || index >= inventory.getItemCount()) return false;
+    inventory.useItem(index, *this);
+    return true;
 }
 
 void Player::addToInventory(std::unique_ptr<Item> item) {
-    if (!inventory.addItem(std::move(item))) {
-        std::cout << "Couldn't add item to inventory - full!\n";
-    }
+    inventory.addItem(std::move(item));
 }
 
-void Player::listInventory() const {
-    inventory.listItems();
+void Player::listInventory() const { inventory.listItems(); }
+
+// Experience and leveling
+void Player::addExp(int amount) {
+    exp += amount;
+    std::cout << "EXP increased by " << amount
+              << ". Total EXP: " << exp << "\n";
+
+    static const int thresholds[5] = {50, 100, 150, 200, 250};
+    while (level < 5 && exp >= thresholds[level]) {
+        level++;
+        maxHealth += 2;
+        attackDamage += 2;
+        defense += 2;
+        currentHealth = std::min(currentHealth + 2, maxHealth);
+        std::cout << "Leveled up! Now level " << level << "\n";
+    }
 }

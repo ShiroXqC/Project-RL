@@ -1,5 +1,5 @@
 #pragma once
-#include "entity.h"
+#include "Entity.h"
 #include <vector>
 #include <string>
 #include "Item.h"

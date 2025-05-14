@@ -2,7 +2,7 @@
 #include"Item.h"
 #include"Enemy.h"
 #include"Entity.h"
-#include"player.h"
+#include"Player.h"
 #include <iostream>
 #include <string>
 #include <vector>
