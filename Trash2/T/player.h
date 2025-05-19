@@ -30,7 +30,9 @@ class Player: public Entity
         : Entity(20, 5, 0, startX, startY), // hp=20, attackpower=5, exp=0
           inventory(inventoryCapacity),
           maxHealth(20),
-          currentHealth(20)
+          currentHealth(20),
+          xp(0),
+          level(1)
     {
         // Any additional Player-specific initialization
     }
