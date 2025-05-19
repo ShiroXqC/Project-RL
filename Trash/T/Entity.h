@@ -51,7 +51,7 @@ class Entity
     void setX(int x); // Fixed: Changed parameter name from y to x
     void setPosition(int newX, int newY);
     
-    void takeDamage(int amount);
+    virtual void takeDamage(int amount);
     virtual void attack(Entity &target);
 
 };

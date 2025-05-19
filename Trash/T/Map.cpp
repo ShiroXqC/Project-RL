@@ -4,6 +4,9 @@
     #include <cstdlib>
     #include "Combat.h"
     #include <algorithm> // For std::remove_if
+    #include <string>
+    #include <iostream>
+    using namespace std;
 
     //To update player position 
     void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY) 
@@ -15,7 +18,7 @@
         if (isInBounds(newX, newY)) 
         {
             grid[newY][newX] = player->getSymbol(); // Set new position
-        }
+        }   
     }
 
     //To start a new turn 
@@ -23,7 +26,7 @@
     {
         currentTurn++;
         PlayerTurn = true;
-        std::cout << "===Turn "<< currentTurn <<" ===\n";
+        cout << "===Turn "<< currentTurn <<" ===\n";
     }
 
     //To get current turn
@@ -74,22 +77,21 @@
     }
     // Remove enemy from game
     void Map::removeEnemy(Enemy* enemy) {
-        enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-            [&](Enemy* e) {
-                return e == enemy;
-            }), enemies.end());
-    
-        // Also clear the enemy from the map grid
-        if (enemy) {
-            int x = enemy->getX();
-            int y = enemy->getY();
-            if (isInBounds(x, y)) {
-                grid[y][x] = '.';
-            }
+    if (enemy) {
+        int x = enemy->getX();
+        int y = enemy->getY();
+        if (isInBounds(x, y)) {
+            grid[y][x] = '.';  
         }
-    
-        delete enemy;  // Important: clean up memory if you're using raw pointers!
     }
+
+    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+        [&](Enemy* e) {
+            return e == enemy;
+        }), enemies.end());
+
+    delete enemy;
+}
     // Remove item from game
     void Map::removeItem(Item* item) {
         if (!item) return;
@@ -139,9 +141,8 @@
         Enemy* enemy = getEnemyAt(newX, newY);
         if (enemy) {
         Combat::startCombat(*player, *enemy);
-        if (!enemy->isAlive()) {
+        if (!enemy->getIsAlive()) {
             removeEnemy(enemy); // You'll need to implement this
-            updatePlayerPosition(oldX, oldY, newX, newY);
         }
         return true;
      }
@@ -257,15 +258,15 @@
 
     // Implement spawnRandomEnemies
     void Map::spawnRandomEnemies(int count) {
-        std::vector<std::string> enemyTypes = {"Goblin", "Slime", "Succubus", "Incubus", "Outcubus", "Binhcubus"};
+        vector<string> enemyTypes = {"Goblin", "Slime", "Vampire", "Death Knight", "Zombie"};
         
         for (int i = 0; i < count; ++i) {
             // Get random empty location
-            std::pair<int, int> pos = getRandomEmptyPosition();
+            pair<int, int> pos = getRandomEmptyPosition();
             if (pos.first == -1) break; // No space left
 
             // Choose a random enemy type
-            std::string type = enemyTypes[rand() % enemyTypes.size()];
+            string type = enemyTypes[rand() % enemyTypes.size()];
             Enemy* enemy = new Enemy(pos.first, pos.second, type);
             enemies.push_back(enemy);
             grid[pos.second][pos.first] = enemy->getSymbol();
@@ -274,27 +275,27 @@
 
     void Map::display() const {
         // First print top border with column numbers (tens digit)
-        std::cout << "   ";
+        cout << "   ";
         for (int x = 0; x < width; ++x) {
-            std::cout << (x / 10);
+            cout << (x / 10);
         }
-        std::cout << std::endl;
+        cout << endl;
 
      
         // Print column numbers (ones digit)
-        std::cout << "   ";
+        cout << "   ";
         for (int x = 0; x < width; ++x) {
-            std::cout << (x % 10);
+            cout << (x % 10);
         }
-        std::cout << std::endl;
+        cout << endl;
 
         // Print the grid with row numbers
         for (int y = 0; y < height; ++y) {
-            std::cout << y / 10 << y % 10 << " "; // Row number
+            cout << y / 10 << y % 10 << " "; // Row number
             for (int x = 0; x < width; ++x) {
-                std::cout << grid[y][x];
+                cout << grid[y][x];
             }
-            std::cout << std::endl;
+            cout << endl;
         }
     }
  

@@ -1,26 +1,26 @@
 #include "Inventory.h"
 #include "Player.h"
+using namespace std;
 
-
-bool Inventory::addItem(std::unique_ptr<Item> item){
+bool Inventory::addItem(unique_ptr<Item> item){
     if ((int)items.size() < capacity) {
-        items.push_back(std::move(item)); // Move the item into the inventory
+        items.push_back(move(item)); // Move the item into the inventory
         return true; // Item added successfully
     }
-    std::cout << "Inventory is full!" << std::endl;
+    cout << "Inventory is full!" << endl;
     return false; // Inventory is full
     
 }
 
 void Inventory::listItems() const {
-    std::cout << "Inventory Items:" << std::endl;
+    cout << "Inventory Items:" << endl;
     for (int i = 0; i < (int)items.size(); ++i) {
-        std::cout << i<< ": " << items[i]->getName() << std::endl;
+        cout << i<< ": " << items[i]->getName() << endl;
     }
 }
 void Inventory::useItem(int index, Player& player) {
     if (index < 0 || index >= getItemCount()) {
-        std::cout << "Invalid item index!" << std::endl;
+        cout << "Invalid item index!" << endl;
         return;
     }
     items[index]->use(player);

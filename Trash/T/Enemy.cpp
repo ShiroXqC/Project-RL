@@ -1,18 +1,20 @@
 #include "Enemy.h"
+#include <iostream>
+using namespace std;
 
 // Implementation of the virtual attack function
 void Enemy::attack(Entity& target) {
     // We can customize enemy attack behavior here
-    std::cout << "Enemy attacks!" << std::endl;
+    cout << "Enemy attacks!" << endl;
     
     // For now, just use the base class implementation
     Entity::attack(target);
     
     // Could add special effects based on enemy type
     if (type == "Slime") {
-        std::cout << "The slime's acid deals extra damage!" << std::endl;
+        cout << "The slime's acid deals extra damage!" << endl;
         target.takeDamage(1); // Extra 1 damage
     } else if (type == "Goblin") {
-        std::cout << "The goblin cackles maniacally!" << std::endl;
+        cout << "The goblin cackles maniacally!" << endl;
     }
 }

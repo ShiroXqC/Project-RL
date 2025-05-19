@@ -1,52 +1,80 @@
 #include "UI.h"
 #include <iostream>
+#include <iomanip>
+using namespace std;
 
 void UI::drawMainUI(const Map& map) {
     const Player& player = *map.getPlayer();
 
-    std::cout << "+-----------------+       +-----------------------+\n";
-    std::cout << "|      MENU       |       |        INFO          |\n";
-    std::cout << "|-----------------|       |-----------------------|\n";
-    std::cout << "| Traverse Dungeon|\n";
-    std::cout << "| Inventory       |\n";
-    std::cout << "| Character Sheet |\n";
-    std::cout << "| Shop            |\n";
-    std::cout << "|-----------------|\n";
-    std::cout << "| Back to Main Menu           Astre Depths\n";
-    std::cout << "|                           Floor: 1/4           |\n";
-    std::cout << "+-----------------+       +-----------------------+\n";
+    // === Header Row ===
+    cout << "+-------------------+       +-----------------------+         +-----------------+\n";
+    cout << "|      MENU         |       |        INFO           |         |   CHARACTER     |\n";
+    cout << "|-------------------|       |-----------------------|         |-----------------|\n";
 
-    std::cout << "\n";
+    // === Content Rows (Aligning 3 panels) ===
+    cout << "| Traverse Dungeon  |       |                       |         | NAME: " << player.getSymbol() << "         |\n";
+    cout << "| [i]Inventory      |       |                       |         | HP: " << player.getHp() << "/" << player.getMaxHealth() << "       |\n";
+    cout << "| [c]Character Sheet|       |      Floor: 1/4       |         | LEVEL: " << player.getLevel() << "        |\n";
+    cout << "| [p]Shop           |       |     Astre Depths      |         | CURR XP: " << player.getXP() << "      |\n";
+    cout << "|-----------------  |       |                       |         | REQ. XP: " << player.getXPToNextLevel() << "    |\n";
+    cout << "| Back to Main Menu |       |                       |         | DEF: " << player.getDefense() << "          |\n";
+    cout << "|                   |       |                       |         | BLK: " << player.getBlock() << "          |\n";
+    cout << "|                   |       |                       |         | GOLD: " << player.getGold() << "         |\n";
+    cout << "+-------------------+       +-----------------------+         +-----------------+\n";
 
-    std::cout << "+-----------------+       +-----------------------+\n";
-    std::cout << "|   CHARACTER     |       |         MAP           |\n";
-    std::cout << "|-----------------|       |-----------------------|\n";
-    std::cout << "| NAME: " << player.getSymbol() << "\n";
-    std::cout << "| HP: " << player.getHp() << "/" << player.getMaxHealth() << "\n";
-    std::cout << "| LEVEL: " << player.getLevel() << "\n";
-    std::cout << "| CURR XP: " << player.getXP() << "\n";
-    std::cout << "| REQ. XP: " << player.getXPToNextLevel() << "\n";
-    std::cout << "| DEF: " << player.getDefense() << "\n";
-    std::cout << "| BLK: " << player.getBlock() << "\n";
-    std::cout << "| ATK: " << player.getMinAtk() << "-" << player.getMaxAtk() << "\n";
-    std::cout << "| GOLD: " << player.getGold() << "\n";
+    // === MAP Header and Rendering ===
+    cout << "+----------------------+\n";
+    cout << "|         MAP          |\n";
+    cout << "|----------------------|\n";
 
-    std::cout << "|\n+-----------------+       +-----------------------+\n";
-    std::cout << "                          |                       |\n";
-
-    // === MAP RENDERING ===
     for (int y = 0; y < map.getHeight(); ++y) {
-        std::cout << "                          | ";
+        cout << "| ";
         for (int x = 0; x < map.getWidth(); ++x) {
             if (player.getX() == x && player.getY() == y) {
-                std::cout << '@';  // Player
+                cout << '@';  // Player
             } else {
-                std::cout << map.getTile(x, y);  // Enemy (!), item, or space
+                cout << map.getTile(x, y);  // Enemy (!), item, or space
             }
         }
-        std::cout << " |\n";
+        cout << " |\n";
     }
 
-    std::cout << "                          | @ = You, ! = Enemy    |\n";
-    std::cout << "                          +-----------------------+\n";
+    cout << "| @ = You, ! = Enemy   |\n";
+    cout << "+----------------------+\n";
+    cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [I]Inventory [Q]Quit\n";
+}
+
+void UI::drawCombatUI(const Player& player, const std::vector<std::string>& combatLog) {
+    system("cls"); // Clear screen
+
+    cout << "+------------------------+       +-----------------+\n";
+    cout << "|      COMBAT LOG        |       |   CHARACTER     |\n";
+    cout << "|------------------------|       |-----------------+\n";
+
+    for (size_t i = 0; i < std::max(combatLog.size(), size_t(8)); ++i) {
+        // Left: Combat log line
+        cout << "| ";
+        if (i < combatLog.size()) {
+            cout << std::setw(22) << std::left << combatLog[i];
+        } else {
+            cout << std::setw(22) << "";
+        }
+        cout << " |       ";
+
+        // Right: Character info line
+        switch (i) {
+            case 0: cout << "| NAME: " << player.getSymbol(); break;
+            case 1: cout << "| HP: " << player.getHp() << "/" << player.getMaxHealth(); break;
+            case 2: cout << "| LEVEL: " << player.getLevel(); break;
+            case 3: cout << "| CURR XP: " << player.getXP(); break;
+            case 4: cout << "| REQ. XP: " << player.getXPToNextLevel(); break;
+            case 5: cout << "| DEF: " << player.getDefense(); break;
+            case 6: cout << "| BLK: " << player.getBlock(); break;
+            case 7: cout << "| GOLD: " << player.getGold(); break;
+            default: cout << "|"; break;
+        }
+        cout << "\n";
+    }
+
+    cout << "+------------------------+       +-----------------+\n";
 }

@@ -24,6 +24,7 @@ public:
     Enemy() : Enemy(0,0,"Goblin") {}
 
     int getExperience() const  { return experience; } //getter for experience
+    std::string getType() const { return type; }
     
     //Attack functions
     void attack(Entity& target) override;
