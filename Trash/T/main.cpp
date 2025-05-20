@@ -7,75 +7,63 @@
 #include "Map.h"
 #include "Enemy.h"
 #include "Combat.h"
+#include "Inventory.h"
+#include "UI.h"
+#include <iostream>
+using namespace std;
 
 void handleInventory(Player* player);
 void handleInventory(Player* player) {
-    std::cout << "\n==== INVENTORY ====\n";
+    cout << "\n==== INVENTORY ====\n";
     player->getInventory().listItems();
     
-    std::cout << "\nEnter item number to use (or 0 to exit): ";
+    cout << "\nEnter item number to use (or 0 to exit): ";
     int choice;
-    std::cin >> choice;
+    cin >> choice;
     
     if (choice > 0 && choice <= player->getInventory().getItemCount()) {
         player->getInventory().useItem(choice - 1, *player);
     } else if (choice == 0) {
         return; // Exit inventory
     } else {
-        std::cout << "Invalid choice!\n";
+        cout << "Invalid choice!\n";
     }
 }
 
 // Function to display the main menu
 void displayMenu() {
-    std::cout << "==== ROGUELIKE GAME ====\n";
-    std::cout << "1. Start New Game\n";
-    std::cout << "2. Instructions\n";
-    std::cout << "3. Quit\n";
-    std::cout << "=====================\n";
-    std::cout << "Enter your choice: ";
+    cout << "==== ROGUELIKE GAME ====\n";
+    cout << "1. Start New Game\n";
+    cout << "2. Instructions\n";
+    cout << "3. Quit\n";
+    cout << "=====================\n";
+    cout << "Enter your choice: ";
 }
 
 // Function to display game instructions
 void displayInstructions() {
-    std::cout << "\n==== GAME INSTRUCTIONS ====\n";
-    std::cout << "Controls:\n";
-    std::cout << "  W - Move up\n";
-    std::cout << "  A - Move left\n";
-    std::cout << "  S - Move down\n";
-    std::cout << "  D - Move right\n";
-    std::cout << "  Space - Wait a turn\n";
-    std::cout << "  I - Open Inventory (not implemented yet)\n";
-    std::cout << "  Q - Quit game\n\n";
+    cout << "\n==== GAME INSTRUCTIONS ====\n";
+    cout << "Controls:\n";
+    cout << "  W - Move up\n";
+    cout << "  A - Move left\n";
+    cout << "  S - Move down\n";
+    cout << "  D - Move right\n";
+    cout << "  Space - Wait a turn\n";
+    cout << "  I - Open Inventory (not implemented yet)\n";
+    cout << "  Q - Quit game\n\n";
     
-    std::cout << "Symbols:\n";
-    std::cout << "  @ - You (the player)\n";
-    std::cout << "  G - Goblin enemy\n";
-    std::cout << "  S - Slime enemy or Sword item\n";
-    std::cout << "  # - Wall\n";
-    std::cout << "  . - Empty floor\n";
-    std::cout << "  H - Health potion\n";
-    std::cout << "  U/I/O/B - Other enemy types\n\n";
+    cout << "Symbols:\n";
+    cout << "  @ - You (the player)\n";
+    cout << "  G - Goblin enemy\n";
+    cout << "  S - Slime enemy or Sword item\n";
+    cout << "  # - Wall\n";
+    cout << "  . - Empty floor\n";
+    cout << "  H - Health potion\n";
+    cout << "  U/I/O/B - Other enemy types\n\n";
     
-    std::cout << "Press any key to continue...";
+    cout << "Press any key to continue...";
     _getch(); // Wait for any key press
     system("cls"); // Clear screen
-}
-
-// Function to display gameplay HUD
- void displayHUD(const Map& gameMap) {
-    Player* player = gameMap.getPlayer();
-    
-    std::cout << "Turn: " << gameMap.getCurrentTurn() << "\n";
-    
-    // Display player health with health bar
-    std::cout << "HP: " << player->getHealth() << "/" << player->getMaxHealth() << "\n";
-    
-    // Attack power
-    std::cout << "Attack: " << player->getAttackpower() << "\n";
-    
-    std::cout << "Position: (" << player->getX() << ", " << player->getY() << ")\n";
-    std::cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [I]Inventory [Q]Quit\n";
 }
 
 // Function to run the game loop
@@ -97,17 +85,15 @@ void runGame() {
         // Clear screen (Windows specific - replace with appropriate command for other OS)
         system("cls");
         
-        // Display the map
-        gameMap.display();
-        
         // Display HUD
-        displayHUD(gameMap);
-        
+       
+        UI::drawMainUI(gameMap);
+        cout << "Floor: " << gameMap.getFloor() << "\n";
         // Check if player is dead
         if (!gameMap.getPlayer()->getIsAlive()) {
-            std::cout << "\n===== GAME OVER =====\n";
-            std::cout << "You have been defeated!\n";
-            std::cout << "Press any key to return to main menu...\n";
+            cout << "\n===== GAME OVER =====\n";
+            cout << "You have been defeated!\n";
+            cout << "Press any key to return to main menu...\n";
             _getch();
             return;
         }
@@ -132,7 +118,7 @@ void runGame() {
                     if (!gameMap.getPlayer()->getIsAlive()) {
                         continue; // This will trigger the game over check next loop
                     } else {
-                        std::cout << "\nInvalid move! Press any key to continue...";
+                        cout << "\nInvalid move! Press any key to continue...";
                         _getch();
                     }
                 }
@@ -143,7 +129,7 @@ void runGame() {
             break;
                 
             default:
-                std::cout << "\nUnknown command. Press any key to continue...";
+                cout << "\nUnknown command. Press any key to continue...";
                 _getch();
                 break;
         }
@@ -156,7 +142,7 @@ int main() {
     while (!exit) {
         system("cls"); // Clear screen
         displayMenu();
-        std::cin >> choice;
+        cin >> choice;
         
         switch (choice) {
             case 1: // Start game
@@ -172,12 +158,12 @@ int main() {
                 break;
                 
             default:
-                std::cout << "Invalid choice. Press any key to continue...";
+                cout << "Invalid choice. Press any key to continue...";
                 _getch();
                 break;
         }
     }
     
-    std::cout << "Thanks for playing!" << std::endl;
+    cout << "Thanks for playing!" << endl;
     return 0;
 }

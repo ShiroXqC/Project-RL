@@ -3,7 +3,11 @@
     #include "Sword.h"
     #include <cstdlib>
     #include "Combat.h"
+    #include <conio.h> // For _getch()
     #include <algorithm> // For std::remove_if
+    #include <string>
+    #include <iostream>
+    using namespace std;
 
     //To update player position 
     void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY) 
@@ -15,7 +19,7 @@
         if (isInBounds(newX, newY)) 
         {
             grid[newY][newX] = player->getSymbol(); // Set new position
-        }
+        }   
     }
 
     //To start a new turn 
@@ -23,7 +27,7 @@
     {
         currentTurn++;
         PlayerTurn = true;
-        std::cout << "===Turn "<< currentTurn <<" ===\n";
+        cout << "===Turn "<< currentTurn <<" ===\n";
     }
 
     //To get current turn
@@ -74,22 +78,21 @@
     }
     // Remove enemy from game
     void Map::removeEnemy(Enemy* enemy) {
-        enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
-            [&](Enemy* e) {
-                return e == enemy;
-            }), enemies.end());
-    
-        // Also clear the enemy from the map grid
-        if (enemy) {
-            int x = enemy->getX();
-            int y = enemy->getY();
-            if (isInBounds(x, y)) {
-                grid[y][x] = '.';
-            }
+    if (enemy) {
+        int x = enemy->getX();
+        int y = enemy->getY();
+        if (isInBounds(x, y)) {
+            grid[y][x] = '.';  
         }
-    
-        delete enemy;  // Important: clean up memory if you're using raw pointers!
     }
+
+    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+        [&](Enemy* e) {
+            return e == enemy;
+        }), enemies.end());
+
+    delete enemy;
+}
     // Remove item from game
     void Map::removeItem(Item* item) {
         if (!item) return;
@@ -139,9 +142,13 @@
         Enemy* enemy = getEnemyAt(newX, newY);
         if (enemy) {
         Combat::startCombat(*player, *enemy);
-        if (!enemy->isAlive()) {
+        if (!enemy->getIsAlive()) {
             removeEnemy(enemy); // You'll need to implement this
-            updatePlayerPosition(oldX, oldY, newX, newY);
+        if (enemies.empty()){
+            cout << "\n=== You have cleared the foor [Press] any key to continue ===\n";
+            _getch();
+            loadNextFloor();
+        }
         }
         return true;
      }
@@ -166,11 +173,11 @@
                 player->setPosition(newX, newY);
                 grid[newY][newX] = player->getSymbol();
                 moved = true;
-            }
+            }    
             // Check for enemy at destination
             else if (hasEnemyAt(newX, newY)) {
                 Enemy* enemy = getEnemyAt(newX, newY);
-                std::cout << "You attack the " << enemy->getSymbol() << "!\n";
+                cout << "You attack the " << enemy->getSymbol() << "!\n";
                 // Combat logic would go here in a more complete game
                 moved = true;
             }
@@ -257,15 +264,15 @@
 
     // Implement spawnRandomEnemies
     void Map::spawnRandomEnemies(int count) {
-        std::vector<std::string> enemyTypes = {"Goblin", "Slime", "Succubus", "Incubus", "Outcubus", "Binhcubus"};
+        vector<string> enemyTypes = {"Goblin", "Slime", "Vampire", "Death Knight", "Zombie"};
         
         for (int i = 0; i < count; ++i) {
             // Get random empty location
-            std::pair<int, int> pos = getRandomEmptyPosition();
+            pair<int, int> pos = getRandomEmptyPosition();
             if (pos.first == -1) break; // No space left
 
             // Choose a random enemy type
-            std::string type = enemyTypes[rand() % enemyTypes.size()];
+            string type = enemyTypes[rand() % enemyTypes.size()];
             Enemy* enemy = new Enemy(pos.first, pos.second, type);
             enemies.push_back(enemy);
             grid[pos.second][pos.first] = enemy->getSymbol();
@@ -274,27 +281,64 @@
 
     void Map::display() const {
         // First print top border with column numbers (tens digit)
-        std::cout << "   ";
+        cout << "   ";
         for (int x = 0; x < width; ++x) {
-            std::cout << (x / 10);
+            cout << (x / 10);
         }
-        std::cout << std::endl;
+        cout << endl;
 
      
         // Print column numbers (ones digit)
-        std::cout << "   ";
+        cout << "   ";
         for (int x = 0; x < width; ++x) {
-            std::cout << (x % 10);
+            cout << (x % 10);
         }
-        std::cout << std::endl;
+        cout << endl;
 
         // Print the grid with row numbers
         for (int y = 0; y < height; ++y) {
-            std::cout << y / 10 << y % 10 << " "; // Row number
+            cout << y / 10 << y % 10 << " "; // Row number
             for (int x = 0; x < width; ++x) {
-                std::cout << grid[y][x];
+                cout << grid[y][x];
             }
-            std::cout << std::endl;
+            cout << endl;
         }
     }
- 
+ void Map::loadNextFloor() {
+    currentFloor++;
+    cout << "\n--- Descending to Floor " << currentFloor << " ---\n";
+
+    // Clear enemies 
+    for (Enemy* e : enemies) delete e;
+    enemies.clear();
+    items.clear();
+
+    // Reset grid
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            grid[y][x] = '.';
+        }
+    }
+
+    // Re-add walls
+    for (int i = 0; i < height; i++) {
+        grid[i][0] = '#';
+        grid[i][width - 1] = '#';
+    }
+    for (int j = 0; j < width; j++) {
+        grid[0][j] = '#';
+        grid[height - 1][j] = '#';
+    }
+
+    // Move player to center
+    int centerX = width / 2;
+    int centerY = height / 2;
+    player->setPosition(centerX, centerY);
+    grid[centerY][centerX] = player->getSymbol();
+
+    // Spawn stronger enemies (optional scaling)
+    int enemyCount = 5 + (currentFloor - 1) * 2;
+    spawnRandomEnemies(enemyCount);
+
+    startNewTurn();
+}

@@ -1,51 +1,71 @@
 #include "Combat.h"
+#include "UI.h"
+#include <conio.h> // For _getch()
 #include <iostream>
-
+using namespace std;
+class Map;
 void Combat::startCombat(Player& player, Enemy& enemy) {
-    std::cout << "A wild " << enemy.getSymbol() << " appears!\n";
+    std::vector<std::string> combatLog;
 
-    while (player.isAlive() && enemy.isAlive()) {
-        std::cout << "\nPlayer HP: " << player.getHp() << " | Enemy HP: " << enemy.getHp() << "\n";
-        std::cout << "Choose an action:\n1. Attack\n2. Use Item\n3. Run\n> ";
+    while (player.getIsAlive() && enemy.getIsAlive()) {
+        combatLog.clear();
+
+        // Round header
+        combatLog.push_back("A wild " + enemy.getType() + " appears!");
+        combatLog.push_back("Player HP: " + std::to_string(player.getHp()) +
+                            " | Enemy HP: " + std::to_string(enemy.getHp()));
+        combatLog.push_back("Choose an action:");
+        combatLog.push_back("1. Attack");
+        combatLog.push_back("2. Use Item");
+        combatLog.push_back("3. Run");
+
+        // Draw the UI
+        UI::drawCombatUI(player, combatLog);
 
         int choice;
         std::cin >> choice;
 
         switch (choice) {
             case 1: {
-                enemy.takeDamage(player.getAttackpower());
-                std::cout << "You dealt " << player.getAttackpower() << " damage!\n";
+                int damage = player.getAttackpower();
+                enemy.takeDamage(damage);
+                combatLog.push_back("You dealt " + std::to_string(damage) + " damage!");
                 break;
             }
-           case 2: {
-                player.showInventory();  // Optional: Display inventory to player
+            case 2: {
+                player.showInventory();
                 std::cout << "Enter item index to use: ";
-                int itemIndex;
-                std::cin >> itemIndex;
-                if (!player.useItem(itemIndex)) {
-                std::cout << "Failed to use item!\n";
+                int index;
+                std::cin >> index;
+                if (!player.useItem(index)) {
+                    combatLog.push_back("Failed to use item!");
                 }
                 break;
             }
             case 3: {
-                std::cout << "You ran away!\n";
+                combatLog.push_back("You ran away!");
+                UI::drawCombatUI(player, combatLog);
                 return;
             }
             default:
-                std::cout << "Invalid choice.\n";
-                continue;
+                combatLog.push_back("Invalid choice.");
         }
 
-        if (enemy.isAlive()) {
-            player.takeDamage(enemy.getAttackpower());
-            std::cout << "Enemy dealt " << enemy.getAttackpower() << " damage!\n";
+        // Enemy's turn
+        if (enemy.getIsAlive()) {
+            int damage = enemy.getAttackpower();
+            player.takeDamage(damage);
+            combatLog.push_back("Enemy dealt " + std::to_string(damage) + " damage!");
         }
     }
 
-    if (!player.isAlive()) 
-        std::cout << "You have been defeated.\n";
-    else {
-        std::cout << "Enemy has been defeated!\n";
+    if (!player.getIsAlive()) {
+        combatLog.push_back("You were defeated.");
+    } else {
+        combatLog.push_back("Enemy defeated!");
         player.gainExperience(enemy.getExperience());
     }
+    UI::drawCombatUI(player, combatLog);
+    _getch();
+   return;   
 }

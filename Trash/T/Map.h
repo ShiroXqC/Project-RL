@@ -7,13 +7,14 @@
 
 class Map
 {
-    private:
+    protected:
     //Map variable
     std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
     std::vector<Enemy*> enemies; //Vector containing Enemy pointer
     std::vector<std::unique_ptr<Item>> items; //Vector containing Item pointer 
     int width;
     int height;
+    int currentFloor = 1;
     Player *player;
 
     //Check if coordinates are within map boundaries
@@ -26,10 +27,9 @@ class Map
     int currentTurn;
     bool PlayerTurn; 
 
-        
     // Helper method to find empty positions
     std::pair<int, int> getRandomEmptyPosition() const {
-        std::vector<std::pair<int, int>> emptyPositions;
+    std::vector<std::pair<int, int>> emptyPositions;
         
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < width - 1; x++) {
@@ -41,12 +41,17 @@ class Map
         }
         
         if (emptyPositions.empty()) {
-            return emptyPositions{-1,-1};
+            return std::make_pair(-1, -1);
         }
         return emptyPositions[rand()%emptyPositions.size()]; // No empty positions
     }
 
     public:
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    char getTile(int x, int y) const { return grid[y][x]; }
+    int getFloor() const { return currentFloor; }
+
     // Default constructor - creates a small empty map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
     {
@@ -202,6 +207,9 @@ class Map
 
     //To spawn random enemies
     void spawnRandomEnemies(int count);
+
+    //To load next floor
+    void loadNextFloor();
 
     //Destructor
     ~Map() {

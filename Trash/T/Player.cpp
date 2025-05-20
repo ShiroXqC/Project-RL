@@ -1,15 +1,16 @@
 #include "Player.h"
 #include <iostream>
+using namespace std;
 
 // Attack override that can add special player effects
 void Player::attack(Entity& target) {
-    std::cout << "Player attacks!" << std::endl;
+    cout << "Player attacks!" << endl;
     Entity::attack(target);
 }
 
 bool Player::useItem(int index) {
     if (index < 0 || index >= inventory.getItemCount()) {
-        std::cout << "Invalid item index!\n";
+        cout << "Invalid item index!\n";
         return false;
     }
     inventory.useItem(index, *this);
@@ -29,7 +30,7 @@ void Player::heal(int amount) {
     // Cap at maximum health
     if (newHp > maxHealth) newHp = maxHealth;
     setHp(newHp);
-    std::cout << "Healed for " << (newHp - oldHp) 
+    cout << "Healed for " << (newHp - oldHp) 
               << " HP. Current health: " << getHp() 
               << "/" << maxHealth << "\n";
 }
@@ -40,16 +41,16 @@ void Player::takeDamage(int amount) {
     Entity::takeDamage(amount);
     currentHealth = getHp();
     // Add player-specific damage handling
-    std::cout << "Player took " << amount << " damage! Remaining HP: " << getHp() << "\n";
+    cout << "Player took " << amount << " damage! Remaining HP: " << getHp() << "\n";
     
     if (!isAlive()) {
-        std::cout << "Player has been defeated!\n";
+        cout << "Player has been defeated!\n";
     }
 }
 
 void Player::addToInventory(std::unique_ptr<Item> item) {
-    if (!inventory.addItem(std::move(item))) {
-        std::cout << "Couldn't add item to inventory - full!\n";
+    if (!inventory.addItem(move(item))) {
+        cout << "Couldn't add item to inventory - full!\n";
     }
 }
 
@@ -61,11 +62,11 @@ void Player::showInventory() const {
     const Inventory& inv = getInventory();  
 
     if (inv.getItemCount() == 0) {
-        std::cout << "Inventory is empty.\n";
+        cout << "Inventory is empty.\n";
         return;
     }
-    std::cout << "Inventory:\n";
+    cout << "Inventory:\n";
     for (int i = 0; i < inv.getItemCount(); ++i) {
-        std::cout << i << ": " << inv[i].getName() << "\n";
+        inventory.listItems();
     }
 }

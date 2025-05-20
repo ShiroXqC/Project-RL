@@ -13,6 +13,9 @@ class Player: public Entity
     int maxHealth;
     int currentHealth;
     int experience = 0;
+    int level = 1;
+    int gold = 0;
+    int defense = 2;
 
 
     public:
@@ -28,12 +31,15 @@ class Player: public Entity
     
     // Copy constructor - calls base class constructor
     Player(const Player& other) 
-        : Entity(other),
-          inventory(other.inventory),
-          player_symbol(other.player_symbol),
-          maxHealth(other.maxHealth),
-          currentHealth(other.currentHealth),
-          experience(other.experience){}
+    : Entity(other), inventory(other.inventory) {
+      player_symbol = other.player_symbol;
+      maxHealth = other.maxHealth;
+      currentHealth = other.currentHealth;
+      experience = other.experience;
+      level = other.level;
+      gold = other.gold;
+      defense = other.defense;
+}
     
     // Getters
     char getSymbol() const { return player_symbol; }
@@ -44,18 +50,35 @@ class Player: public Entity
     int getHealth() const { return currentHealth; }
     int getAttackpower() const { return attackpower; }
     int getExperience() const { return experience; }
+    int getLevel() const { return level; }
+    int getXP() const { return experience; }
+    int getXPToNextLevel() const { return level * 100; } // XP required increases per level
+    int getDefense() const { return defense; }
+    int getGold() const { return gold; }
+    int getBlock() const { return 0; }
 
     //Actions
     bool useItem(int index);
     void gainExperience(int exp_);
     void heal(int amount);
-    /*void takeDamage(int amount) override;
-    void attack(Entity& target) override;*/
+    void takeDamage(int amount) override;
+    void attack(Entity& target) override;
 
     // Inventory
     void addToInventory(std::unique_ptr<Item> item);
     void listInventory() const;
     void showInventory() const;
+
+    // New Modifier Methods 
+    void addGold(int amount) { gold += amount; }
+    void spendGold(int amount) { if (gold >= amount) gold -= amount; }
+
+    void levelUp() {
+    level++;
+    defense += 1;
+    maxHealth += 5;
+    setHp(maxHealth); // Heal to full
+}
 
     ~Player() = default;
 };
