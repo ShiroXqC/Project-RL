@@ -24,7 +24,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
 
         int choice;
         std::cin >> choice;
-
+        //Possible choice either to attack , use item or run?
         switch (choice) {
             case 1: {
                 int damage = player.getAttackpower();
@@ -64,6 +64,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
     } else {
         combatLog.push_back("Enemy defeated!");
         player.gainExperience(enemy.getExperience());
+        player.gainGold_From_Enemy(enemy.getGold_dropped());
     }
     UI::drawCombatUI(player, combatLog);
     _getch();

@@ -49,7 +49,6 @@ void UI::drawMainUI(const Map& map) {
 
     cout << "|-----------------  |       |                       |         | REQ. XP: " << player.getXPToNextLevel() << "    |\n";
     cout << "| Back to Main Menu |       |                       |         | DEF: " << player.getDefense() << "          |\n";
-    cout << "|                   |       |                       |         | BLK: " << player.getBlock() << "          |\n";
     cout << "|                   |       |                       |         | GOLD: " << player.getGold() << "         |\n";
     cout << "+-------------------+       +-----------------------+         +-----------------+\n";
 

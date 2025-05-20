@@ -12,34 +12,36 @@ class Player: public Entity
     char player_symbol = '@';
     int maxHealth;
     int currentHealth;
-    int experience = 0;
-    int level = 1;
-    int gold = 0;
-    int defense = 2;
+    int experience ;
+    int level ;
+    int gold ;
+    int defense ;
 
 
     public:
-    // Constructor that properly initializes the base class
-    Player(int startX, int startY, int inventoryCapacity = 10) 
-        : Entity(20, 7, 0, startX, startY), // hp=20, attackpower=5, exp=0
-          inventory(inventoryCapacity),
-          maxHealth(20),
-          currentHealth(20)
-    {
-        // Any additional Player-specific initialization
-    }
-    
+    Player(int startX = 20, int startY = 7, int inventoryCapacity = 10,
+       int hp = 20, int attackpower = 5, int exp = 0,
+       int currentHealth = 20, int maxHealth = 20,
+       int level = 0, int gold = 50, int defense = 2)
+    : Entity(hp, attackpower, exp, startX, startY),
+      inventory(inventoryCapacity),
+      maxHealth(maxHealth),
+      currentHealth(currentHealth),
+      experience(exp),
+      level(level),
+      gold(gold),
+      defense(defense)
+
     // Copy constructor - calls base class constructor
-    Player(const Player& other) 
-    : Entity(other), inventory(other.inventory) {
+    Player(const Player& other) : Entity(other), inventory(other.inventory) 
+    {
       player_symbol = other.player_symbol;
       maxHealth = other.maxHealth;
       currentHealth = other.currentHealth;
       experience = other.experience;
       level = other.level;
       gold = other.gold;
-      defense = other.defense;
-}
+      defense = other.defense;}
     
     // Getters
     char getSymbol() const { return player_symbol; }
@@ -60,6 +62,7 @@ class Player: public Entity
     //Actions
     bool useItem(int index);
     void gainExperience(int exp_);
+    void gainGold_From_Enemy(int gold_dropped)
     void heal(int amount);
     void takeDamage(int amount) override;
     void attack(Entity& target) override;
@@ -75,8 +78,8 @@ class Player: public Entity
 
     void levelUp() {
     level++;
-    defense += 1;
-    maxHealth += 5;
+    maxHealth += 2;
+    attackpower +=2;
     setHp(maxHealth); // Heal to full
 }
 
