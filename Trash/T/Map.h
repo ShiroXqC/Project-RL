@@ -14,6 +14,7 @@ class Map
     std::vector<std::unique_ptr<Item>> items; //Vector containing Item pointer 
     int width;
     int height;
+    int currentFloor = 1;
     Player *player;
 
     //Check if coordinates are within map boundaries
@@ -49,6 +50,7 @@ class Map
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     char getTile(int x, int y) const { return grid[y][x]; }
+    int getFloor() const { return currentFloor; }
 
     // Default constructor - creates a small empty map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
@@ -205,6 +207,9 @@ class Map
 
     //To spawn random enemies
     void spawnRandomEnemies(int count);
+
+    //To load next floor
+    void loadNextFloor();
 
     //Destructor
     ~Map() {

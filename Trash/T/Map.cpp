@@ -3,6 +3,7 @@
     #include "Sword.h"
     #include <cstdlib>
     #include "Combat.h"
+    #include <conio.h> // For _getch()
     #include <algorithm> // For std::remove_if
     #include <string>
     #include <iostream>
@@ -143,6 +144,11 @@
         Combat::startCombat(*player, *enemy);
         if (!enemy->getIsAlive()) {
             removeEnemy(enemy); // You'll need to implement this
+        if (enemies.empty()){
+            cout << "\n=== You have cleared the foor [Press] any key to continue ===\n";
+            _getch();
+            loadNextFloor();
+        }
         }
         return true;
      }
@@ -167,11 +173,11 @@
                 player->setPosition(newX, newY);
                 grid[newY][newX] = player->getSymbol();
                 moved = true;
-            }
+            }    
             // Check for enemy at destination
             else if (hasEnemyAt(newX, newY)) {
                 Enemy* enemy = getEnemyAt(newX, newY);
-                std::cout << "You attack the " << enemy->getSymbol() << "!\n";
+                cout << "You attack the " << enemy->getSymbol() << "!\n";
                 // Combat logic would go here in a more complete game
                 moved = true;
             }
@@ -298,4 +304,41 @@
             cout << endl;
         }
     }
- 
+ void Map::loadNextFloor() {
+    currentFloor++;
+    cout << "\n--- Descending to Floor " << currentFloor << " ---\n";
+
+    // Clear enemies 
+    for (Enemy* e : enemies) delete e;
+    enemies.clear();
+    items.clear();
+
+    // Reset grid
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            grid[y][x] = '.';
+        }
+    }
+
+    // Re-add walls
+    for (int i = 0; i < height; i++) {
+        grid[i][0] = '#';
+        grid[i][width - 1] = '#';
+    }
+    for (int j = 0; j < width; j++) {
+        grid[0][j] = '#';
+        grid[height - 1][j] = '#';
+    }
+
+    // Move player to center
+    int centerX = width / 2;
+    int centerY = height / 2;
+    player->setPosition(centerX, centerY);
+    grid[centerY][centerX] = player->getSymbol();
+
+    // Spawn stronger enemies (optional scaling)
+    int enemyCount = 5 + (currentFloor - 1) * 2;
+    spawnRandomEnemies(enemyCount);
+
+    startNewTurn();
+}

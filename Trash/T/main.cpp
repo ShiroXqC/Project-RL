@@ -88,7 +88,7 @@ void runGame() {
         // Display HUD
        
         UI::drawMainUI(gameMap);
-        
+        cout << "Floor: " << gameMap.getFloor() << "\n";
         // Check if player is dead
         if (!gameMap.getPlayer()->getIsAlive()) {
             cout << "\n===== GAME OVER =====\n";
