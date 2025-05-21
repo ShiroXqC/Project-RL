@@ -4,10 +4,10 @@
     #include <cstdlib>
     #include "Combat.h"
     #include <conio.h> // For _getch()
-    #include <algorithm> // For std::remove_if
+    #include <algorithm> // For remove_if
     #include <string>
     #include <iostream>
-    using namespace std;
+
 
     //To update player position 
     void Map::updatePlayerPosition(int oldX, int oldY, int newX, int newY) 
@@ -86,7 +86,7 @@
         }
     }
 
-    enemies.erase(std::remove_if(enemies.begin(), enemies.end(),
+    enemies.erase(remove_if(enemies.begin(), enemies.end(),
         [&](Enemy* e) {
             return e == enemy;
         }), enemies.end());
@@ -133,9 +133,6 @@
             case 'd': // Right
                 newX++;
                 break;
-            case ' ': // Wait/skip turn
-                moved = true;
-                break;
             default:
                 return false; // Invalid input
         }
@@ -159,12 +156,12 @@
             // Check for item at destination
             if (hasItemAt(newX, newY)) {
                 Item* item = getItemAt(newX, newY);
-                std::cout << "You found a " << item->getName() << "!\n";
+                cout << "You found a " << item->getName() << "!\n";
                 
                 // If it's consumable, use it and remove
                 if (item->isConsumable()) {
                     // In a more complete game, apply item effects here
-                    std::cout << "You used the " << item->getName() << "!\n";
+                    cout << "You used the " << item->getName() << "!\n";
                     removeItem(item);
                 }
                 
@@ -191,7 +188,7 @@
             }
             // Wall or other obstacle
             else {
-                std::cout << "You can't move there.\n";
+                cout << "You can't move there.\n";
             }
         }
         
@@ -249,7 +246,7 @@
                 abs(newX - player->getX()) <= 1 && 
                 abs(newY - player->getY()) <= 1) {
                 // Attack player logic would go here
-                std::cout << "Enemy attacks you!\n";
+                cout << "Enemy attacks you!\n";
                 continue; // Skip movement after attack
             }
             

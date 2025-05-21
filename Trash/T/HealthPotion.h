@@ -2,14 +2,15 @@
 #pragma once
 #include "Item.h"
 #include "Player.h" 
+using namespace std;
 
 class HealthPotion : public Item {
     public:
         HealthPotion(int x, int y) 
             : Item("Health Potion", x, y, true, 'H') {} // 'H' symbol
         
-            std::unique_ptr<Item> clone() const override {
-                return std::make_unique<HealthPotion>(*this);
+            unique_ptr<Item> clone() const override {
+                return make_unique<HealthPotion>(*this);
             }
         
             void use(Player& player) override {

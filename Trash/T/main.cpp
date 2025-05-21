@@ -14,6 +14,7 @@
 using namespace std;
 
 void handleInventory(Player* player);
+
 void handleInventory(Player* player) {
     cout << "\n==== INVENTORY ====\n";
     player->getInventory().listItems();
@@ -45,23 +46,23 @@ void displayMenu() {
 void displayInstructions() {
     cout << "\n==== GAME INSTRUCTIONS ====\n";
     cout << "Controls:\n";
-    cout << "  W - Move up\n";
-    cout << "  A - Move left\n";
-    cout << "  S - Move down\n";
-    cout << "  D - Move right\n";
-    cout << "  Space - Wait a turn\n";
-    cout << "  I - Open Inventory (not implemented yet)\n";
-    cout << "  P - Open Shop\n   ";
-    cout << "  Q - Quit game\n\n";
+    cout << "  w - Move up\n";
+    cout << "  a - Move left\n";
+    cout << "  s - Move down\n";
+    cout << "  d - Move right\n";
+    cout << "  i - Open Inventory\n";
+    cout << "  p - Open Shop\n";
+    cout << "  q - Quit game\n\n";
     
     cout << "Symbols:\n";
     cout << "  @ - You (the player)\n";
-    cout << "  G - Goblin enemy\n";
-    cout << "  S - Slime enemy or Sword item\n";
+    cout << "  G - Goblin\n";
+    cout << "  S - Slime\n";
+    cout << "  V - Vampire\n";
+    cout << "  K - Death knight\n";
+    cout << "  Z - Zombie\n";
     cout << "  # - Wall\n";
-    cout << "  . - Empty floor\n";
-    cout << "  H - Health potion\n";
-    cout << "  U/I/O/B - Other enemy types\n\n";
+    cout << "  . - Empty floor\n\n";
     
     cout << "Press any key to continue...";
     _getch(); // Wait for any key press
@@ -90,7 +91,6 @@ void runGame() {
         // Display HUD
        
         UI::drawMainUI(gameMap);
-        cout << "Floor: " << gameMap.getFloor() << "\n";
         // Check if player is dead
         if (!gameMap.getPlayer()->getIsAlive()) {
             cout << "\n===== GAME OVER =====\n";
@@ -113,19 +113,9 @@ void runGame() {
             case 'a': // Left
             case 's': // Down
             case 'd': // Right
-            case ' ': // Wait/skip turn
-                if (!gameMap.handlePlayerMove(input)) {
-                    // If handlePlayerMove returns false, either the move was invalid
-                    // or the player died during the move
-                    if (!gameMap.getPlayer()->getIsAlive()) {
-                        continue; // This will trigger the game over check next loop
-                    } else {
-                        cout << "\nInvalid move! Press any key to continue...";
-                        _getch();
-                    }
-                }
+            case ' ': // Refresh
+                gameMap.handlePlayerMove(input);
                 break;
-            
             case 'i': // Inventory
             handleInventory(gameMap.getPlayer());
             break;

@@ -1,13 +1,14 @@
 #pragma once 
 #include <map>
 #include <vector>
-#include <memory> // For std::unique_ptr dynamic memory management 
+#include <memory> // For unique_ptr dynamic memory management 
 #include "Item.h" // Include the Item class header
+using namespace std;
 
 class Player; 
 class Inventory {
     protected:
-        std::vector<std::unique_ptr<Item>> items; // Vector to store item names
+        vector<unique_ptr<Item>> items; // Vector to store item names
         int capacity; // Maximum capacity of the inventory
     public:
         Inventory(int cap = 10) : capacity(10) {} // Default constructor 
@@ -24,7 +25,7 @@ class Inventory {
             return *this;
         }
 
-        bool addItem(std::unique_ptr<Item> item); // Add an item to the inventory
+        bool addItem(unique_ptr<Item> item); // Add an item to the inventory
         void listItems() const; // List all items in the inventory
         void useItem(int index, Player& player); // Use an item from the inventory
         size_t size() const { return items.size(); } 

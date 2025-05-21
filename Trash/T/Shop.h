@@ -4,10 +4,11 @@
 #include <iostream>
 #include <memory>
 #include <conio.h>
+using namespace std;
 
 class Shop {
 private:
-    Player* player;
+    Player* PLAYER;
 
     const int HEALTH_POTION_PRICE = 15;
     const int SWORD_PRICE = 30;
@@ -19,7 +20,7 @@ private:
 
 public:
     // Constructor
-    Shop(Player* p) : player(p) {}
+    Shop(Player* p) : PLAYER(p) {}
 
     // Display shop interface
     void DisplayShop();
@@ -33,7 +34,7 @@ public:
     void buyGreatSword();
     void buyExcalibur();
     void buyShield();
-    void buyKnightsShield(); // Fixed spelling
+    void buyKnightsShield();
     void buyHerosShield();
 
     // Item prices

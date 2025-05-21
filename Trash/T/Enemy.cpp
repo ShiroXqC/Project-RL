@@ -1,6 +1,21 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int x, int y, std::string type, int gold_dropped)
+int Enemy::getExperience() const
+{
+    return experience;
+}
+
+int Enemy::getGoldDropped() const
+{
+    return gold_dropped;
+}
+
+string Enemy::getType() const
+{
+    return type;
+}
+
+Enemy::Enemy(int x, int y, string type, int gold_dropped)
     : type(type), gold_dropped(gold_dropped) {
     this->x = x;
     this->y = y;

@@ -8,14 +8,14 @@ bool Inventory::addItem(unique_ptr<Item> item){
         return true; // Item added successfully
     }
     cout << "Inventory is full!" << endl;
-    return false; // Inventory is full
+    return false; // Inventory is fullkk
     
 }
 
 void Inventory::listItems() const {
     cout << "Inventory Items:" << endl;
     for (int i = 0; i < (int)items.size(); ++i) {
-        cout << i<< ": " << items[i]->getName() << endl;
+        cout << i+1 << ": " << items[i]->getName() << endl;
     }
 }
 void Inventory::useItem(int index, Player& player) {
@@ -25,5 +25,6 @@ void Inventory::useItem(int index, Player& player) {
     }
     items[index]->use(player);
     items.erase(items.begin()+index);
+
     
 }

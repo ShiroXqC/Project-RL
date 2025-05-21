@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <sstream>
-using namespace std;
+
 
 // Helper function to determine zone name based on floor
 string getFloorZoneName(int floor) {
@@ -17,6 +17,7 @@ string getFloorZoneName(int floor) {
     return "Unknown Realm";
 }
 
+
 void UI::drawMainUI(const Map& map) {
     const Player& player = *map.getPlayer();
 
@@ -25,7 +26,7 @@ void UI::drawMainUI(const Map& map) {
 
     // === Header Row ===
     cout << "+-------------------+       +-----------------------+         +-----------------+\n";
-    cout << "|      MENU         |       |        INFO           |         |   CHARACTER     |\n";
+    cout << "|      MENU         |       |         INFO          |         |   CHARACTER     |\n";
     cout << "|-------------------|       |-----------------------|         |-----------------|\n";
 
     // === Content Rows (Aligning 3 panels) ===
@@ -37,20 +38,20 @@ void UI::drawMainUI(const Map& map) {
     floorLine << "Floor: " << floor << "/4";
     int floorPad = (23 - floorLine.str().length()) / 2;
 
-    cout << "| [p]Shop           |       | "
+    cout << "| [p]Shop           |       |"
          << string(floorPad, ' ') << floorLine.str()
          << string(23 - floorLine.str().length() - floorPad, ' ')
-         << " |         | LEVEL: " << player.getLevel() << "        |\n";
+         << "|         | LEVEL: " << player.getLevel() << "        |\n";
 
     // Zone name centered
     int zonePad = (23 - zoneName.length()) / 2;
-    cout << "|-----------------  |       |"
+    cout << "|------------------ |       |"
          << string(zonePad, ' ') << zoneName
-         << string(23 - zoneName.length() - zonePad, ' ') << "|         | CURR XP: " << player.getXP() << "      |\n";
+         << string(23 - zoneName.length() - zonePad, ' ') << "|         | ATK: " << player.getAttackpower() << "          |\n";
 
-    cout << "| Back to Main Menu |       |                       |         | REQ. XP: " << player.getXPToNextLevel() << "    |\n";
-    cout << "|                   |       |                       |         | DEF: " << player.getDefense() << "          |\n";
-    cout << "+-------------------+       +-----------------------+         | GOLD: " << player.getGold() << "         |\n";
+    cout << "| Back to Main Menu |       |                       |         | DEF: " << player.getDefense() << "          |\n";
+    cout << "|                   |       |                       |         | GOLD: " << player.getGold() << "        |\n";
+    cout << "+-------------------+       +-----------------------+         | XP: " << player.getXP() << " | " << player.getXPToNextLevel() << "     |\n";
     cout << "                                                              +-----------------+\n";
 
     // === MAP Header and Rendering ===
@@ -70,16 +71,16 @@ void UI::drawMainUI(const Map& map) {
         cout << " |\n";
     }
 
-    cout << "| @ = You, ! = Enemy   |\n";
+    cout << "| @ = You              |\n";
     cout << "+----------------------+\n";
-    cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [I]Inventory [Q]Quit\n";
+    cout << "Controls: [w]Up [a]Left [s]Down [d]Right [q]Quit\n";
 }
 
 void UI::drawCombatUI(const Player& player, const vector<string>& combatLog) {
     system("cls"); // Clear screen
 
     const int combatWidth = 36;
-    const int charWidth = 23;
+    const int charWidth = 21;
     const string gap = "               "; // wider spacing between panels
 
     cout << "+------------------------------------+" << gap << "+-----------------------+\n";
@@ -99,15 +100,22 @@ void UI::drawCombatUI(const Player& player, const vector<string>& combatLog) {
         // Right: Character info
         cout << "| ";
         switch (i) {
-            case 0: cout << setw(charWidth) << left << ("NAME: " + string(1, player.getSymbol())); break;
-            case 1: cout << setw(charWidth) << left << ("HP: " + to_string(player.getHp()) + "/" + to_string(player.getMaxHealth())); break;
-            case 2: cout << setw(charWidth) << left << ("LEVEL: " + to_string(player.getLevel())); break;
-            case 3: cout << setw(charWidth) << left << ("CURR XP: " + to_string(player.getXP())); break;
-            case 4: cout << setw(charWidth) << left << ("REQ. XP: " + to_string(player.getXPToNextLevel())); break;
-            case 5: cout << setw(charWidth) << left << ("DEF: " + to_string(player.getDefense())); break;
-            case 6: cout << setw(charWidth) << left << ("BLK: " + to_string(player.getBlock())); break;
-            case 7: cout << setw(charWidth) << left << ("GOLD: " + to_string(player.getGold())); break;
-            default: cout << setw(charWidth) << " "; break;
+            case 0: cout << setw(charWidth) << left << ("NAME: " + string(1, player.getSymbol())); 
+                    break;
+            case 1: cout << setw(charWidth) << left << ("HP: " + to_string(player.getHp()) + "/" + to_string(player.getMaxHealth())); 
+                    break;
+            case 2: cout << setw(charWidth) << left << ("ATK: " + to_string(player.getAttackpower())); 
+                    break;
+            case 3: cout << setw(charWidth) << left << ("DEF: " + to_string(player.getDefense())); 
+                    break;
+            case 4: cout << setw(charWidth) << left << ("GOLD: " + to_string(player.getGold())); 
+                    break;
+            case 5: cout << setw(charWidth) << left << ("LEVEL: " + to_string(player.getLevel())); 
+                    break;
+            case 6: cout << setw(charWidth) << left << ("XP: " + to_string(player.getXP()) + "/" + to_string(player.getXPToNextLevel())); 
+                    break;
+            default:cout << setw(charWidth) << " "; 
+                    break;
         }
         cout << " |\n";
     }

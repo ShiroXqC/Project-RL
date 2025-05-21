@@ -1,23 +1,24 @@
 #pragma once
 #include "Entity.h"
 #include <string>
+using namespace std;
 
 class Enemy : public Entity {
 private:
-    std::string type;
+    string type;
     int gold_dropped;
     int experience = 0;
-    char symbol;  // Symbol used for map display (e.g. 'G', 'S', etc.)
+    char symbol;
 
 public:
-    Enemy(int x, int y, std::string type, int gold_dropped);
+    Enemy(int x, int y, string type, int gold_dropped);
     Enemy();
 
     void attack(Entity& target) override;
     void takeDamage(int amount) override;
     char getSymbol() const override;
 
-    int getExperience() const { return experience; }
-    int getGoldDropped() const { return gold_dropped; }
-    std::string getType() const { return type; }
+    int getExperience() const;
+    int getGoldDropped() const;
+    string getType() const;
 };

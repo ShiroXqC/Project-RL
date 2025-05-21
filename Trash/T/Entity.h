@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+using namespace std;
 
 class Entity
 {
@@ -42,8 +43,8 @@ class Entity
     int getExp() const;
     int getX() const;
     int getY() const;
-    
     bool getIsAlive() const;
+    
     //Setters
     void setHp(int hp);
     void setAttackpower(int attackpower);

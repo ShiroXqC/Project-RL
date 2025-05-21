@@ -4,6 +4,7 @@
 #include <string>
 #include "Inventory.h"
 #include "Item.h"
+using namespace std;
 
 class Player : public Entity {
 private:
@@ -13,7 +14,7 @@ private:
     int currentHealth;
     int experience;
     int level;
-    int xpToNextLevel = 100;
+    int xpToNextLevel = 50;
     int gold;
     int defense;
 
@@ -53,7 +54,6 @@ public:
     int getXPToNextLevel() const { return xpToNextLevel; }
     int getDefense() const { return defense; }
     int getGold() const { return gold; }
-    int getBlock() const { return 0; }
 
     // Actions
     bool useItem(int index);
@@ -64,7 +64,7 @@ public:
     void attack(Entity& target) override;
 
     // Inventory
-    void addToInventory(std::unique_ptr<Item> item);
+    void addToInventory(unique_ptr<Item> item);
     void listInventory() const;
     void showInventory() const;
 

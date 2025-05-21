@@ -4,14 +4,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+using namespace std;
 
 class Map
 {
     protected:
     //Map variable
-    std::vector<std::vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
-    std::vector<Enemy*> enemies; //Vector containing Enemy pointer
-    std::vector<std::unique_ptr<Item>> items; //Vector containing Item pointer 
+    vector<vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
+    vector<Enemy*> enemies; //Vector containing Enemy pointer
+    vector<unique_ptr<Item>> items; //Vector containing Item pointer 
     int width;
     int height;
     int currentFloor = 1;
@@ -28,8 +29,8 @@ class Map
     bool PlayerTurn; 
 
     // Helper method to find empty positions
-    std::pair<int, int> getRandomEmptyPosition() const {
-    std::vector<std::pair<int, int>> emptyPositions;
+    pair<int, int> getRandomEmptyPosition() const {
+    vector<pair<int, int>> emptyPositions;
         
         for (int y = 1; y < height - 1; y++) {
             for (int x = 1; x < width - 1; x++) {
@@ -41,7 +42,7 @@ class Map
         }
         
         if (emptyPositions.empty()) {
-            return std::make_pair(-1, -1);
+            return make_pair(-1, -1);
         }
         return emptyPositions[rand()%emptyPositions.size()]; // No empty positions
     }
@@ -56,7 +57,7 @@ class Map
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
     {
         // Initialize grid with '.' (empty spaces) by setting the number of rows and column and filling them with _
-        grid.resize(height, std::vector<char>(width, '.'));
+        grid.resize(height, vector<char>(width, '.'));
         
         // Add some basic walls around the edges
         for (int i = 0; i < height; i++) {
@@ -82,7 +83,7 @@ class Map
         if (y < 3) height = 3;
         
         // Initialize grid with '.' (empty spaces)
-        grid.resize(height, std::vector<char>(width, '.'));
+        grid.resize(height, vector<char>(width, '.'));
         
         // Add some basic walls around the edges
         for (int i = 0; i < height; i++) {

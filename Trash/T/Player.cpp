@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <iostream>
-using namespace std;
+
 
 // Attack override that can add special player effects
 void Player::attack(Entity& target) {
@@ -50,7 +50,7 @@ void Player::heal(int amount) {
 
 // Override takeDamage to include player-specific logic
 void Player::takeDamage(int amount) {
-    int netDamage = std::max(0, amount - defense);  // Use defense to reduce damage
+    int netDamage = max(0, amount - defense);  // Use defense to reduce damage
     Entity::takeDamage(netDamage);
     currentHealth = getHp();
 
@@ -62,7 +62,7 @@ void Player::takeDamage(int amount) {
     }
 }
 // Add Item To Inventory
-void Player::addToInventory(std::unique_ptr<Item> item) {
+void Player::addToInventory(unique_ptr<Item> item) {
     if (!inventory.addItem(move(item))) {
         cout << "Couldn't add item to inventory - full!\n";
     }
