@@ -12,10 +12,10 @@ class Player: public Entity
     char player_symbol = '@';
     int maxHealth;
     int currentHealth;
-    int experience ;
-    int level ;
-    int gold ;
-    int defense ;
+    int experience;
+    int level;
+    int gold;
+    int defense;
 
 
     public:
@@ -33,16 +33,15 @@ class Player: public Entity
       defense(defense)
 
     // Copy constructor - calls base class constructor
-    Player(const Player& other) : Entity(other), inventory(other.inventory) 
-    {
+    Player(const Player& other) : Entity(other), inventory(other.inventory){
       player_symbol = other.player_symbol;
       maxHealth = other.maxHealth;
       currentHealth = other.currentHealth;
       experience = other.experience;
       level = other.level;
       gold = other.gold;
-      defense = other.defense;}
-    
+      defense = other.defense{}
+    }
     // Getters
     char getSymbol() const { return player_symbol; }
     Inventory& getInventory() { return inventory; }
@@ -62,7 +61,7 @@ class Player: public Entity
     //Actions
     bool useItem(int index);
     void gainExperience(int exp_);
-    void gainGold_From_Enemy(int gold_dropped)
+    void gainGold_From_Enemy(int gold_dropped);
     void heal(int amount);
     void takeDamage(int amount) override;
     void attack(Entity& target) override;
@@ -74,7 +73,7 @@ class Player: public Entity
 
     // New Modifier Methods 
     void addGold(int amount) { gold += amount; }
-    void spendGold(int amount) { if (gold >= amount) gold -= amount; }
+    bool spendGold(int amount) { if (gold >= amount) gold -= amount; }
 
     void levelUp() {
     level++;

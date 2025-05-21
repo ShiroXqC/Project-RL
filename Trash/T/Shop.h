@@ -38,5 +38,5 @@ class Shop{
     void buyHerosShield();
    
 
-}
+};
 

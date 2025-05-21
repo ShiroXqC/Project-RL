@@ -1,4 +1,6 @@
 #include"Shop.h"
+#include <iostream>
+using namespace std;
 void Shop::DisplayShop()
 {
     system("cls"); //Clear system screen
@@ -23,7 +25,7 @@ int Shop::Choices()
         
         while (!exitShop) {
             displayShopItems();
-            std::cin >> choice;
+            cin >> choice;
             
             switch (choice) {
                 case 1:
@@ -48,12 +50,12 @@ int Shop::Choices()
                     buyHerosShield();
                     break;
                 case 0:
-                    std::cout << "Thank you for visiting the shop!\n";
+                    cout << "Thank you for visiting the shop!\n";
                     exitShop = true;
                     break;
                 default:
-                    std::cout << "Invalid choice. Please try again.\n";
-                    std::cout << "Press any key to continue...\n";
+                    cout << "Invalid choice. Please try again.\n";
+                    cout << "Press any key to continue...\n";
                     _getch();
                     break;
         }
@@ -63,48 +65,48 @@ int Shop::Choices()
 };
 void Shop::buyHealthPotion(){
      if (player->spendGold(HEALTH_POTION_PRICE)) {
-            auto potion = std::make_unique<Item>("Health Potion", -1, -1, true, 'P');
-            player->addToInventory(std::move(potion));
-            std::cout << "Bought a Health Potion!\n";
-            std::cout << "Press any key to continue...\n";
+            auto potion = make_unique<Item>("Health Potion", -1, -1, true, 'P');
+            player->addToInventory(move(potion));
+            cout << "Bought a Health Potion!\n";
+            cout << "Press any key to continue...\n";
     }
 void Shop::buySword() {
         if (player->spendGold(SWORD_PRICE)) {
             player->addAttackDamage(5);
-            std::cout << "Bought a Sword! Attack power increased.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought a Sword! Attack power increased.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
 void Shop::buyGreatSword() {
         if (player->spendGold(GREAT_SWORD_PRICE)) {
             player->addAttackDamage(10);
-            std::cout << "Bought a Great Sword! Attack power increased significantly.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought a Great Sword! Attack power increased significantly.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
 void Shop::buyExcalibur() {
         if (player->spendGold(EXCALIBUR_PRICE)) {
             player->addAttackDamage(20);
-            std::cout << "Bought Excalibur! Attack power greatly increased.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought Excalibur! Attack power greatly increased.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
 void Shop::buyShield() {
         if (player->spendGold(SHIELD_PRICE)) {
             player->addDefense(3);
-            std::cout << "Bought a Shield! Defense increased.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought a Shield! Defense increased.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
 void Shop::buyKnightsShield() {
         if (player->spendGold(KNIGHTS_SHIELD_PRICE)) {
             player->addDefense(6);
-            std::cout << "Bought a Knight's Shield! Defense increased significantly.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought a Knight's Shield! Defense increased significantly.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
@@ -112,13 +114,13 @@ void Shop::buyKnightsShield() {
 void Shop::buyHerosShield() {
         if (player->spendGold(HEROS_SHIELD_PRICE)) {
             player->addDefense(12);
-            std::cout << "Bought a Hero's Shield! Defense greatly increased.\n";
-            std::cout << "Press any key to continue...\n";
+            cout << "Bought a Hero's Shield! Defense greatly increased.\n";
+            cout << "Press any key to continue...\n";
             _getch();
         }
     }
 
-
+}
 //Getters
 int Shop::getHealthPotionPrice() const { return HEALTH_POTION_PRICE; }
 int Shop::getSwordPrice() const { return SWORD_PRICE; }

@@ -1,42 +1,21 @@
-#pragma once
-#include"Entity.h"
+#include "Entity.h"
+#include <string>
 
-class Enemy : public Entity
-{
+class Enemy : public Entity {
 private:
     std::string type;
-    Enemy* currentEnemy;
-    int experience;
     int gold_dropped;
+    char symbol;  // Symbol used for map display (e.g. 'G', 'S', etc.)
 
 public:
-    //Constructor
-    Enemy(int x, int y, std::string type = "Goblin",int gold_dropped)
-    {
-        this->x = x;
-        this->y = y;
-        this->type = type;
-        if      (type == "Goblin")       { hp = 14; attackpower = 5; experience = 10; gold_dropped = 2}
-        else if (type == "Slime")        { hp = 10; attackpower = 3; experience=5; gold dropped = 5}
-        else if (type == "Vampire")      { hp = 20; attackpower = 5; experience = 20; gold dropped = 10}
-        else if (type == "Death Knight") { hp = 30; attackpower = 8; experience = 30; gold dropped = 15}
-        else if (type == "Zombie")       { hp = 18; attackpower = 6; experience = 15; gold dropped = 20}
-    }
-    Enemy() : Enemy(0,0,"Goblin") {}
+    Enemy(int x, int y, std::string type, int gold_dropped);
+    Enemy();
 
-    int getExperience() const  { return experience; } //getter for experience
-    int getGold_dropped() const { return gold_dropped; } //getter for gold dropped
-    std::string getType() const { return type; }
-    
-    //Attack functions
     void attack(Entity& target) override;
+    void takeDamage(int amount) override;
+    char getSymbol() const override;
 
-    char getSymbol() const {
-        if      (type == "Goblin")       return 'G';
-        else if (type == "Slime")        return 'S';
-        else if (type == "Vampire")      return 'V';
-        else if (type == "Death Knight") return 'K';
-        else if (type == "Zombie")       return 'Z';
-        else                              return '?';
-    }
+    int getExperience() const { return experience; }
+    int getGoldDropped() const { return gold_dropped; }
+    std::string getType() const { return type; }
 };

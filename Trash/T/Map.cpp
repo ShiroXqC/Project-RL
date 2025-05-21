@@ -273,7 +273,7 @@
 
             // Choose a random enemy type
             string type = enemyTypes[rand() % enemyTypes.size()];
-            Enemy* enemy = new Enemy(pos.first, pos.second, type);
+            Enemy* enemy = new Enemy(pos.first, pos.second, type, 5);
             enemies.push_back(enemy);
             grid[pos.second][pos.first] = enemy->getSymbol();
         }

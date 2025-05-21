@@ -9,6 +9,7 @@
 #include "Combat.h"
 #include "Inventory.h"
 #include "UI.h"
+#include "Shop.h" 
 #include <iostream>
 using namespace std;
 
