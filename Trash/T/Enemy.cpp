@@ -17,4 +17,5 @@ void Enemy::attack(Entity& target) {
     } else if (type == "Goblin") {
         cout << "The goblin cackles maniacally!" << endl;
     }
+    
 }

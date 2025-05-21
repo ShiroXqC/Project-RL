@@ -50,6 +50,7 @@ void displayInstructions() {
     cout << "  D - Move right\n";
     cout << "  Space - Wait a turn\n";
     cout << "  I - Open Inventory (not implemented yet)\n";
+    cout << "  P - Open Shop\n   "
     cout << "  Q - Quit game\n\n";
     
     cout << "Symbols:\n";
@@ -126,6 +127,10 @@ void runGame() {
             
             case 'i': // Inventory
             handleInventory(gameMap.getPlayer());
+            break;
+
+            case 'p': //Openshop
+            //somefunction here
             break;
                 
             default:

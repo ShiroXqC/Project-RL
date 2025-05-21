@@ -6,24 +6,26 @@ class Enemy : public Entity
 private:
     std::string type;
     Enemy* currentEnemy;
-    int experience = 0;
+    int experience;
+    int gold_dropped;
 
 public:
     //Constructor
-    Enemy(int x, int y, std::string type = "Goblin")
+    Enemy(int x, int y, std::string type = "Goblin",int gold_dropped)
     {
         this->x = x;
         this->y = y;
         this->type = type;
-        if      (type == "Goblin")       { hp=14; attackpower=5;  experience=10; }
-        else if (type == "Slime")        { hp=10; attackpower=3;   experience=5; }
-        else if (type == "Vampire")      { hp=20; attackpower=5;  experience=20; }
-        else if (type == "Death Knight") { hp=30; attackpower=8;  experience=30; }
-        else if (type == "Zombie")       { hp=18; attackpower=6;  experience=15; }
+        if      (type == "Goblin")       { hp = 14; attackpower = 5; experience = 10; gold_dropped = 2}
+        else if (type == "Slime")        { hp = 10; attackpower = 3; experience=5; gold dropped = 5}
+        else if (type == "Vampire")      { hp = 20; attackpower = 5; experience = 20; gold dropped = 10}
+        else if (type == "Death Knight") { hp = 30; attackpower = 8; experience = 30; gold dropped = 15}
+        else if (type == "Zombie")       { hp = 18; attackpower = 6; experience = 15; gold dropped = 20}
     }
     Enemy() : Enemy(0,0,"Goblin") {}
 
     int getExperience() const  { return experience; } //getter for experience
+    int getGold_dropped() const { return gold_dropped; } //getter for gold dropped
     std::string getType() const { return type; }
     
     //Attack functions

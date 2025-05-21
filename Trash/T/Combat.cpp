@@ -5,15 +5,15 @@
 using namespace std;
 class Map;
 void Combat::startCombat(Player& player, Enemy& enemy) {
-    vector<string> combatLog;
+    std::vector<std::string> combatLog;
 
     while (player.getIsAlive() && enemy.getIsAlive()) {
         combatLog.clear();
 
         // Round header
         combatLog.push_back("A wild " + enemy.getType() + " appears!");
-        combatLog.push_back("Player HP: " + to_string(player.getHp()) +
-                            " | Enemy HP: " + to_string(enemy.getHp()));
+        combatLog.push_back("Player HP: " + std::to_string(player.getHp()) +
+                            " | Enemy HP: " + std::to_string(enemy.getHp()));
         combatLog.push_back("Choose an action:");
         combatLog.push_back("1. Attack");
         combatLog.push_back("2. Use Item");
@@ -23,20 +23,20 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         UI::drawCombatUI(player, combatLog);
 
         int choice;
-        cin >> choice;
-
+        std::cin >> choice;
+        //Possible choice either to attack , use item or run?
         switch (choice) {
             case 1: {
                 int damage = player.getAttackpower();
                 enemy.takeDamage(damage);
-                combatLog.push_back("You dealt " + to_string(damage) + " damage!");
+                combatLog.push_back("You dealt " + std::to_string(damage) + " damage!");
                 break;
             }
             case 2: {
                 player.showInventory();
-                cout << "Enter item index to use: ";
+                std::cout << "Enter item index to use: ";
                 int index;
-                cin >> index;
+                std::cin >> index;
                 if (!player.useItem(index)) {
                     combatLog.push_back("Failed to use item!");
                 }
@@ -55,7 +55,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         if (enemy.getIsAlive()) {
             int damage = enemy.getAttackpower();
             player.takeDamage(damage);
-            combatLog.push_back("Enemy dealt " + to_string(damage) + " damage!");
+            combatLog.push_back("Enemy dealt " + std::to_string(damage) + " damage!");
         }
     }
 
@@ -64,6 +64,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
     } else {
         combatLog.push_back("Enemy defeated!");
         player.gainExperience(enemy.getExperience());
+        player.gainGold_From_Enemy(enemy.getGold_dropped());
     }
     UI::drawCombatUI(player, combatLog);
     _getch();

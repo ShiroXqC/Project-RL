@@ -21,6 +21,12 @@ bool Player::useItem(int index) {
 void Player::gainExperience(int exp) {
     experience += exp;
 }
+//Get gold dropped from enemy 
+void Player::gainGold_From_Enemy(int gold_dropped)
+{
+    gold+=gold_dropped; 
+}
+void 
 
 
 void Player::heal(int amount) {
@@ -48,16 +54,20 @@ void Player::takeDamage(int amount) {
     }
 }
 
+
+//Add Item To Inventory
 void Player::addToInventory(std::unique_ptr<Item> item) {
     if (!inventory.addItem(move(item))) {
         cout << "Couldn't add item to inventory - full!\n";
     }
 }
 
+//List Player Inventory 
 void Player::listInventory() const {
     inventory.listItems();
 }
 
+//Show Player Inventory 
 void Player::showInventory() const {
     const Inventory& inv = getInventory();  
 
