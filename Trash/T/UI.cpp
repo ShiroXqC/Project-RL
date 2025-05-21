@@ -37,7 +37,6 @@ void UI::drawMainUI(const Map& map) {
     floorLine << "Floor: " << floor << "/4";
     int floorPad = (23 - floorLine.str().length()) / 2;
 
-    cout << "| [c]Character Sheet|       |"
          << string(floorPad, ' ') << floorLine.str()
          << string(23 - floorLine.str().length() - floorPad, ' ') << "|         | LEVEL: " << player.getLevel() << "        |\n";
 
@@ -75,42 +74,42 @@ void UI::drawMainUI(const Map& map) {
     cout << "Controls: [W]Up [A]Left [S]Down [D]Right [Space]Wait [I]Inventory [Q]Quit\n";
 }
 
-void UI::drawCombatUI(const Player& player, const std::vector<std::string>& combatLog) {
+void UI::drawCombatUI(const Player& player, const vector<string>& combatLog) {
     system("cls"); // Clear screen
 
     const int combatWidth = 36;
     const int charWidth = 23;
-    const std::string gap = "               "; // wider spacing between panels
+    const string gap = "               "; // wider spacing between panels
 
-    std::cout << "+------------------------------------+" << gap << "+-----------------------+\n";
-    std::cout << "|           COMBAT LOG               |" << gap << "|       CHARACTER       |\n";
-    std::cout << "|------------------------------------|" << gap << "|-----------------------|\n";
+    cout << "+------------------------------------+" << gap << "+-----------------------+\n";
+    cout << "|           COMBAT LOG               |" << gap << "|       CHARACTER       |\n";
+    cout << "|------------------------------------|" << gap << "|-----------------------|\n";
 
     for (int i = 0; i < 8; ++i) {
         // Left: Combat log
-        std::cout << "| ";
+        cout << "| ";
         if (i < combatLog.size()) {
-            std::cout << std::setw(combatWidth - 2) << std::left << combatLog[i];
+            cout << setw(combatWidth - 2) << left << combatLog[i];
         } else {
-            std::cout << std::setw(combatWidth - 2) << " ";
+            cout << setw(combatWidth - 2) << " ";
         }
-        std::cout << " |" << gap;
+        cout << " |" << gap;
 
         // Right: Character info
-        std::cout << "| ";
+        cout << "| ";
         switch (i) {
-            case 0: std::cout << std::setw(charWidth) << std::left << ("NAME: " + std::string(1, player.getSymbol())); break;
-            case 1: std::cout << std::setw(charWidth) << std::left << ("HP: " + std::to_string(player.getHp()) + "/" + std::to_string(player.getMaxHealth())); break;
-            case 2: std::cout << std::setw(charWidth) << std::left << ("LEVEL: " + std::to_string(player.getLevel())); break;
-            case 3: std::cout << std::setw(charWidth) << std::left << ("CURR XP: " + std::to_string(player.getXP())); break;
-            case 4: std::cout << std::setw(charWidth) << std::left << ("REQ. XP: " + std::to_string(player.getXPToNextLevel())); break;
-            case 5: std::cout << std::setw(charWidth) << std::left << ("DEF: " + std::to_string(player.getDefense())); break;
-            case 6: std::cout << std::setw(charWidth) << std::left << ("BLK: " + std::to_string(player.getBlock())); break;
-            case 7: std::cout << std::setw(charWidth) << std::left << ("GOLD: " + std::to_string(player.getGold())); break;
-            default: std::cout << std::setw(charWidth) << " "; break;
+            case 0: cout << setw(charWidth) << left << ("NAME: " + string(1, player.getSymbol())); break;
+            case 1: cout << setw(charWidth) << left << ("HP: " + to_string(player.getHp()) + "/" + to_string(player.getMaxHealth())); break;
+            case 2: cout << setw(charWidth) << left << ("LEVEL: " + to_string(player.getLevel())); break;
+            case 3: cout << setw(charWidth) << left << ("CURR XP: " + to_string(player.getXP())); break;
+            case 4: cout << setw(charWidth) << left << ("REQ. XP: " + to_string(player.getXPToNextLevel())); break;
+            case 5: cout << setw(charWidth) << left << ("DEF: " + to_string(player.getDefense())); break;
+            case 6: cout << setw(charWidth) << left << ("BLK: " + to_string(player.getBlock())); break;
+            case 7: cout << setw(charWidth) << left << ("GOLD: " + to_string(player.getGold())); break;
+            default: cout << setw(charWidth) << " "; break;
         }
-        std::cout << " |\n";
+        cout << " |\n";
     }
 
-    std::cout << "+------------------------------------+" << gap << "+-----------------------+\n";
+    cout << "+------------------------------------+" << gap << "+-----------------------+\n";
 }
