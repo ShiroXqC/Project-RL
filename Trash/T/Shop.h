@@ -8,7 +8,7 @@ using namespace std;
 
 class Shop {
 private:
-    Player* PLAYER;
+    Player* player;
 
     const int HEALTH_POTION_PRICE = 15;
     const int SWORD_PRICE = 30;
@@ -20,7 +20,7 @@ private:
 
 public:
     // Constructor
-    Shop(Player* p) : PLAYER(p) {}
+    Shop(Player* p) : player(p) {}
 
     // Display shop interface
     void DisplayShop();
