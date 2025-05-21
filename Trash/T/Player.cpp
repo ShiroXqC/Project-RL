@@ -20,14 +20,21 @@ bool Player::useItem(int index) {
 // Gain experience and level up 
 void Player::gainExperience(int exp) {
     experience += exp;
+    while (experience >= xpToNextLevel) {
+        experience -= xpToNextLevel;
+        level++;
+        xpToNextLevel += 50;
+        maxHealth += 5;
+        attackpower += 2;
+        setHp(maxHealth); // Heal to full
+        cout << "Level up! New level: " << level << "\n";
+    }
 }
-//Get gold dropped from enemy 
-void Player::gainGold_From_Enemy(int gold_dropped)
-{
-    gold+=gold_dropped; 
-}
-void 
 
+// Get gold dropped from enemy 
+void Player::gainGold_From_Enemy(int gold_dropped) {
+    gold += gold_dropped; 
+}
 
 void Player::heal(int amount) {
     int oldHp = getHp();
@@ -37,46 +44,42 @@ void Player::heal(int amount) {
     if (newHp > maxHealth) newHp = maxHealth;
     setHp(newHp);
     cout << "Healed for " << (newHp - oldHp) 
-              << " HP. Current health: " << getHp() 
-              << "/" << maxHealth << "\n";
+         << " HP. Current health: " << getHp() 
+         << "/" << maxHealth << "\n";
 }
 
 // Override takeDamage to include player-specific logic
 void Player::takeDamage(int amount) {
-    // Call base class implementation
-    Entity::takeDamage(amount);
+    int netDamage = std::max(0, amount - defense);  // Use defense to reduce damage
+    Entity::takeDamage(netDamage);
     currentHealth = getHp();
-    // Add player-specific damage handling
-    cout << "Player took " << amount << " damage! Remaining HP: " << getHp() << "\n";
-    
+
+    cout << "Player took " << netDamage << " damage! Remaining HP: "
+         << getHp() << "/" << maxHealth << "\n";
+
     if (!isAlive()) {
         cout << "Player has been defeated!\n";
     }
 }
-
-
-//Add Item To Inventory
+// Add Item To Inventory
 void Player::addToInventory(std::unique_ptr<Item> item) {
     if (!inventory.addItem(move(item))) {
         cout << "Couldn't add item to inventory - full!\n";
     }
 }
 
-//List Player Inventory 
+// List Player Inventory 
 void Player::listInventory() const {
     inventory.listItems();
 }
 
-//Show Player Inventory 
+// Show Player Inventory 
 void Player::showInventory() const {
     const Inventory& inv = getInventory();  
-
     if (inv.getItemCount() == 0) {
         cout << "Inventory is empty.\n";
         return;
     }
     cout << "Inventory:\n";
-    for (int i = 0; i < inv.getItemCount(); ++i) {
-        inventory.listItems();
-    }
+    inv.listItems();
 }

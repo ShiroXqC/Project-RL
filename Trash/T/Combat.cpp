@@ -64,7 +64,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
     } else {
         combatLog.push_back("Enemy defeated!");
         player.gainExperience(enemy.getExperience());
-        player.gainGold_From_Enemy(enemy.getGold_dropped());
+        player.gainGold_From_Enemy(enemy.getGoldDropped());
     }
     UI::drawCombatUI(player, combatLog);
     _getch();

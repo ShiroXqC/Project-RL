@@ -37,19 +37,21 @@ void UI::drawMainUI(const Map& map) {
     floorLine << "Floor: " << floor << "/4";
     int floorPad = (23 - floorLine.str().length()) / 2;
 
+    cout << "| [p]Shop           |       | "
          << string(floorPad, ' ') << floorLine.str()
-         << string(23 - floorLine.str().length() - floorPad, ' ') << "|         | LEVEL: " << player.getLevel() << "        |\n";
+         << string(23 - floorLine.str().length() - floorPad, ' ')
+         << " |         | LEVEL: " << player.getLevel() << "        |\n";
 
     // Zone name centered
     int zonePad = (23 - zoneName.length()) / 2;
-    cout << "| [p]Shop           |       |"
+    cout << "|-----------------  |       |"
          << string(zonePad, ' ') << zoneName
          << string(23 - zoneName.length() - zonePad, ' ') << "|         | CURR XP: " << player.getXP() << "      |\n";
 
-    cout << "|-----------------  |       |                       |         | REQ. XP: " << player.getXPToNextLevel() << "    |\n";
-    cout << "| Back to Main Menu |       |                       |         | DEF: " << player.getDefense() << "          |\n";
-    cout << "|                   |       |                       |         | GOLD: " << player.getGold() << "         |\n";
-    cout << "+-------------------+       +-----------------------+         +-----------------+\n";
+    cout << "| Back to Main Menu |       |                       |         | REQ. XP: " << player.getXPToNextLevel() << "    |\n";
+    cout << "|                   |       |                       |         | DEF: " << player.getDefense() << "          |\n";
+    cout << "+-------------------+       +-----------------------+         | GOLD: " << player.getGold() << "         |\n";
+    cout << "                                                              +-----------------+\n";
 
     // === MAP Header and Rendering ===
     cout << "+----------------------+\n";

@@ -17,11 +17,14 @@ void Entity::setY(int y) { this->y=y;}
 void Entity::setPosition (int newX, int newY){this->x=newX; this->y=newY;}
 
 
-void Entity::takeDamage(int amount)
-{
-    hp-=amount;
-    if (hp < 0) hp = 0; // Ensure hp doesn't go negative
-    isAlive = false;   
+void Entity::takeDamage(int amount) {
+    hp -= amount;
+    if (hp <= 0) {
+        hp = 0;
+        isAlive = false;
+    } else {
+        isAlive = true;
+    }
 }
 //Virtual function 
 void Entity::attack(Entity &target)

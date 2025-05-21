@@ -1,3 +1,4 @@
+#pragma once
 #include "Entity.h"
 #include <string>
 
@@ -5,6 +6,7 @@ class Enemy : public Entity {
 private:
     std::string type;
     int gold_dropped;
+    int experience = 0;
     char symbol;  // Symbol used for map display (e.g. 'G', 'S', etc.)
 
 public:

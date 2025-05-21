@@ -51,7 +51,7 @@ void displayInstructions() {
     cout << "  D - Move right\n";
     cout << "  Space - Wait a turn\n";
     cout << "  I - Open Inventory (not implemented yet)\n";
-    cout << "  P - Open Shop\n   "
+    cout << "  P - Open Shop\n   ";
     cout << "  Q - Quit game\n\n";
     
     cout << "Symbols:\n";
@@ -130,9 +130,13 @@ void runGame() {
             handleInventory(gameMap.getPlayer());
             break;
 
-            case 'p': //Openshop
-            //somefunction here
+            case 'p': 
+            {
+            Shop shop(gameMap.getPlayer());  
+            shop.DisplayShop();
+            shop.Choices();   
             break;
+            }
                 
             default:
                 cout << "\nUnknown command. Press any key to continue...";

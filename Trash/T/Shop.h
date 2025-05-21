@@ -4,9 +4,11 @@
 #include <iostream>
 #include <memory>
 #include <conio.h>
-class Shop{
-    private:
+
+class Shop {
+private:
     Player* player;
+
     const int HEALTH_POTION_PRICE = 15;
     const int SWORD_PRICE = 30;
     const int GREAT_SWORD_PRICE = 60;
@@ -15,8 +17,26 @@ class Shop{
     const int KNIGHTS_SHIELD_PRICE = 50;
     const int HEROS_SHIELD_PRICE = 100;
 
-    public:
-    //Getters
+public:
+    // Constructor
+    Shop(Player* p) : player(p) {}
+
+    // Display shop interface
+    void DisplayShop();
+
+    // Choices for purchasing
+    void Choices();
+
+    // Purchase options
+    void buyHealthPotion();
+    void buySword();
+    void buyGreatSword();
+    void buyExcalibur();
+    void buyShield();
+    void buyKnightsShield(); // Fixed spelling
+    void buyHerosShield();
+
+    // Item prices
     int getHealthPotionPrice() const;
     int getSwordPrice() const;
     int getGreatSwordPrice() const;
@@ -24,19 +44,4 @@ class Shop{
     int getShieldPrice() const;
     int getKnightsShieldPrice() const;
     int getHerosShieldPrice() const;
-    //For displaying shop UI
-    void DisplayShop();
-    //For choosing what you want to buy
-    int Choices (int choices); 
-    //Choices for buying 
-    void buyHealthPotion();
-    void buySword();
-    void buyGreatSword();
-    void buyExcalibur();
-    void buyShield();
-    void buyKnightsSchield();
-    void buyHerosShield();
-   
-
 };
-

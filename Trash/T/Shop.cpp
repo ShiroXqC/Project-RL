@@ -1,132 +1,138 @@
-#include"Shop.h"
+#include "Shop.h"
 #include <iostream>
+#include <conio.h> // For _getch()
+#include <memory>
+#include "HealthPotion.h" 
 using namespace std;
-void Shop::DisplayShop()
-{
-    system("cls"); //Clear system screen
-    cout<<"\t   ======================================SHOP================================\t\n";
-    cout<<"\t    Item Available:\t\n";
-    cout<<"\tName===================== Price ================================Effect\t\n";
-    cout<<"\t1.Health potion         "<<getHealthPotionPrice()<<" gold       +10 hp\t\n";
-    cout<<"\t2.Sword                 "<<getSwordPrice()<<" gold              +3 atk\t\n";
-    cout<<"\t3.Greatsword            "<<getGreatSwordPrice()<<" gold         +6 atk\t\n";
-    cout<<"\t4.Excalibur             "<<getExcaliburPrice()<<" gold          +9 atk\t\n";
-    cout<<"\t5.Shield                "<<getShieldPrice()<<" gold             +2 def\t\n";
-    cout<<"\t6.Knight's shield       "<<getKnightsShieldPrice()<<" gold      +4 def\t\n";
-    cout<<"\t7.Hero's shield         "<<getHerosShieldPrice()<<" gold        +6 def\t\n";
+
+void Shop::DisplayShop() {
+    system("cls");
+    cout << "\t   ======================================SHOP================================\t\n";
+    cout << "\t    Item Available:\t\n";
+    cout << "\tName===================== Price ================================Effect\t\n";
+    cout << "\t1. Health potion         " << getHealthPotionPrice() << " gold       +10 hp\t\n";
+    cout << "\t2. Sword                 " << getSwordPrice() << " gold              +3 atk\t\n";
+    cout << "\t3. Greatsword            " << getGreatSwordPrice() << " gold         +6 atk\t\n";
+    cout << "\t4. Excalibur             " << getExcaliburPrice() << " gold          +9 atk\t\n";
+    cout << "\t5. Shield                " << getShieldPrice() << " gold             +2 def\t\n";
+    cout << "\t6. Knight's shield       " << getKnightsShieldPrice() << " gold      +4 def\t\n";
+    cout << "\t7. Hero's shield         " << getHerosShieldPrice() << " gold        +6 def\t\n";
+    cout << "\t0. Exit shop\n";
 }
-int Shop::Choices()
-{
-    cout<<"What do you want";
-    cin<<choices;
-    switch (choices){
-        int choice = -1;
-        bool exitShop = false;
-        
-        while (!exitShop) {
-            displayShopItems();
-            cin >> choice;
-            
-            switch (choice) {
-                case 1:
-                    buyHealthPotion();
-                    break;
-                case 2:
-                    buySword();
-                    break;
-                case 3:
-                    buyGreatSword();
-                    break;
-                case 4:
-                    buyExcalibur();
-                    break;
-                case 5:
-                    buyShield();
-                    break;
-                case 6:
-                    buyKnightsShield();
-                    break;
-                case 7:
-                    buyHerosShield();
-                    break;
-                case 0:
-                    cout << "Thank you for visiting the shop!\n";
-                    exitShop = true;
-                    break;
-                default:
-                    cout << "Invalid choice. Please try again.\n";
-                    cout << "Press any key to continue...\n";
-                    _getch();
-                    break;
+
+void Shop::Choices() {
+    int choice = -1;
+    bool exitShop = false;
+
+    while (!exitShop) {
+        DisplayShop();
+        cout << "What do you want to buy? (Enter the number): ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                buyHealthPotion();
+                break;
+            case 2:
+                buySword();
+                break;
+            case 3:
+                buyGreatSword();
+                break;
+            case 4:
+                buyExcalibur();
+                break;
+            case 5:
+                buyShield();
+                break;
+            case 6:
+                buyKnightsShield();
+                break;
+            case 7:
+                buyHerosShield();
+                break;
+            case 0:
+                cout << "Thank you for visiting the shop!\n";
+                exitShop = true;
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+                cout << "Press any key to continue...\n";
+                _getch();
+                break;
         }
     }
-    return choices;
-   }
-};
-void Shop::buyHealthPotion(){
-     if (player->spendGold(HEALTH_POTION_PRICE)) {
-            auto potion = make_unique<Item>("Health Potion", -1, -1, true, 'P');
-            player->addToInventory(move(potion));
-            cout << "Bought a Health Potion!\n";
-            cout << "Press any key to continue...\n";
+}
+
+void Shop::buyHealthPotion() {
+    if (player->spendGold(HEALTH_POTION_PRICE)) {
+        auto potion = make_unique<HealthPotion>(-1, -1);  // Use HealthPotion class
+        player->addToInventory(move(potion));
+        cout << "Bought a Health Potion!\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
+
 void Shop::buySword() {
-        if (player->spendGold(SWORD_PRICE)) {
-            player->addAttackDamage(5);
-            cout << "Bought a Sword! Attack power increased.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(SWORD_PRICE)) {
+        player->addAttackDamage(3);
+        cout << "Bought a Sword! Attack power increased.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
+
 void Shop::buyGreatSword() {
-        if (player->spendGold(GREAT_SWORD_PRICE)) {
-            player->addAttackDamage(10);
-            cout << "Bought a Great Sword! Attack power increased significantly.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(GREAT_SWORD_PRICE)) {
+        player->addAttackDamage(6);
+        cout << "Bought a Great Sword! Attack power increased significantly.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
+
 void Shop::buyExcalibur() {
-        if (player->spendGold(EXCALIBUR_PRICE)) {
-            player->addAttackDamage(20);
-            cout << "Bought Excalibur! Attack power greatly increased.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(EXCALIBUR_PRICE)) {
+        player->addAttackDamage(9);
+        cout << "Bought Excalibur! Attack power greatly increased.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
+
 void Shop::buyShield() {
-        if (player->spendGold(SHIELD_PRICE)) {
-            player->addDefense(3);
-            cout << "Bought a Shield! Defense increased.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(SHIELD_PRICE)) {
+        player->addDefense(2);
+        cout << "Bought a Shield! Defense increased.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
+
 void Shop::buyKnightsShield() {
-        if (player->spendGold(KNIGHTS_SHIELD_PRICE)) {
-            player->addDefense(6);
-            cout << "Bought a Knight's Shield! Defense increased significantly.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(KNIGHTS_SHIELD_PRICE)) {
+        player->addDefense(4);
+        cout << "Bought a Knight's Shield! Defense increased significantly.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
+}
 
 void Shop::buyHerosShield() {
-        if (player->spendGold(HEROS_SHIELD_PRICE)) {
-            player->addDefense(12);
-            cout << "Bought a Hero's Shield! Defense greatly increased.\n";
-            cout << "Press any key to continue...\n";
-            _getch();
-        }
+    if (player->spendGold(HEROS_SHIELD_PRICE)) {
+        player->addDefense(6);
+        cout << "Bought a Hero's Shield! Defense greatly increased.\n";
+        cout << "Press any key to continue...\n";
+        _getch();
     }
-
 }
-//Getters
+
+// Getters
 int Shop::getHealthPotionPrice() const { return HEALTH_POTION_PRICE; }
 int Shop::getSwordPrice() const { return SWORD_PRICE; }
 int Shop::getGreatSwordPrice() const { return GREAT_SWORD_PRICE; }
 int Shop::getExcaliburPrice() const { return EXCALIBUR_PRICE; }
 int Shop::getShieldPrice() const { return SHIELD_PRICE; }
-int Shop::getKnightsShieldPrice() const { return NIGHTS_SHIELD_PRICE; }
+int Shop::getKnightsShieldPrice() const { return KNIGHTS_SHIELD_PRICE; }
 int Shop::getHerosShieldPrice() const { return HEROS_SHIELD_PRICE; }
-

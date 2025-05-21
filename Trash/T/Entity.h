@@ -11,6 +11,7 @@ class Entity
     int exp;
     int x, y;
     bool isAlive = true;
+    virtual char getSymbol() const = 0;
     
 
     public:
