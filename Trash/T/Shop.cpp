@@ -18,13 +18,13 @@ int Shop::getHerosShieldPrice() const { return HEROS_SHIELD_PRICE; }
 
 void Shop::DisplayShop() {
     system("cls");
-    cout << "\t   ======================================SHOP================================\t\n";
-    cout << "\t    Item Available:\t" << "Current gold: " << player->getGold() << '\n';
+    cout << "\t==================================SHOP================================\t\n";
+    cout << "\t    Item Available:\t" << "Current gold: " << player->getGold() << "\t\n";
     cout << "\tName===================== Price ================================Effect\t\n";
     cout << "\t1. Health potion         " << getHealthPotionPrice() << "  gold" << setw(39) << "+10 hp\t\n";
     cout << "\t2. Sword                 " << getSwordPrice() << "  gold" << setw(39) << "+3 atk\t\n";
     cout << "\t3. Greatsword            " << getGreatSwordPrice() <<  "  gold" << setw(39) << "+6 atk\t\n";
-    cout << "\t4. Excalibur             " << getExcaliburPrice() << " gold" << setw(39) << "+9 atk\t\n";
+    cout << "\t4. Excalibur             " << getExcaliburPrice() << " gold" << setw(39) << "+12 atk\t\n";
     cout << "\t5. Shield                " << getShieldPrice() << "  gold" << setw(39) << "+2 def\t\n";
     cout << "\t6. Knight's shield       " << getKnightsShieldPrice() << "  gold" << setw(39) << "+4 def\t\n";
     cout << "\t7. Hero's shield         " << getHerosShieldPrice() << " gold" << setw(39) << "+6 def\t\n";
@@ -105,7 +105,7 @@ void Shop::buyGreatSword() {
 
 void Shop::buyExcalibur() {
     if (player->spendGold(EXCALIBUR_PRICE)) {
-        player->addAttackDamage(9);
+        player->addAttackDamage(12);
         cout << "Bought Excalibur! Attack power greatly increased.\n";
         cout << "Press any key to continue...\n";
         _getch();
