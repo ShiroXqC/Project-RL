@@ -56,4 +56,7 @@ class Entity
     virtual void takeDamage(int amount);
     virtual void attack(Entity &target);
 
+    //Default Destructor
+    virtual ~Entity() = default; 
+
 };
