@@ -7,6 +7,22 @@ class Map;
 void Combat::startCombat(Player& player, Enemy& enemy) {
     vector<string> combatLog;
     vector<string> battleHistory;
+    if (enemy.getType() == "Dragon" || enemy.getSymbol() == 'D') {
+    system("cls");  // clear screen before drawing full layout
+    cout << R"(
+                  \||/
+                |  @___oo
+      /\  /\   / (__,,,,|
+     ) /^\) ^\/ _)
+     )   /^\/   _)
+     )   _ /  / _)
+ /\  )/\/ ||  | )_)
+<  >      |(,,) )__)
+ ||      /    \)___)\
+ | \____(      )___) )___
+  \______(_______;;; __;;;
+)" << endl;
+}
     int pDamage = player.getAttackpower();
 
     while (player.getIsAlive() && enemy.getIsAlive()) {
@@ -22,7 +38,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         combatLog.push_back("3. Run");
 
         // Draw the UI
-        UI::drawCombatUI(player, combatLog, battleHistory);
+        UI::drawCombatUI(player, combatLog, battleHistory, &enemy);
 
         int choice;
         cin >> choice;
@@ -65,7 +81,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         }
         if (!enemy.getIsAlive()) {
         battleHistory.push_back("You have defeated the " + enemy.getType() + "!");
-        UI::drawCombatUI(player, combatLog, battleHistory);
+        UI::drawCombatUI(player, combatLog, battleHistory, &enemy);
 }
     }
 

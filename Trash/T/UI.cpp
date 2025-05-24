@@ -7,7 +7,6 @@
 #include <iomanip>
 #include <sstream>
 
-
 // Helper function to determine zone name based on floor
 string getFloorZoneName(int floor) {
     if (floor <= 1) return "Astre Depths";
@@ -16,7 +15,6 @@ string getFloorZoneName(int floor) {
     if (floor >= 4) return "Abyss";
     return "Unknown Realm";
 }
-
 
 void UI::drawMainUI(const Map& map) {
     const Player& player = *map.getPlayer();
@@ -76,60 +74,79 @@ void UI::drawMainUI(const Map& map) {
     cout << "Controls: [w]Up [a]Left [s]Down [d]Right [q]Quit\n";
 }
 
-void UI::drawCombatUI(const Player& player, const vector<string>& combatLog,  const vector<string>& battleHistory) {
-    system("cls"); // Clear screen
+void UI::drawCombatUI(const Player& player, const vector<string>& combatLog, const vector<string>& battleHistory, const Enemy* enemy) {
+    system("cls");
 
     const int combatWidth = 36;
     const int charWidth = 21;
     const int histWidth = 38;
-    const string gap = "               "; // wider spacing between panels
+    const int asciiWidth = 40;
+    const string gap = "               ";
 
-    cout << "+------------------------------------+" << gap << "+-----------------------+\n";
-    cout << "|           COMBAT LOG               |" << gap << "|       CHARACTER       |\n";
-    cout << "|------------------------------------|" << gap << "|-----------------------|\n";
+    vector<string> dragonArt = {
+        "                 \\||/",
+        "                 |  @___oo",
+        "      /\\  /\\   / (__,,,,|",
+        "     ) /^\\) ^\\/  _)",
+        "     )   /^\\/    _)",
+        "     )   _ /  /  _)",
+        " /\\  ) /\\/ ||  | )_)",
+        "<  >      |(,,) )__)",
+        " ||      /    \\)___)\\",
+        " | \\____(      )___) )___",
+        "  \\______(_______;;; __;;;"
+    };
 
-    for (int i = 0; i < 8; ++i) {
-        // Left: Combat log
+    bool isFinalBoss = enemy && (enemy->getType() == "Dragon" || enemy->getType() == "Final Boss");
+
+    cout << "+------------------------------------+" << gap << "+-----------------------+";
+    if (isFinalBoss) cout << gap << "+----------------------------------------+";
+    cout << "\n";
+
+    cout << "|           COMBAT LOG               |" << gap << "|       CHARACTER       |";
+    if (isFinalBoss) cout << gap << "|                FINAL BOSS              |";
+    cout << "\n";
+
+    cout << "|------------------------------------|" << gap << "|-----------------------|";
+    if (isFinalBoss) cout << gap << "|----------------------------------------|";
+    cout << "\n";
+
+    for (int i = 0; i < 11; ++i) {
         cout << "| ";
-        if (i < combatLog.size()) {
-            cout << setw(combatWidth - 2) << left << combatLog[i];
-        } else {
-            cout << setw(combatWidth - 2) << " ";
-        }
+        if (i < combatLog.size()) cout << setw(combatWidth - 2) << left << combatLog[i];
+        else cout << setw(combatWidth - 2) << " ";
         cout << " |" << gap;
 
-        // Right: Character info
         cout << "| ";
         switch (i) {
-            case 0: cout << setw(charWidth) << left << ("NAME: " + string(1, player.getSymbol())); 
-                    break;
-            case 1: cout << setw(charWidth) << left << ("HP: " + to_string(player.getHp()) + "/" + to_string(player.getMaxHealth())); 
-                    break;
-            case 2: cout << setw(charWidth) << left << ("ATK: " + to_string(player.getAttackpower())); 
-                    break;
-            case 3: cout << setw(charWidth) << left << ("DEF: " + to_string(player.getDefense())); 
-                    break;
-            case 4: cout << setw(charWidth) << left << ("GOLD: " + to_string(player.getGold())); 
-                    break;
-            case 5: cout << setw(charWidth) << left << ("LEVEL: " + to_string(player.getLevel())); 
-                    break;
-            case 6: cout << setw(charWidth) << left << ("XP: " + to_string(player.getXP()) + "/" + to_string(player.getXPToNextLevel())); 
-                    break;
-            default:cout << setw(charWidth) << " "; 
-                    break;
+            case 0: cout << setw(charWidth) << ("NAME: " + string(1, player.getSymbol())); break;
+            case 1: cout << setw(charWidth) << ("HP: " + to_string(player.getHp()) + "/" + to_string(player.getMaxHealth())); break;
+            case 2: cout << setw(charWidth) << ("ATK: " + to_string(player.getAttackpower())); break;
+            case 3: cout << setw(charWidth) << ("DEF: " + to_string(player.getDefense())); break;
+            case 4: cout << setw(charWidth) << ("GOLD: " + to_string(player.getGold())); break;
+            case 5: cout << setw(charWidth) << ("LEVEL: " + to_string(player.getLevel())); break;
+            case 6: cout << setw(charWidth) << ("XP: " + to_string(player.getXP()) + "/" + to_string(player.getXPToNextLevel())); break;
+            default: cout << setw(charWidth) << " "; break;
         }
-        cout << " |\n";
+        cout << " |";
+
+        if (isFinalBoss) {
+            cout << gap << "| ";
+            if (i < dragonArt.size()) cout << setw(asciiWidth - 2) << left << dragonArt[i];
+            else cout << setw(asciiWidth - 2) << " ";
+            cout << " |";
+        }
+        cout << "\n";
     }
-    cout << "+------------------------------------+" << gap << "+-----------------------+\n";
-         // Battle History section
+
+    cout << "+------------------------------------+" << gap << "+-----------------------+";
+    if (isFinalBoss) cout << gap << "+----------------------------------------+";
+    cout << "\n";
+
     cout << "+----------------------- BATTLE HISTORY ------------------------+\n";
     int linesToShow = min(static_cast<int>(battleHistory.size()), 20);
     for (int i = static_cast<int>(battleHistory.size()) - linesToShow; i < battleHistory.size(); ++i) {
-        int count = 1;
-        cout << "-----------------------------#"<<count<<"---------------------------------\n";
-        cout << "| " << setw(histWidth - 2) << left << battleHistory[i] << " |\n";
-        count++;
+        cout << "| " << setw(60) << left << battleHistory[i] << " |\n";
     }
-    cout << "+---------------------------------------------------------------+\n";
-    cout<<"\n";
+    cout << "+---------------------------------------------------------------+\n\n";
 }
