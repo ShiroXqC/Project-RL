@@ -39,7 +39,7 @@ class Entity
 
     //Getters
     int getHp() const;
-    int getAttackpower() const;
+    virtual getAttackpower() const;
     int getExp() const;
     int getX() const;
     int getY() const;
@@ -47,7 +47,7 @@ class Entity
     
     //Setters
     void setHp(int hp);
-    virtual void setAttackpower(int attackpower);
+    void setAttackpower(int attackpower);
     void setExp(int exp);
     void setY(int y);
     void setX(int x); // Fixed: Changed parameter name from y to x
