@@ -125,7 +125,11 @@ void UI::drawCombatUI(const Player& player, const vector<string>& combatLog,  co
     cout << "+----------------------- BATTLE HISTORY ------------------------+\n";
     int linesToShow = min(static_cast<int>(battleHistory.size()), 20);
     for (int i = static_cast<int>(battleHistory.size()) - linesToShow; i < battleHistory.size(); ++i) {
+        int count = 1;
+        cout << "-----------------------------#"<<count<<"---------------------------------\n";
         cout << "| " << setw(histWidth - 2) << left << battleHistory[i] << " |\n";
+        count++;
     }
     cout << "+---------------------------------------------------------------+\n";
+    cout<<"\n";
 }
