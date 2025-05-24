@@ -47,7 +47,7 @@ class Entity
     
     //Setters
     void setHp(int hp);
-    void setAttackpower(int attackpower);
+    virtual void setAttackpower(int attackpower);
     void setExp(int exp);
     void setY(int y);
     void setX(int x); // Fixed: Changed parameter name from y to x
