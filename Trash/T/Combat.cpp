@@ -7,6 +7,7 @@ class Map;
 void Combat::startCombat(Player& player, Enemy& enemy) {
     vector<string> combatLog;
     vector<string> battleHistory;
+    int pDamage = player.getAttackpower();
 
     while (player.getIsAlive() && enemy.getIsAlive()) {
         combatLog.clear();
@@ -30,7 +31,6 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
             case 1: {
                 int damage = player.getAttackpower();
                 enemy.takeDamage(damage);
-                combatLog.push_back("You dealt " + to_string(damage) + " damage!");
                 break;
             }
             case 2: {
@@ -55,7 +55,6 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         // Enemy's turn
         if (enemy.getIsAlive()) {
             int damage = enemy.getAttackpower();
-            int pDamage = player.getAttackpower();
             player.takeDamage(damage);
             combatLog.push_back("Enemy dealt " + to_string(damage) + " damage!");
             battleHistory.push_back("You dealt " + to_string(pDamage) + " damage to " + enemy.getType() + ".");
@@ -65,7 +64,6 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
     }
         }
         if (!enemy.getIsAlive()) {
-        combatLog.push_back("Enemy defeated!");
         battleHistory.push_back("You have defeated the " + enemy.getType() + "!");
         UI::drawCombatUI(player, combatLog, battleHistory);
 }
@@ -74,7 +72,6 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
     if (!player.getIsAlive()) {
         combatLog.push_back("You were defeated.");
     } else {
-        combatLog.push_back("Enemy defeated!");
         player.gainExperience(enemy.getExperience());
         player.gainGold_From_Enemy(enemy.getGoldDropped());
     }
