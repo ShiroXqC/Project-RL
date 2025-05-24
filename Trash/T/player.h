@@ -20,8 +20,8 @@ private:
 
 public:
     Player(int startX = 20, int startY = 7, int inventoryCapacity = 10,
-           int hp = 20, int attackpower = 10000, int exp = 0,
-           int currentHealth = 20, int maxHealth = 20,
+           int hp = 35, int attackpower = 8, int exp = 0,
+           int currentHealth = 35, int maxHealth = 35,
            int level = 1, int gold = 50, int defense = 2)
         : Entity(hp, attackpower, exp, startX, startY),
           inventory(inventoryCapacity),
