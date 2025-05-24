@@ -31,7 +31,7 @@ void Shop::DisplayShop() {
     cout << "\t7. Hero's shield         " << getHerosShieldPrice() << " gold" << setw(39) << "+6 def\t\n";
     cout << "\t0. Exit shop\n";
 }
-
+      
 void Shop::Choices() {
     int choice;
     bool exitShop = false;
