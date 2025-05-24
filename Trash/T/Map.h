@@ -16,6 +16,7 @@ class Map
     int width;
     int height;
     int currentFloor = 1;
+    int static const MAX_FLOORS = 4; 
     Player *player;
 
     //Check if coordinates are within map boundaries

@@ -76,11 +76,12 @@ void UI::drawMainUI(const Map& map) {
     cout << "Controls: [w]Up [a]Left [s]Down [d]Right [q]Quit\n";
 }
 
-void UI::drawCombatUI(const Player& player, const vector<string>& combatLog) {
+void UI::drawCombatUI(const Player& player, const vector<string>& combatLog,  const vector<string>& battleHistory) {
     system("cls"); // Clear screen
 
     const int combatWidth = 36;
     const int charWidth = 21;
+    const int histWidth = 38;
     const string gap = "               "; // wider spacing between panels
 
     cout << "+------------------------------------+" << gap << "+-----------------------+\n";
@@ -119,6 +120,12 @@ void UI::drawCombatUI(const Player& player, const vector<string>& combatLog) {
         }
         cout << " |\n";
     }
-
     cout << "+------------------------------------+" << gap << "+-----------------------+\n";
+         // Battle History section
+    cout << "+----------------------- BATTLE HISTORY ------------------------+\n";
+    int linesToShow = std::min(static_cast<int>(battleHistory.size()), 5);
+    for (int i = static_cast<int>(battleHistory.size()) - linesToShow; i < battleHistory.size(); ++i) {
+        cout << "| " << setw(histWidth - 2) << left << battleHistory[i] << " |\n";
+    }
+    cout << "+---------------------------------------------------------------+\n";
 }

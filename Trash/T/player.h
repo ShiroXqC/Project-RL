@@ -20,7 +20,7 @@ private:
 
 public:
     Player(int startX = 20, int startY = 7, int inventoryCapacity = 10,
-           int hp = 20, int attackpower = 100, int exp = 0,
+           int hp = 20, int attackpower = 5, int exp = 0,
            int currentHealth = 20, int maxHealth = 20,
            int level = 1, int gold = 50, int defense = 2)
         : Entity(hp, attackpower, exp, startX, startY),
