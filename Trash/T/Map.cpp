@@ -2,6 +2,7 @@
     #include "HealthPotion.h"
     #include "Sword.h"
     #include <cstdlib>
+    #include "Enemy.h"
     #include "Combat.h"
     #include <conio.h> // For _getch()
     #include <algorithm> // For remove_if
@@ -205,6 +206,8 @@
     void Map::processEnemyTurns() {
         // Simple enemy movement - random walk
         for (Enemy* enemy : enemies) {
+            // Make the boss stay still
+            if (enemy->getSymbol() == 'D') continue;
             // Get current position
             int oldX = enemy->getX();
             int oldY = enemy->getY();
@@ -262,7 +265,16 @@
     // Implement spawnRandomEnemies
     void Map::spawnRandomEnemies(int count) {
         vector<string> enemyTypes = {"Goblin", "Slime", "Vampire", "Death Knight", "Zombie"};
-        
+        if (currentFloor == MAX_FLOORS) {
+        auto [x, y] = getRandomEmptyPosition();
+        if (x != -1) {
+            Enemy* boss = new Enemy(x, y, "Dragon", 0);
+            enemies.push_back(boss);
+            grid[y][x] = boss->getSymbol();
+            std::cout << "\n!!! The Final Boss has appeared !!!\n";
+        }
+        return;
+    }
         for (int i = 0; i < count; ++i) {
             // Get random empty location
             pair<int, int> pos = getRandomEmptyPosition();
@@ -302,6 +314,15 @@
         }
     }
  void Map::loadNextFloor() {
+    if (currentFloor >= MAX_FLOORS) {
+        system("cls");
+    cout << "\nYou have cleared Floor " << currentFloor << ", the final challenge!\n";
+    cout << "Sadly the smoking hot babe is in another dungeon!\n";
+    cout << "\nPress any key to exit...\n";
+        _getch();
+        exit(0);
+    return;
+    }
     currentFloor++;
     cout << "\n--- Descending to Floor " << currentFloor << " ---\n";
 

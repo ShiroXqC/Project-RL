@@ -27,7 +27,7 @@ void handleInventory(Player* player) {
         player->getInventory().useItem(choice - 1, *player);
     } else if (choice == 0) {
         return; // Exit inventory
-    } else {
+    } else { 
         cout << "Invalid choice!\n";
     }
 }

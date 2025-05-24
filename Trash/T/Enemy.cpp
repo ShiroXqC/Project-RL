@@ -30,6 +30,8 @@ Enemy::Enemy(int x, int y, string type, int gold_dropped)
         hp = 30; attackpower = 8; experience = 30; symbol = 'K';
     } else if (type == "Zombie") {
         hp = 18; attackpower = 6; experience = 15; symbol = 'Z';
+    } else if (type == "Dragon"){
+        hp = 100; attackpower = 20; experience = 50; symbol = 'D';    
     } else {
         symbol = '!';  // default
     }
