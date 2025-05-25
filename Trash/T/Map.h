@@ -12,7 +12,6 @@ class Map
     //Map variable
     vector<vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
     vector<Enemy*> enemies; //Vector containing Enemy pointer
-    vector<unique_ptr<Item>> items; //Vector containing Item pointer 
     int width;
     int height;
     int currentFloor = 1;
@@ -125,15 +124,6 @@ class Map
                 enemies.push_back(new Enemy(*e)); // Assuming Enemy has a copy constructor
             }
         }
-        
-        // Deep copy items
-        items.reserve(other.items.size());
-        for (const auto& ptr: other.items) {
-            const Item* i = ptr.get();
-            if (i) {
-                items.push_back(i->clone()); // Using Item's copy constructor
-            }
-        }
     }
     
     // Assignment operator
@@ -142,7 +132,6 @@ class Map
             // Clean up existing resources
             for (Enemy* e : enemies) delete e;
             enemies.clear();
-            items.clear();
             delete player;
             
             // Copy simple members
@@ -165,16 +154,6 @@ class Map
             for (const Enemy* e : other.enemies) {
                 if (e) {
                     enemies.push_back(new Enemy(*e));
-                }
-            }
-            
-            // Deep copy items
-            items.clear();
-            items.reserve(other.items.size());
-            for (const auto& ptr : other.items) {
-                const Item* i = ptr.get();
-                if (i) {
-                    items.push_back(i->clone());
                 }
             }
         }
@@ -217,8 +196,7 @@ class Map
     ~Map() {
         for (Enemy* e : enemies)
             delete e;
-            enemies.clear();
-            items.clear();
+        enemies.clear();
         delete player;
     }
 };

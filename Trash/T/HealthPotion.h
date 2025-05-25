@@ -6,8 +6,8 @@ using namespace std;
 
 class HealthPotion : public Item {
     public:
-        HealthPotion(int x, int y) 
-            : Item("Health Potion", x, y, true, 'H') {} // 'H' symbol
+        HealthPotion()
+            : Item("Health Potion", true, 'H') {} // 'H' symbol
         
             unique_ptr<Item> clone() const override {
                 return make_unique<HealthPotion>(*this);

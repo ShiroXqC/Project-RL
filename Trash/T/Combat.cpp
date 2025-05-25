@@ -7,22 +7,6 @@ class Map;
 void Combat::startCombat(Player& player, Enemy& enemy) {
     vector<string> combatLog;
     vector<string> battleHistory;
-    if (enemy.getType() == "Dragon" || enemy.getSymbol() == 'D') {
-    system("cls");  // clear screen before drawing full layout
-    cout << R"(
-                  \||/
-                |  @___oo
-      /\  /\   / (__,,,,|
-     ) /^\) ^\/ _)
-     )   /^\/   _)
-     )   _ /  / _)
- /\  )/\/ ||  | )_)
-<  >      |(,,) )__)
- ||      /    \)___)\
- | \____(      )___) )___
-  \______(_______;;; __;;;
-)" << endl;
-}
     int pDamage = player.getAttackpower();
 
     while (player.getIsAlive() && enemy.getIsAlive()) {

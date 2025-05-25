@@ -77,7 +77,7 @@ void Shop::Choices() {
 
 void Shop::buyHealthPotion() {
     if (player->spendGold(HEALTH_POTION_PRICE)) {
-        auto potion = make_unique<HealthPotion>(-1, -1);  // Use HealthPotion class
+        auto potion = make_unique<HealthPotion>();  // Use HealthPotion class
         player->addToInventory(move(potion));
         cout << "Bought a Health Potion!\n";
         cout << "Press any key to continue...\n";
