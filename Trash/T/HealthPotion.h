@@ -11,9 +11,9 @@ class HealthPotion : public Item {
             unique_ptr<Item> clone() const override {
                 return make_unique<HealthPotion>(*this);
             }
-            
+
             // Heal the player by 10 HP
             void use(Player& player) override {
-                player.heal(10); // Heal the player by 10 HP
+                player.heal(10);
             }
 };

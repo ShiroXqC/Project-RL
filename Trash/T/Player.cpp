@@ -2,6 +2,22 @@
 #include <iostream>
 
 
+char Player::getSymbol() const { return player_symbol; }
+Inventory& Player::getInventory() { return inventory; }
+const Inventory& Player::getInventory() const { return inventory; }
+bool Player::isAlive() const { return getHp() > 0; }
+int Player::getMaxHealth() const { return maxHealth; }
+int Player::getHealth() const { return currentHealth; }
+int Player::getAttackpower() const { return attackpower; }
+int Player::getLevel() const { return level; }
+int Player::getXP() const { return experience; }
+int Player::getXPToNextLevel() const { return xpToNextLevel; }
+int Player::getDefense() const { return defense; }
+int Player::getGold() const { return gold; }
+    
+void Player::addAttackDamage(int amount) { attackpower += amount; }
+void Player::addDefense(int amount) { defense += amount; }
+
 // Attack override that can add special player effects
 void Player::attack(Entity& target) {
     cout << "Player attacks!" << endl;

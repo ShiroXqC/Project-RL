@@ -22,17 +22,41 @@ Enemy::Enemy(int x, int y, string type, int gold_dropped){
     this->gold_dropped = gold_dropped;
 
     if (type == "Goblin") {
-        hp = 15; attackpower = 6; experience = 10; symbol = 'G'; this->gold_dropped = 20;
+        hp = 15; 
+        attackpower = 6; 
+        experience = 10; 
+        symbol = 'G'; 
+        this->gold_dropped = 20;
     } else if (type == "Slime") {
-        hp = 14; attackpower = 5; experience =10; symbol = 'S'; this->gold_dropped = 15;
+        hp = 14; 
+        attackpower = 5; 
+        experience =10; 
+        symbol = 'S'; 
+        this->gold_dropped = 15;
     } else if (type == "Vampire") {
-        hp = 20; attackpower = 5; experience = 20; symbol = 'V'; this->gold_dropped = 25;
+        hp = 20; 
+        attackpower = 5; 
+        experience = 20; 
+        symbol = 'V'; 
+        this->gold_dropped = 25;
     } else if (type == "Death Knight") {
-        hp = 30; attackpower = 8; experience = 30; symbol = 'K'; this->gold_dropped = 40;
+        hp = 30; 
+        attackpower = 8; 
+        experience = 30; 
+        symbol = 'K'; 
+        this->gold_dropped = 40;
     } else if (type == "Zombie") {
-        hp = 18; attackpower = 6; experience = 15; symbol = 'Z'; this->gold_dropped = 30;
+        hp = 18; 
+        attackpower = 6; 
+        experience = 15; 
+        symbol = 'Z'; 
+        this->gold_dropped = 30;
     } else if (type == "Dragon"){
-        hp = 100; attackpower = 20; experience = 50; symbol = 'D'; this->gold_dropped = 10000;   
+        hp = 150; 
+        attackpower = 20; 
+        experience = 50; 
+        symbol = 'D'; 
+        this->gold_dropped = 10000;   
     } else {
         symbol = '!';  // default
     }

@@ -34,6 +34,7 @@
     int Map::getCurrentTurn() const {
         return currentTurn;
     }
+
     // Check if there's an enemy at a location
     bool Map::hasEnemyAt(int x, int y) const {
         for (const Enemy* enemy : enemies) {
@@ -43,6 +44,7 @@
         }
         return false;
     }
+
     // Get enemy at the given position
     Enemy* Map::getEnemyAt(int x, int y) const {
         for (Enemy* enemy : enemies) {
@@ -52,6 +54,7 @@
         }
         return nullptr;
     }
+
     // Remove enemy from game
     void Map::removeEnemy(Enemy* enemy) {
     if (enemy) {
@@ -109,7 +112,7 @@
         }
             return true;
         }
-             // Check if move is valid
+        // Check if move is valid
         if (isInBounds(newX, newY)) {
             // Empty space, just move there
             if (grid[newY][newX] == '.') {
@@ -128,7 +131,7 @@
         if (moved) {
             PlayerTurn = false; // End player's turn
             processEnemyTurns(); // Let enemies move
-            startNewTurn(); // Start next turn
+            startNewTurn();
         }
         
         return moved;
@@ -136,6 +139,7 @@
 
     //To process enemy turn 
     void Map::processEnemyTurns() {
+
         // Simple enemy movement - random walk
         for (Enemy* enemy : enemies) {
             // Make the boss stay still
@@ -151,13 +155,12 @@
             int newX = oldX + dx;
             int newY = oldY + dy;
             
-            // Check if moving toward player for a basic "AI"
             if (player) {
                 // Calculate distance to player
                 int currentDist = abs(oldX - player->getX()) + abs(oldY - player->getY());
                 int newDist = abs(newX - player->getX()) + abs(newY - player->getY());
                 
-                // 70% chance to move toward player if possible
+                // Move toward player if possible
                 if (rand() % 10 < 7 && newDist > currentDist) {
                     // Try to move toward player instead
                     if (oldX < player->getX()) dx = 1;
@@ -176,6 +179,7 @@
                 }
             }
             
+            // Need to look into more :<
             // Check if can attack player (adjacent)
             if (player && 
                 abs(newX - player->getX()) <= 1 && 

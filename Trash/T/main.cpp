@@ -14,7 +14,11 @@
 using namespace std;
 
 void handleInventory(Player* player);
+void displayMenu();
+void displayInstructions();
+void runGame();
 
+// Function to display inventory
 void handleInventory(Player* player) {
     cout << "\n==== INVENTORY ====\n";
     player->getInventory().listItems();

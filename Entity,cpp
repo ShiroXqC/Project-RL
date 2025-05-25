@@ -1,5 +1,0 @@
-#include "Entity.h"
-int Entity::getAttackpower() const
-{
-    return 
-}

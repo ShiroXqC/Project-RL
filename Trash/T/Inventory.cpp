@@ -4,11 +4,11 @@ using namespace std;
 
 bool Inventory::addItem(unique_ptr<Item> item){
     if ((int)items.size() < capacity) {
-        items.push_back(move(item)); // Move the item into the inventory
-        return true; // Item added successfully
+        items.push_back(move(item));    // Move the item into the inventory
+        return true;                    // Item added successfully
     }
     cout << "Inventory is full!" << endl;
-    return false; // Inventory is fullkk
+    return false;                       // Inventory is fullk
     
 }
 

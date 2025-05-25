@@ -16,9 +16,8 @@ class Entity
     
 
     public:
-    //Constructor overload
-     Entity(int hp, int attackpower, int exp, int startX, int startY)
-    
+
+    Entity(int hp, int attackpower, int exp, int startX, int startY)
     {
         this->hp=hp;
         this->attackpower=attackpower;
@@ -27,8 +26,7 @@ class Entity
         this->y=startY;
     }
     
-    //Default Constructor 
-     Entity()
+    Entity()
     {
         this->hp=0;
         this->attackpower=0;
@@ -50,13 +48,12 @@ class Entity
     void setAttackpower(int attackpower);
     void setExp(int exp);
     void setY(int y);
-    void setX(int x); // Fixed: Changed parameter name from y to x
+    void setX(int x);
     void setPosition(int newX, int newY);
     
     virtual void takeDamage(int amount);
     virtual void attack(Entity &target);
 
-    //Default Destructor
     virtual ~Entity() = default; 
 
 };

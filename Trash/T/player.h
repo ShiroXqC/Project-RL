@@ -41,18 +41,18 @@ public:
           gold(other.gold), defense(other.defense) {}
 
     // Getters
-    char getSymbol() const { return player_symbol; }
-    Inventory& getInventory() { return inventory; }
-    const Inventory& getInventory() const { return inventory; }
-    bool isAlive() const { return getHp() > 0; }
-    int getMaxHealth() const { return maxHealth; }
-    int getHealth() const { return currentHealth; }
-    int getAttackpower() const { return attackpower; }
-    int getLevel() const { return level; }
-    int getXP() const { return experience; }
-    int getXPToNextLevel() const { return xpToNextLevel; }
-    int getDefense() const { return defense; }
-    int getGold() const { return gold; }
+    char getSymbol() const;
+    Inventory& getInventory();
+    const Inventory& getInventory() const;
+    bool isAlive() const;
+    int getMaxHealth() const;
+    int getHealth() const;
+    int getAttackpower() const;
+    int getLevel() const;
+    int getXP() const;
+    int getXPToNextLevel() const;
+    int getDefense() const;
+    int getGold() const;
 
     // Actions
     bool useItem(int index);
@@ -76,9 +76,8 @@ public:
         }
         return false;
     }
-
-    void addAttackDamage(int amount) { attackpower += amount; }
-    void addDefense(int amount) { defense += amount; }
+    void addAttackDamage(int amount);
+    void addDefense(int amount);
  
 
     ~Player() = default;

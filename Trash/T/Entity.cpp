@@ -30,7 +30,6 @@ bool Entity::getIsAlive() const
     return isAlive;
 }
 
-      
 void Entity::setHp(int hp)
 {
     this->hp=hp;
@@ -72,7 +71,6 @@ void Entity::takeDamage(int amount) {
     }
 }
 
-//Virtual function 
 void Entity::attack(Entity &target)
 {
     target.takeDamage(attackpower);

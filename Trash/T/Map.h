@@ -9,9 +9,8 @@ using namespace std;
 class Map
 {
     protected:
-    //Map variable
     vector<vector<char>> grid; //Vector of vector or in other words a 2d matrix of vector of type char (Vector^2)
-    vector<Enemy*> enemies; //Vector containing Enemy pointer
+    vector<Enemy*> enemies;
     int width;
     int height;
     int currentFloor = 1;
@@ -53,10 +52,10 @@ class Map
     char getTile(int x, int y) const { return grid[y][x]; }
     int getFloor() const { return currentFloor; }
 
-    // Default constructor - creates a small empty map
+    // Default constructor
     Map() : width(10), height(10), currentTurn(0), PlayerTurn(true), player(nullptr)
     {
-        // Initialize grid with '.' (empty spaces) by setting the number of rows and column and filling them with _
+        // Initialize grid with '.' (empty spaces)
         grid.resize(height, vector<char>(width, '.'));
         
         // Add some basic walls around the edges
@@ -69,14 +68,13 @@ class Map
             grid[height-1][j] = '#'; // Bottom wall
         }
         
-        // Create player in the middle of the map
+        // Player in the middle of the map
         int centerX = width / 2;
         int centerY = height / 2;
         player = new Player(centerX, centerY);
         grid[centerY][centerX] = player->getSymbol();
     }
     
-    // Parameterized constructor - creates map with specified dimensions
     Map(int x, int y) : width(x), height(y), currentTurn(0), PlayerTurn(true), player(nullptr) {
         // Basic validation (minimum size 3x3)
         if (x < 3) width = 3;
@@ -160,20 +158,14 @@ class Map
         return *this;
     }
 
-    // Item and entity interaction
-    Item* getItemAt(int x, int y) const;
     Enemy* getEnemyAt(int x, int y) const;
     bool hasEnemyAt(int x, int y) const;
-
-
-    // Add method to get player
     Player* getPlayer() const { return player; }
-
-    // Add method to update player position on grid
     void updatePlayerPosition(int oldX, int oldY, int newX, int newY); 
-
-    //Turn base movement method
     bool handlePlayerMove(char input);
+    void display() const;
+    void spawnRandomEnemies(int count);
+    void loadNextFloor();
 
     //Turn management
     void startNewTurn();
@@ -182,16 +174,7 @@ class Map
     //Enemy turn handling (placeholder)
     void processEnemyTurns();
     void removeEnemy(Enemy* enemy);
-
-    void display() const;
-
-    //To spawn random enemies
-    void spawnRandomEnemies(int count);
-
-    //To load next floor
-    void loadNextFloor();
-
-    //Destructor
+    
     ~Map() {
         for (Enemy* e : enemies)
             delete e;
