@@ -7,12 +7,16 @@
 #include <iomanip>
 #include <sstream>
 
-// Helper function to determine zone name based on floor
+// Zone's name
 string getFloorZoneName(int floor) {
-    if (floor <= 1) return "Astre Depths";
-    if (floor == 2) return "Forgotten Crypt";
-    if (floor == 3) return "Blazing Catacombs";
-    if (floor >= 4) return "Abyss";
+    if (floor <= 1) 
+        return "Astre Depths";
+    else if (floor == 2) 
+        return "Forgotten Crypt";
+    else if (floor == 3) 
+        return "Blazing Catacombs";
+    else if (floor >= 4) 
+        return "Abyss";
     return "Unknown Realm";
 }
 
@@ -36,10 +40,8 @@ void UI::drawMainUI(const Map& map) {
     floorLine << "Floor: " << floor << "/4";
     int floorPad = (23 - floorLine.str().length()) / 2;
 
-    cout << "| [p]Shop           |       |"
-         << string(floorPad, ' ') << floorLine.str()
-         << string(23 - floorLine.str().length() - floorPad, ' ')
-         << "|         | LEVEL: " << player.getLevel() << "        |\n";
+    cout << "| [p]Shop           |       |" << string(floorPad, ' ') << floorLine.str()
+         << string(23 - floorLine.str().length() - floorPad, ' ') << "|         | LEVEL: " << player.getLevel() << "        |\n";
 
     // Zone name centered
     int zonePad = (23 - zoneName.length()) / 2;

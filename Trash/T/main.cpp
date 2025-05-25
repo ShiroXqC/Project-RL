@@ -1,6 +1,6 @@
 #include <ctime>
 #include <cstdlib>
-#include <conio.h> // For _getch() keyboard input
+#include <conio.h> // This is for _getch() keyboard input
 #include "Item.h"
 #include "Entity.h"
 #include "Player.h"
@@ -26,7 +26,7 @@ void handleInventory(Player* player) {
     if (choice > 0 && choice <= player->getInventory().getItemCount()) {
         player->getInventory().useItem(choice - 1, *player);
     } else if (choice == 0) {
-        return; // Exit inventory
+        return;
     } else { 
         cout << "Invalid choice!\n";
     }
@@ -109,13 +109,21 @@ void runGame() {
                 running = false;
                 break;
                 
-            case 'w': // Up
-            case 'a': // Left
-            case 's': // Down
-            case 'd': // Right
-            case ' ': // Refresh
-                gameMap.handlePlayerMove(input);
-                break;
+            case 'w':
+            case 'a':
+            case 's':
+            case 'd':
+            case ' ': 
+            if (!gameMap.handlePlayerMove(input)) {
+                if (!gameMap.getPlayer()->getIsAlive()) {
+                    continue;
+                } else {
+                    cout << "\nInvalid move! Press any key to continue...";
+                    _getch();
+                }
+            }
+            break;
+
             case 'i': // Inventory
             handleInventory(gameMap.getPlayer());
             break;

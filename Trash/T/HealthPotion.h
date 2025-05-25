@@ -6,18 +6,14 @@ using namespace std;
 
 class HealthPotion : public Item {
     public:
-        HealthPotion()
-            : Item("Health Potion", true, 'H') {} // 'H' symbol
+        HealthPotion(): Item("Health Potion") {}
         
             unique_ptr<Item> clone() const override {
                 return make_unique<HealthPotion>(*this);
             }
-        
+            
+            // Heal the player by 10 HP
             void use(Player& player) override {
                 player.heal(10); // Heal the player by 10 HP
             }
-            
-        
-        // Optional: override getDisplayChar if you want different display logic
-        char getDisplayChar() const override { return 'H'; }
 };

@@ -163,9 +163,8 @@ class Map
     // Item and entity interaction
     Item* getItemAt(int x, int y) const;
     Enemy* getEnemyAt(int x, int y) const;
-    bool hasItemAt(int x, int y) const;
     bool hasEnemyAt(int x, int y) const;
-    void removeItem(Item* item);
+
 
     // Add method to get player
     Player* getPlayer() const { return player; }

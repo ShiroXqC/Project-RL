@@ -100,15 +100,15 @@
         if (enemy) {
         Combat::startCombat(*player, *enemy);
         if (!enemy->getIsAlive()) {
-            removeEnemy(enemy); // You'll need to implement this
+            removeEnemy(enemy);
         if (enemies.empty()){
             cout << "\n=== You have cleared the floor [Press] any key to continue ===\n";
             _getch();
             loadNextFloor();
         }
         }
-        return true;
-     }
+            return true;
+        }
              // Check if move is valid
         if (isInBounds(newX, newY)) {
             // Empty space, just move there
@@ -203,7 +203,7 @@
             Enemy* boss = new Enemy(x, y, "Dragon", 0);
             enemies.push_back(boss);
             grid[y][x] = boss->getSymbol();
-            std::cout << "\n!!! The Final Boss has appeared !!!\n";
+            cout << "\n!!! The Final Boss has appeared !!!\n";
         }
         return;
     }

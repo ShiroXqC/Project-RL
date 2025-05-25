@@ -48,7 +48,6 @@ public:
     int getMaxHealth() const { return maxHealth; }
     int getHealth() const { return currentHealth; }
     int getAttackpower() const { return attackpower; }
-    int getExperience() const { return experience; }
     int getLevel() const { return level; }
     int getXP() const { return experience; }
     int getXPToNextLevel() const { return xpToNextLevel; }
