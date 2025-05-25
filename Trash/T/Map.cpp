@@ -1,6 +1,5 @@
     #include "Map.h"
     #include "HealthPotion.h"
-    #include "Sword.h"
     #include <cstdlib>
     #include "Enemy.h"
     #include "Combat.h"
@@ -35,18 +34,6 @@
     int Map::getCurrentTurn() const {
         return currentTurn;
     }
-
-    // Check if there's an item at a location
-    bool Map::hasItemAt(int x, int y) const {
-        for (const auto& ptr : items) {
-            const Item* item = ptr.get();
-            if (item->getX() == x && item->getY() == y) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Check if there's an enemy at a location
     bool Map::hasEnemyAt(int x, int y) const {
         for (const Enemy* enemy : enemies) {
@@ -56,18 +43,6 @@
         }
         return false;
     }
-
-    // Get item at the given position
-    Item* Map::getItemAt(int x, int y) const {
-        for (auto& ptr : items) {
-            const Item* item = ptr.get();
-            if (item->getX() == x && item->getY() == y) {
-                return const_cast<Item*>(ptr.get()); 
-            }
-        }
-        return nullptr;
-    }
-
     // Get enemy at the given position
     Enemy* Map::getEnemyAt(int x, int y) const {
         for (Enemy* enemy : enemies) {
@@ -94,22 +69,6 @@
 
     delete enemy;
 }
-    // Remove item from game
-    void Map::removeItem(Item* item) {
-        if (!item) return;
-        
-        // Find and remove from grid
-        grid[item->getY()][item->getX()] = '.';
-        
-        // Find and remove from items vector
-        for (auto it = items.begin(); it != items.end(); ++it) {
-            if (it->get () == item) {
-                items.erase(it);  // Remove from vector
-                break;
-            }
-        }
-    }
-
     //To handle player movement
     bool Map::handlePlayerMove(char input) {
         if (!PlayerTurn) return false;
@@ -143,44 +102,17 @@
         if (!enemy->getIsAlive()) {
             removeEnemy(enemy); // You'll need to implement this
         if (enemies.empty()){
-            cout << "\n=== You have cleared the foor [Press] any key to continue ===\n";
+            cout << "\n=== You have cleared the floor [Press] any key to continue ===\n";
             _getch();
             loadNextFloor();
         }
         }
         return true;
      }
-            
-
-        // Check if move is valid
+             // Check if move is valid
         if (isInBounds(newX, newY)) {
-            // Check for item at destination
-            if (hasItemAt(newX, newY)) {
-                Item* item = getItemAt(newX, newY);
-                cout << "You found a " << item->getName() << "!\n";
-                
-                // If it's consumable, use it and remove
-                if (item->isConsumable()) {
-                    // In a more complete game, apply item effects here
-                    cout << "You used the " << item->getName() << "!\n";
-                    removeItem(item);
-                }
-                
-                // Update player position
-                grid[player->getY()][player->getX()] = '.';
-                player->setPosition(newX, newY);
-                grid[newY][newX] = player->getSymbol();
-                moved = true;
-            }    
-            // Check for enemy at destination
-            else if (hasEnemyAt(newX, newY)) {
-                Enemy* enemy = getEnemyAt(newX, newY);
-                cout << "You attack the " << enemy->getSymbol() << "!\n";
-                // Combat logic would go here in a more complete game
-                moved = true;
-            }
             // Empty space, just move there
-            else if (grid[newY][newX] == '.') {
+            if (grid[newY][newX] == '.') {
                 // Update player position on grid
                 grid[player->getY()][player->getX()] = '.';
                 player->setPosition(newX, newY);
@@ -329,7 +261,6 @@
     // Clear enemies 
     for (Enemy* e : enemies) delete e;
     enemies.clear();
-    items.clear();
 
     // Reset grid
     for (int y = 0; y < height; y++) {
