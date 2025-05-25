@@ -12,7 +12,6 @@ private:
 
 public:
     Enemy(int x, int y, string type, int gold_dropped);
-    Enemy();
 
     void attack(Entity& target) override;
     void takeDamage(int amount) override;

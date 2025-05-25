@@ -63,19 +63,23 @@ void displayInstructions() {
     cout << "  Z - Zombie\n";
     cout << "  # - Wall\n";
     cout << "  . - Empty floor\n\n";
-    
     cout << "Press any key to continue...";
-    _getch(); // Wait for any key press
-    system("cls"); // Clear screen
+
+    _getch();
+    system("cls");
+
 }
 
 // Function to run the game loop
 void runGame() {
-    // Initialize game
-    srand(static_cast<unsigned int>(time(0))); // Seed random generator
-    Map gameMap(20, 15); // Create a 20x15 map
+
+    // Seed random generator
+    srand(static_cast<unsigned int>(time(0))); 
+
+    // Create a 20x15 map
+    Map gameMap(20, 15); 
     
-    // Spawn items and enemies
+    // Randomly spawn enemies
     gameMap.spawnRandomEnemies(6);
     
     // Start the game's turn counter
@@ -85,12 +89,12 @@ void runGame() {
     
     // Game loop
     while (running) {
-        // Clear screen (Windows specific - replace with appropriate command for other OS)
+
         system("cls");
         
         // Display HUD
-       
         UI::drawMainUI(gameMap);
+
         // Check if player is dead
         if (!gameMap.getPlayer()->getIsAlive()) {
             cout << "\n===== GAME OVER =====\n";
@@ -100,41 +104,41 @@ void runGame() {
             return;
         }
         
-        // Get player input (without requiring Enter key)
+        // Get player input
         char input = _getch();
         
         // Process input
         switch (tolower(input)) {
-            case 'q': // Quit game
+            case 'q':
                 running = false;
                 break;
-                
+
             case 'w':
             case 'a':
             case 's':
             case 'd':
             case ' ': 
-            if (!gameMap.handlePlayerMove(input)) {
-                if (!gameMap.getPlayer()->getIsAlive()) {
-                    continue;
-                } else {
-                    cout << "\nInvalid move! Press any key to continue...";
-                    _getch();
+                if (!gameMap.handlePlayerMove(input)) {
+                    if (!gameMap.getPlayer()->getIsAlive()) {
+                        continue;
+                    } else {
+                        cout << "\nInvalid move! Press any key to continue...";
+                        _getch();
+                    }
                 }
-            }
-            break;
+                break;
 
-            case 'i': // Inventory
-            handleInventory(gameMap.getPlayer());
-            break;
+            case 'i':
+                handleInventory(gameMap.getPlayer());
+                break;
 
             case 'p': 
-            {
-            Shop shop(gameMap.getPlayer());  
-            shop.DisplayShop();
-            shop.Choices();   
-            break;
-            }
+                {
+                Shop shop(gameMap.getPlayer());  
+                shop.DisplayShop();
+                shop.Choices();   
+                break;
+                }
                 
             default:
                 cout << "\nUnknown command. Press any key to continue...";
@@ -143,12 +147,13 @@ void runGame() {
         }
     }
 }
+
 int main() {
     int choice;
     bool exit = false;
     
     while (!exit) {
-        system("cls"); // Clear screen
+        system("cls");
         displayMenu();
         cin >> choice;
         

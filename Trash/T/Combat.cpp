@@ -1,10 +1,10 @@
 #include "Combat.h"
 #include "UI.h"
-#include <conio.h> // For _getch()
+#include <conio.h>
 #include <iostream>
 
-class Map;
-void Combat::startCombat(Player& player, Enemy& enemy) {
+void Combat::startCombat(Player& player, Enemy& enemy) 
+{
     vector<string> combatLog;
     vector<string> battleHistory;
     int pDamage = player.getAttackpower();
@@ -24,20 +24,22 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
         UI::drawCombatUI(player, combatLog, battleHistory, &enemy);
 
         int choice;
+
+        // Check the input
         while (true) {
-            std::cout << "Enter your choice (1-3): ";
-            std::string input;
-            std::getline(std::cin, input); // Read full line
+            cout << "Enter your choice (1-3): ";
+            string input;
+            getline(cin, input);
 
             if (input == "1" || input == "2" || input == "3") {
-                choice = std::stoi(input); // Safe to convert
+                choice = stoi(input);
                 break;
             } else {
                 UI::drawCombatUI(player, combatLog, battleHistory, &enemy);
             }
         }
 
-        //Possible choice either to attack , use item or run?
+        //Possible choice either to attack , use item or run
         switch (choice) {
             case 1: 
             {
@@ -45,6 +47,7 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
                 enemy.takeDamage(damage);
                 break;
             }
+
             case 2: 
             {
                 player.showInventory();
@@ -57,12 +60,14 @@ void Combat::startCombat(Player& player, Enemy& enemy) {
                 }
                 break;
             }
+
             case 3: 
             {
                 combatLog.push_back("You ran away!");
                 UI::drawCombatUI(player, combatLog, battleHistory);
                 return;
             }
+
             default:
                 combatLog.push_back("Invalid choice.");
         }

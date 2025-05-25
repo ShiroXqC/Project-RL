@@ -1,10 +1,10 @@
 #pragma once 
 #include "Player.h"
 #include "Enemy.h"
+#include "Map.h"
 using namespace std;
 
-class Map;
-class Combat {
-    public:
-        static void startCombat(Player& player, Enemy& enemy);
+class Combat : public Map{
+public:
+    static void startCombat(Player& player, Enemy& enemy);    
 };

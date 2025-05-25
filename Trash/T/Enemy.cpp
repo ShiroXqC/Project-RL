@@ -15,10 +15,11 @@ string Enemy::getType() const
     return type;
 }
 
-Enemy::Enemy(int x, int y, string type, int gold_dropped): type(type), gold_dropped(gold_dropped) {
+Enemy::Enemy(int x, int y, string type, int gold_dropped){
     this->x = x;
     this->y = y;
     this->type = type;
+    this->gold_dropped = gold_dropped;
 
     if (type == "Goblin") {
         hp = 15; attackpower = 6; experience = 10; symbol = 'G'; this->gold_dropped = 20;
@@ -36,10 +37,9 @@ Enemy::Enemy(int x, int y, string type, int gold_dropped): type(type), gold_drop
         symbol = '!';  // default
     }
 }
-
 void Enemy::attack(Entity& target) {
     target.takeDamage(attackpower);
-    
+
 }
 
 void Enemy::takeDamage(int amount) {
