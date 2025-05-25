@@ -37,9 +37,9 @@ Enemy::Enemy(int x, int y, string type, int gold_dropped){
         symbol = '!';  // default
     }
 }
+
 void Enemy::attack(Entity& target) {
     target.takeDamage(attackpower);
-
 }
 
 void Enemy::takeDamage(int amount) {

@@ -1,6 +1,5 @@
 #include"Entity.h"
 
-//Getters
 int Entity::getHp() const 
 {
     return hp;
@@ -31,7 +30,7 @@ bool Entity::getIsAlive() const
     return isAlive;
 }
 
-//Setters           
+      
 void Entity::setHp(int hp)
 {
     this->hp=hp;
